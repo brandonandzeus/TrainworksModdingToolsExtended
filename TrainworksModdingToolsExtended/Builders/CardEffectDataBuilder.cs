@@ -94,6 +94,11 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public CardUpgradeData ParamCardUpgradeData { get; set; }
         /// <summary>
+        /// CardUpgradeData parameter.
+        /// If this is set overrides ParamCardUpgradeData
+        /// </summary>
+        public CardUpgradeDataBuilder ParamCardUpgradeDataBuilder { get; set; }
+        /// <summary>
         /// CharacterData parameter.
         /// </summary>
         public CharacterData ParamCharacterData { get; set; }
@@ -189,7 +194,10 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardEffectData), "paramBool").SetValue(cardEffectData, this.ParamBool);
             AccessTools.Field(typeof(CardEffectData), "paramCardFilter").SetValue(cardEffectData, this.ParamCardFilter);
             AccessTools.Field(typeof(CardEffectData), "paramCardPool").SetValue(cardEffectData, this.ParamCardPool);
-            AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, this.ParamCardUpgradeData);
+            if (ParamCardUpgradeDataBuilder == null)
+                AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, this.ParamCardUpgradeData);
+            else
+                AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, this.ParamCardUpgradeDataBuilder.Build());
             AccessTools.Field(typeof(CardEffectData), "paramCharacterData").SetValue(cardEffectData, this.ParamCharacterData);
             AccessTools.Field(typeof(CardEffectData), "paramCharacterDataPool").SetValue(cardEffectData, this.ParamCharacterDataPool);
             AccessTools.Field(typeof(CardEffectData), "paramInt").SetValue(cardEffectData, this.ParamInt);

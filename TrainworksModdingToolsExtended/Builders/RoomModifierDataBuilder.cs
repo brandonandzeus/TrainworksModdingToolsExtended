@@ -81,6 +81,11 @@ namespace Trainworks.BuildersV2
         public int ParamInt { get; set; }
         public string ParamSubtype { get; set; }
         public CardUpgradeData ParamCardUpgradeData { get; set; }
+        /// <summary>
+        /// CardUpgradeData Parameter.
+        /// if set overrides ParamCardUpgradeData.
+        /// </summary>
+        public CardUpgradeDataBuilder ParamCardUpgradeDataBuilder { get; set; }
         public StatusEffectStackData[] ParamStatusEffects { get; set; }
 
         public RoomModifierDataBuilder()
@@ -109,7 +114,10 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RoomModifierData), "paramInt").SetValue(roomModifierData, this.ParamInt);
             AccessTools.Field(typeof(RoomModifierData), "paramStatusEffects").SetValue(roomModifierData, this.ParamStatusEffects);
             AccessTools.Field(typeof(RoomModifierData), "paramSubtype").SetValue(roomModifierData, this.ParamSubtype);
-            AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, this.ParamCardUpgradeData);
+            if (ParamCardUpgradeDataBuilder == null)
+                AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, this.ParamCardUpgradeData);
+            else
+                AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, this.ParamCardUpgradeDataBuilder.Build());
             AccessTools.Field(typeof(RoomModifierData), "roomStateModifierClassName").SetValue(roomModifierData, this.RoomStateModifierClassName);
 
             BuilderUtils.ImportStandardLocalization(this.DescriptionKey, this.Description);
