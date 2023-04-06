@@ -139,6 +139,10 @@ namespace Trainworks.BuildersV2
         public CharacterSoundData CharacterSoundData { get; set; }
 
         public CharacterChatterData CharacterChatterData { get; set; }
+        /// <summary>
+        /// Builder for CharacterChatterData if set overrides CharacterChatterData.
+        /// </summary>
+        public CharacterChatterDataBuilder CharacterChatterDataBuilder { get; set; }
 
         public RuntimeAnimatorController AnimationController { get; set; }
         public CharacterDeathVFX.Type DeathType { get; set; }
@@ -200,6 +204,7 @@ namespace Trainworks.BuildersV2
             PriorityDraw = true;
             ValidBossAttackPhase = BossState.AttackPhase.Relentless;
             PactCrystalsRequiredCount = -1;
+            CharacterChatterDataBuilder = new CharacterChatterDataBuilder();
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
@@ -313,8 +318,10 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CharacterData), "bypassPactCrystalsUpgradeDataList").SetValue(characterData, BypassPactCrystalsUpgradeDataList);
             AccessTools.Field(typeof(CharacterData), "canAttack").SetValue(characterData, this.CanAttack);
             AccessTools.Field(typeof(CharacterData), "canBeHealed").SetValue(characterData, this.CanBeHealed);
-            // TODO this needs a DataBuilder.
-            AccessTools.Field(typeof(CharacterData), "characterChatterData").SetValue(characterData, this.CharacterChatterData);
+            if (CharacterChatterDataBuilder == null)
+                AccessTools.Field(typeof(CharacterData), "characterChatterData").SetValue(characterData, this.CharacterChatterData);
+            else
+                AccessTools.Field(typeof(CharacterData), "characterChatterData").SetValue(characterData, this.CharacterChatterDataBuilder.Build());
             AccessTools.Field(typeof(CharacterData), "characterLoreTooltipKeys").SetValue(characterData, this.CharacterLoreTooltipKeys);
             AccessTools.Field(typeof(CharacterData), "characterPrefabVariantRef").SetValue(characterData, this.CharacterPrefabVariantRef);
             AccessTools.Field(typeof(CharacterData), "characterSoundData").SetValue(characterData, this.CharacterSoundData);
