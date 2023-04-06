@@ -92,7 +92,9 @@ namespace Trainworks.BuildersV2
         public VfxAtLoc AffectedVFX { get; set; }
 
         public TriggerStage TriggerStage { get; set; }
+        public List<TriggerStage> AdditionalTriggerStages { get; set; }
         public bool RemoveStackAtEndOfTurn { get; set; }
+        public bool RemoveAtEndOfTurnIfTriggered { get; set; }
         public bool RemoveAtEndOfTurn { get; set; }
         public bool RemoveWhenTriggered { get; set; }
 
@@ -106,21 +108,25 @@ namespace Trainworks.BuildersV2
         /// Whether or not the status effect should show stacks in the card text. Defaults to true.
         /// </summary>
 		public bool ShowStackCount { get; set; }
+        public bool ShowOnPyreHeart { get; set; }
         /// <summary>
         /// Defaults to true.
         /// </summary>
-		public bool ShowNotificationsOnRemoval { get; set; }
+        public bool ShowNotificationsOnRemoval { get; set; }
         public string ParamStr { get; set; }
         public int ParamInt { get; set; }
         public int ParamSecondaryInt { get; set; }
         public float ParamFloat { get; set; }
         public string BaseAssetPath { get; private set; }
+        public VFXDisplayType VFXDisplayType { get; set; }
 
         public StatusEffectDataBuilder()
         {
             IsStackable = true;
             ShowNotificationsOnRemoval = true;
             ShowStackCount = true;
+            AdditionalTriggerStages = new List<TriggerStage>();
+            VFXDisplayType = StatusEffectData.VFXDisplayType.Default;
 
             var assembly = Assembly.GetCallingAssembly();
             this.BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
@@ -131,6 +137,7 @@ namespace Trainworks.BuildersV2
             StatusEffectData statusEffect = new StatusEffectData();
 
             AccessTools.Field(typeof(StatusEffectData), "addedVFX").SetValue(statusEffect, AddedVFX);
+            AccessTools.Field(typeof(StatusEffectData), "additionalTriggerStages").SetValue(statusEffect, AdditionalTriggerStages);
             AccessTools.Field(typeof(StatusEffectData), "affectedVFX").SetValue(statusEffect, AffectedVFX);
             AccessTools.Field(typeof(StatusEffectData), "appliedSFXName").SetValue(statusEffect, AppliedSFXName);
             AccessTools.Field(typeof(StatusEffectData), "displayCategory").SetValue(statusEffect, DisplayCategory);
@@ -145,17 +152,20 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(StatusEffectData), "paramStr").SetValue(statusEffect, ParamStr);
             AccessTools.Field(typeof(StatusEffectData), "persistentVFX").SetValue(statusEffect, PersistentVFX);
             AccessTools.Field(typeof(StatusEffectData), "removeAtEndOfTurn").SetValue(statusEffect, RemoveAtEndOfTurn);
+            AccessTools.Field(typeof(StatusEffectData), "removeAtEndOfTurnIfTriggered").SetValue(statusEffect, RemoveAtEndOfTurnIfTriggered);
             AccessTools.Field(typeof(StatusEffectData), "removedVFX").SetValue(statusEffect, RemovedVFX);
             AccessTools.Field(typeof(StatusEffectData), "removeStackAtEndOfTurn").SetValue(statusEffect, RemoveStackAtEndOfTurn);
             AccessTools.Field(typeof(StatusEffectData), "removeWhenTriggered").SetValue(statusEffect, RemoveWhenTriggered);
             AccessTools.Field(typeof(StatusEffectData), "removeWhenTriggeredAfterCardPlayed").SetValue(statusEffect, RemoveWhenTriggeredAfterCardPlayed);
             AccessTools.Field(typeof(StatusEffectData), "showNotificationsOnRemoval").SetValue(statusEffect, ShowNotificationsOnRemoval);
+            AccessTools.Field(typeof(StatusEffectData), "showOnPyreHeart").SetValue(statusEffect, ShowOnPyreHeart);
             AccessTools.Field(typeof(StatusEffectData), "showStackCount").SetValue(statusEffect, ShowStackCount);
             AccessTools.Field(typeof(StatusEffectData), "statusEffectStateName").SetValue(statusEffect, StatusEffectStateName);
             AccessTools.Field(typeof(StatusEffectData), "statusId").SetValue(statusEffect, StatusId);
             AccessTools.Field(typeof(StatusEffectData), "triggeredSFXName").SetValue(statusEffect, TriggeredSFXName);
             AccessTools.Field(typeof(StatusEffectData), "triggeredVFX").SetValue(statusEffect, TriggeredVFX);
             AccessTools.Field(typeof(StatusEffectData), "triggerStage").SetValue(statusEffect, TriggerStage);
+            AccessTools.Field(typeof(StatusEffectData), "vfxDisplayType").SetValue(statusEffect, this.VFXDisplayType);
 
             if (this.IconPath != null)
             {
