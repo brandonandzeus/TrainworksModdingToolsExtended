@@ -10,7 +10,7 @@ using ShinyShoe;
 using Trainworks.Managers;
 using Trainworks.Enums;
 
-namespace Trainworks.Builders
+namespace Trainworks.BuildersV2
 {
     public class MutatorDataBuilder
     {
@@ -66,7 +66,8 @@ namespace Trainworks.Builders
         /// </summary>
         public string IconPath { get; set; }
 
-        public List<RelicEffectDataBuilder> EffectBuilders { get; set; }
+        // TODO port RelicEffectDataBuilder
+        public List<Builders.RelicEffectDataBuilder> EffectBuilders { get; set; }
         public List<RelicEffectData> Effects { get; set; }
 
         public string RelicActivatedKey { get; set; }
@@ -114,7 +115,7 @@ namespace Trainworks.Builders
             this.Name = "";
             this.Description = null;
             this.Effects = new List<RelicEffectData>();
-            this.EffectBuilders = new List<RelicEffectDataBuilder>();
+            this.EffectBuilders = new List<Builders.RelicEffectDataBuilder>();
             this.RelicActivatedKey = "";
             this.RelicLoreTooltipKeys = new List<string>();
             this.BoonValue = 0;

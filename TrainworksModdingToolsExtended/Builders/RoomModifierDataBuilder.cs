@@ -100,13 +100,10 @@ namespace Trainworks.BuildersV2
         public RoomModifierData Build()
         {
             RoomModifierData roomModifierData = new RoomModifierData();
-            BuilderUtils.ImportStandardLocalization(this.DescriptionKey, this.Description);
+            
             AccessTools.Field(typeof(RoomModifierData), "descriptionKey").SetValue(roomModifierData, this.DescriptionKey);
-            BuilderUtils.ImportStandardLocalization(this.DescriptionKeyInPlay, this.DescriptionInPlay);
             AccessTools.Field(typeof(RoomModifierData), "descriptionKeyInPlay").SetValue(roomModifierData, this.DescriptionKeyInPlay);
-            BuilderUtils.ImportStandardLocalization(this.ExtraTooltipBodyKey, this.ExtraTooltipBody);
             AccessTools.Field(typeof(RoomModifierData), "extraTooltipBodyKey").SetValue(roomModifierData, this.ExtraTooltipBodyKey);
-            BuilderUtils.ImportStandardLocalization(this.ExtraTooltipTitleKey, this.ExtraTooltipTitle);
             AccessTools.Field(typeof(RoomModifierData), "extraTooltipTitleKey").SetValue(roomModifierData, this.ExtraTooltipTitleKey);
             AccessTools.Field(typeof(RoomModifierData), "icon").SetValue(roomModifierData, this.Icon);
             AccessTools.Field(typeof(RoomModifierData), "paramInt").SetValue(roomModifierData, this.ParamInt);
@@ -114,6 +111,11 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RoomModifierData), "paramSubtype").SetValue(roomModifierData, this.ParamSubtype);
             AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, this.ParamCardUpgradeData);
             AccessTools.Field(typeof(RoomModifierData), "roomStateModifierClassName").SetValue(roomModifierData, this.RoomStateModifierClassName);
+
+            BuilderUtils.ImportStandardLocalization(this.DescriptionKey, this.Description);
+            BuilderUtils.ImportStandardLocalization(this.DescriptionKeyInPlay, this.DescriptionInPlay);
+            BuilderUtils.ImportStandardLocalization(this.ExtraTooltipBodyKey, this.ExtraTooltipBody);
+            BuilderUtils.ImportStandardLocalization(this.ExtraTooltipTitleKey, this.ExtraTooltipTitle);
             return roomModifierData;
         }
 
