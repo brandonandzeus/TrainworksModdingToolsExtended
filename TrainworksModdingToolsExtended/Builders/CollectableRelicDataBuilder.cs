@@ -1,16 +1,8 @@
-﻿using System;
+﻿using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using BepInEx;
-using BepInEx.Harmony;
 using System.Reflection;
-using BepInEx.Logging;
-using HarmonyLib;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using ShinyShoe;
 using Trainworks.Managers;
-using Trainworks.Utilities;
+using UnityEngine;
 
 namespace Trainworks.BuildersV2
 {
@@ -155,7 +147,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RelicData), "descriptionKey").SetValue(relicData, this.DescriptionKey);
             AccessTools.Field(typeof(RelicData), "divineVariant").SetValue(relicData, this.DivineVariant);
             AccessTools.Field(typeof(RelicData), "effects").SetValue(relicData, this.Effects);
-            
+
             if (this.IconPath != null)
             {
                 Sprite iconSprite = CustomAssetManager.LoadSpriteFromPath(this.FullAssetPath);

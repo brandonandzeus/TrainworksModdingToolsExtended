@@ -1,22 +1,17 @@
 ﻿using HarmonyLib;
-using Trainworks.Managers;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
+using Trainworks.Managers;
 using UnityEngine;
-using static CharacterTriggerData;
 using static StatusEffectData;
 
 namespace Trainworks.BuildersV2
 {
     public class StatusEffectDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use StatusEffectStateType instead.
-        /// Type of the status effect class to instantiate.
-        /// </summary>
-        public Type statusEffectStateType;
+        private Type statusEffectStateType;
+        private string statusId;
 
         /// <summary>
         /// Type of the status effect class to instantiate.
@@ -33,21 +28,21 @@ namespace Trainworks.BuildersV2
         }
 
 
-        public string StatusEffectStateName { get; set; }
-
         /// <summary>
-        /// Don't set directly; use StatusId instead.
-        /// ID of the status effect.
+        /// Class name of the status effect class to instantiate.
+        /// Note that StatusEffectStateType is preferred especially if you are using
+        /// a custom status effect class, since it will include in which assembly the
+        /// class is.
         /// </summary>
-        public string statusId;
+        public string StatusEffectStateName { get; set; }
 
         /// <summary>
         /// ID of the status effect.
         /// Implicitly sets StatusIdKey.
         /// </summary>
-        public string StatusId 
+        public string StatusId
         {
-            get { return this.statusId; } 
+            get { return this.statusId; }
             set
             {
                 this.statusId = value;
@@ -60,45 +55,77 @@ namespace Trainworks.BuildersV2
                 }
             }
         }
+
         /// <summary>
         /// Base localization key for the status effect.
-        /// If unset is set to StatusEffect_[StatusId] where [StatusId] is the capitalized status id.
+        /// There's not much reason to directly set this as its set by StatusIdKey
+        /// It is set to StatusEffect_[StatusId] where StatusId is the capitalized string.
         /// </summary>
         public string StatusIdKey { get; set; }
+        /// <summary>
+        /// Path relative to the plugin's file path for the icon.
+        /// Note the icon should be a black and white image sized 24x24.
+        /// </summary>
         public string IconPath { get; set; }
+        /// <summary>
+        /// Path relative to the plugin's file path for the SFX.
+        /// </summary>
         public string AppliedSFXName { get; set; }
+        /// <summary>
+        /// Path relative to the plugin's file path for the SFX.
+        /// </summary>
         public string TriggeredSFXName { get; set; }
 
-        //[Tooltip("This category determines the color used for the icon.")]
+        /// <summary>
+        /// The display category for the status effect. Positive, Negative, or Persistent.
+        /// </summary>
         public StatusEffectData.DisplayCategory DisplayCategory { get; set; }
 
-        //[Tooltip("The VFX to display on the character when the status effect is added.")]
+        /// <summary>
+        /// The VFX to display on the character when the status effect is added.
+        /// </summary>
         public VfxAtLoc AddedVFX { get; set; }
         public VfxAtLocList MoreAddedVFX { get; set; }
 
-        //[Tooltip("The VFX to display on the character while this status effect is active")]
+        /// <summary>
+        /// The VFX to display on the character while this status effect is active.
+        /// </summary>
         public VfxAtLoc PersistentVFX { get; set; }
         public VfxAtLocList MorePersistentVFX { get; set; }
 
-        //[Tooltip("The VFX to display on the character when the effect is triggered.")]
+        /// <summary>
+        /// The VFX to display on the character when the effect is triggered.
+        /// </summary>
         public VfxAtLoc TriggeredVFX { get; set; }
         public VfxAtLocList MoreTriggeredVFX { get; set; }
 
-        //[Tooltip("The VFX to display on the character when the status effect is removed.")]
+        /// <summary>
+        /// The VFX to display on the character when the status effect is removed.
+        /// </summary>
         public VfxAtLoc RemovedVFX { get; set; }
         public VfxAtLocList MoreRemovedVFX { get; set; }
 
-        //[Tooltip("The VFX to display on a character when it is damaged/affected by this effect.")]
+        /// <summary>
+        /// The VFX to display on a character when it is damaged/affected by this effect.
+        /// </summary>
         public VfxAtLoc AffectedVFX { get; set; }
 
+        /// <summary>
+        /// Controls when OnTriggered/TestTrigger is called for custom status effects.
+        /// </summary>
         public TriggerStage TriggerStage { get; set; }
+        /// <summary>
+        /// Controls when OnTriggered/TestTrigger is called for custom status effects.
+        /// </summary>
         public List<TriggerStage> AdditionalTriggerStages { get; set; }
         public bool RemoveStackAtEndOfTurn { get; set; }
         public bool RemoveAtEndOfTurnIfTriggered { get; set; }
         public bool RemoveAtEndOfTurn { get; set; }
         public bool RemoveWhenTriggered { get; set; }
 
-        //[Tooltip("This is the same as Remove When Triggered except it will be removed only after the card currently being played finishes playing\n\nNOTE: This should only be used for status effects that are triggered by a card being played.")]
+        /// <summary>
+        /// This is the same as Remove When Triggered except it will be removed only after the card currently being played finishes playing\n\nNOTE: This should only be used for status effects that are triggered by a card being played.
+        /// </summary>
         public bool RemoveWhenTriggeredAfterCardPlayed { get; set; }
         /// <summary>
         /// Whether or not the status effect is stackable. Defaults to true.
@@ -108,17 +135,20 @@ namespace Trainworks.BuildersV2
         /// Whether or not the status effect should show stacks in the card text. Defaults to true.
         /// </summary>
 		public bool ShowStackCount { get; set; }
+        /// <summary>
+        /// Whether the status can be shown on the pyre.
+        /// </summary>
         public bool ShowOnPyreHeart { get; set; }
         /// <summary>
-        /// Defaults to true.
+        /// Shows a popup text notification when the stacks of the status effect are removed.
         /// </summary>
         public bool ShowNotificationsOnRemoval { get; set; }
         public string ParamStr { get; set; }
         public int ParamInt { get; set; }
         public int ParamSecondaryInt { get; set; }
         public float ParamFloat { get; set; }
-        public string BaseAssetPath { get; private set; }
         public VFXDisplayType VFXDisplayType { get; set; }
+        public string BaseAssetPath { get; private set; }
 
         public StatusEffectDataBuilder()
         {
@@ -165,12 +195,12 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(StatusEffectData), "triggeredSFXName").SetValue(statusEffect, TriggeredSFXName);
             AccessTools.Field(typeof(StatusEffectData), "triggeredVFX").SetValue(statusEffect, TriggeredVFX);
             AccessTools.Field(typeof(StatusEffectData), "triggerStage").SetValue(statusEffect, TriggerStage);
-            AccessTools.Field(typeof(StatusEffectData), "vfxDisplayType").SetValue(statusEffect, this.VFXDisplayType);
+            AccessTools.Field(typeof(StatusEffectData), "vfxDisplayType").SetValue(statusEffect, VFXDisplayType);
 
             if (this.IconPath != null)
             {
-                Sprite draftIconSprite = CustomAssetManager.LoadSpriteFromPath(this.BaseAssetPath + "/" + this.IconPath);
-                AccessTools.Field(typeof(StatusEffectData), "icon").SetValue(statusEffect, draftIconSprite);
+                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(this.BaseAssetPath + "/" + this.IconPath);
+                AccessTools.Field(typeof(StatusEffectData), "icon").SetValue(statusEffect, sprite);
             }
 
             StatusEffectManager manager = GameObject.FindObjectOfType<StatusEffectManager>() as StatusEffectManager;

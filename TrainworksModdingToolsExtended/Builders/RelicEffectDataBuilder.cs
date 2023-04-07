@@ -1,23 +1,13 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
-using BepInEx;
-using BepInEx.Harmony;
-using System.Reflection;
-using HarmonyLib;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using ShinyShoe;
-using Trainworks.Managers;
 
 namespace Trainworks.BuildersV2
 {
     public class RelicEffectDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use RelicEffectClassType instead.
-        /// Type of the relic effect class to instantiate.
-        /// </summary>
-        public Type relicEffectClassType;
+        private Type relicEffectClassType;
+        private string relicEffectClassName;
 
         /// <summary>
         /// Type of the relic effect class to instantiate.
@@ -32,11 +22,6 @@ namespace Trainworks.BuildersV2
                 this.RelicEffectClassName = this.relicEffectClassType.AssemblyQualifiedName;
             }
         }
-
-        /// <summary>
-        /// Don't set directly; use RelicEffectClassName instead.
-        /// </summary>
-        public string relicEffectClassName;
 
         /// <summary>
         /// Name of the effect class to instantiate.
@@ -63,11 +48,12 @@ namespace Trainworks.BuildersV2
         }
 
         public List<RelicEffectConditionBuilder> EffectConditionBuilders { get; set; }
+        public List<CardTriggerType> CardTriggers { get; set; }
+        public List<CardTraitData> Traits { get; set; }
         public List<CardTraitDataBuilder> TraitBuilders { get; set; }
+        public List<CharacterTriggerData> Triggers { get; set; }
         public List<CharacterTriggerDataBuilder> TriggerBuilders { get; set; }
         public List<RelicEffectCondition> EffectConditions { get; set; }
-        public List<CardTraitData> Traits { get; set; }
-        public List<CharacterTriggerData> Triggers { get; set; }
 
         public bool ParamBool { get; set; }
         public List<CardEffectData> ParamCardEffects { get; set; }
@@ -79,12 +65,14 @@ namespace Trainworks.BuildersV2
         public CardUpgradeData ParamCardUpgradeData { get; set; }
         public List<CharacterData> ParamCharacters { get; set; }
         public string ParamCharacterSubtype { get; set; }
+        public EnhancerPool ParamEnhancerPool { get; set; }
         public string[] ParamExcludeCharacterSubtypes { get; set; }
         public float ParamFloat { get; set; }
         public int ParamInt { get; set; }
         public int ParamMaxInt { get; set; }
         public int ParamMinInt { get; set; }
         public bool ParamUseIntRange { get; set; }
+        public RandomChampionPool ParamRandomChampionPool { get; set; }
         public CollectableRelicData ParamRelic { get; set; }
         public RewardData ParamReward { get; set; }
         public RoomData ParamRoomData { get; set; }
@@ -94,7 +82,6 @@ namespace Trainworks.BuildersV2
         public string ParamString { get; set; }
         public TargetMode ParamTargetMode { get; set; }
         public CharacterTriggerData.Trigger ParamTrigger { get; set; }
-
         public string SourceCardTraitParam { get; set; }
         public string TargetCardTraitParam { get; set; }
         public List<CardTraitData> ExcludedTraits { get; set; }
@@ -107,15 +94,19 @@ namespace Trainworks.BuildersV2
         /// Note providing this value will set the localization for all languages
         /// </summary>
         public string TooltipTitle { get; set; }
+        /// <summary>
+        /// Localization key for tooltip body. Default value is [RelicEffectClassName]_RelicEffectData_TooltipBodyKey.
+        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// </summary>
         public string TooltipBodyKey { get; set; }
+        /// <summary>
+        /// Localization key for tooltip tody. Default value is [RelicEffectClassName]_RelicEffectData_TooltipTitleKey.
+        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// </summary>
         public string TooltipTitleKey { get; set; }
         public bool TriggerTooltipsSuppressed { get; set; }
         public AdditionalTooltipData[] AdditionalTooltips { get; set; }
-
         public VfxAtLoc AppliedVfx { get; set; }
-        public List<CardTriggerType> CardTriggers { get; set; }
-        public EnhancerPool ParamEnhancerPool { get; set; }
-        public RandomChampionPool ParamRandomChampionPool { get; set; }
 
         public RelicEffectDataBuilder()
         {
@@ -160,7 +151,7 @@ namespace Trainworks.BuildersV2
             }
 
             RelicEffectData relicEffectData = new RelicEffectData();
-            AccessTools.Field(typeof(RelicEffectData), "additionalTooltips").SetValue(relicEffectData, this.AdditionalTooltips);
+            AccessTools.Field(typeof(RelicEffectData), "additionalTooltips").SetValue(relicEffectData, AdditionalTooltips);
             AccessTools.Field(typeof(RelicEffectData), "appliedVfx").SetValue(relicEffectData, this.AppliedVfx);
             AccessTools.Field(typeof(RelicEffectData), "cardTriggers").SetValue(relicEffectData, this.CardTriggers);
             AccessTools.Field(typeof(RelicEffectData), "effectConditions").SetValue(relicEffectData, this.EffectConditions);

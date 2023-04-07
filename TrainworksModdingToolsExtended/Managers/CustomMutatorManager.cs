@@ -1,13 +1,5 @@
-﻿using System;
+﻿using BepInEx.Logging;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using BepInEx.Logging;
-using Trainworks.Builders;
-using HarmonyLib;
-using UnityEngine;
-using ShinyShoe;
-using UnityEngine.AddressableAssets;
 using Trainworks.Utilities;
 
 namespace Trainworks.Managers

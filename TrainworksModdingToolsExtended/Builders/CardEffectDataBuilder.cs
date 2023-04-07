@@ -1,14 +1,7 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
-using BepInEx;
-using BepInEx.Harmony;
-using System.Reflection;
-using HarmonyLib;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using ShinyShoe;
-using Trainworks.Managers;
-using System.Runtime.CompilerServices;
 
 namespace Trainworks.BuildersV2
 {
@@ -18,6 +11,7 @@ namespace Trainworks.BuildersV2
         /// Don't set directly; use EffectStateType instead.
         /// Type of the effect class to instantiate.
         /// </summary>
+        [JsonIgnore]
         public Type effectStateType;
 
         /// <summary>

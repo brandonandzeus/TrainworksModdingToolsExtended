@@ -1,25 +1,16 @@
-using System;
-using System.Collections.Generic;
-using BepInEx;
-using BepInEx.Harmony;
-using System.Reflection;
 using HarmonyLib;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using ShinyShoe;
+using System;
+using System.Reflection;
 using Trainworks.Managers;
-using Trainworks.Enums;
-using Trainworks.Builders;
+using UnityEngine;
 
 namespace Trainworks.BuildersV2
 {
+    // Changed Icon -> IconPath to be consistent across DataBuilders.
     public class RoomModifierDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use RoomStateModifierClassType instead.
-        /// Type of the room state modifier class to instantiate.
-        /// </summary>
-        public Type roomStateModifierClassType;
+        private Type roomStateModifierClassType;
+        private string roomStateModifierClassName;
 
         /// <summary>
         /// Type of the room state modifier class to instantiate.
@@ -36,12 +27,10 @@ namespace Trainworks.BuildersV2
         }
 
         /// <summary>
-        /// Don't set directly; use RoomStateModifierClassName instead.
-        /// </summary>
-        public string roomStateModifierClassName;
-
-        /// <summary>
         /// Implicitly sets DescriptionKey, DescriptionKeyInPlay, ExtraTooltipBodyKey, and ExtraTooltipTitleKey if null.
+        /// Note that RoomStateModifierClassType is preferred especially if you are using
+        /// a custom room state modifier class, since it will include in which assembly the
+        /// class is.
         /// </summary>
         public string RoomStateModifierClassName
         {
@@ -69,15 +58,34 @@ namespace Trainworks.BuildersV2
         }
 
         public string Description { get; set; }
-        public string DescriptionKey { get; set; }
         public string DescriptionInPlay { get; set; }
-        public string DescriptionKeyInPlay { get; set; }
         public string ExtraTooltipBody { get; set; }
         public string ExtraTooltipTitle { get; set; }
+        /// <summary>
+        /// Localization key for description. Default value is [RoomModifierClassName]_RoomModifierData_DescriptionKey.
+        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// </summary>
+        public string DescriptionKey { get; set; }
+        /// <summary>
+        /// Localization key for descriptionInPlay. Default value is [RoomModifierClassName]_RoomModifierData_DescriptionKeyInPlay.
+        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// </summary>
+        public string DescriptionKeyInPlay { get; set; }
+        /// <summary>
+        /// Localization key for extra tooltip title. Default value is [RoomModifierClassName]_RoomModifierData_ExtraTooltiptitleKey.
+        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// </summary>
         public string ExtraTooltipTitleKey { get; set; }
+        /// <summary>
+        /// Localization key for extra tooltip boy. Default value is [RoomModifierClassName]_RoomModifierData_ExtraTooltipBodyKey.
+        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// </summary>
         public string ExtraTooltipBodyKey { get; set; }
-
-        public Sprite Icon { get; set; }
+        /// <summary>
+        /// Path relative to the plugin's file path for the icon.
+        /// Note the icon should be a black and white image sized 24x24.
+        /// </summary>
+        public string IconPath { get; set; }
         public int ParamInt { get; set; }
         public string ParamSubtype { get; set; }
         public CardUpgradeData ParamCardUpgradeData { get; set; }
@@ -87,6 +95,7 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public CardUpgradeDataBuilder ParamCardUpgradeDataBuilder { get; set; }
         public StatusEffectStackData[] ParamStatusEffects { get; set; }
+        public string BaseAssetPath { get; private set; }
 
         public RoomModifierDataBuilder()
         {
@@ -96,6 +105,9 @@ namespace Trainworks.BuildersV2
             this.ParamStatusEffects = new StatusEffectStackData[0];
             this.ExtraTooltipBodyKey = "";
             this.ExtraTooltipTitleKey = "";
+
+            var assembly = Assembly.GetCallingAssembly();
+            this.BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
         /// <summary>
@@ -105,12 +117,11 @@ namespace Trainworks.BuildersV2
         public RoomModifierData Build()
         {
             RoomModifierData roomModifierData = new RoomModifierData();
-            
+
             AccessTools.Field(typeof(RoomModifierData), "descriptionKey").SetValue(roomModifierData, this.DescriptionKey);
             AccessTools.Field(typeof(RoomModifierData), "descriptionKeyInPlay").SetValue(roomModifierData, this.DescriptionKeyInPlay);
             AccessTools.Field(typeof(RoomModifierData), "extraTooltipBodyKey").SetValue(roomModifierData, this.ExtraTooltipBodyKey);
             AccessTools.Field(typeof(RoomModifierData), "extraTooltipTitleKey").SetValue(roomModifierData, this.ExtraTooltipTitleKey);
-            AccessTools.Field(typeof(RoomModifierData), "icon").SetValue(roomModifierData, this.Icon);
             AccessTools.Field(typeof(RoomModifierData), "paramInt").SetValue(roomModifierData, this.ParamInt);
             AccessTools.Field(typeof(RoomModifierData), "paramStatusEffects").SetValue(roomModifierData, this.ParamStatusEffects);
             AccessTools.Field(typeof(RoomModifierData), "paramSubtype").SetValue(roomModifierData, this.ParamSubtype);
@@ -124,6 +135,14 @@ namespace Trainworks.BuildersV2
             BuilderUtils.ImportStandardLocalization(this.DescriptionKeyInPlay, this.DescriptionInPlay);
             BuilderUtils.ImportStandardLocalization(this.ExtraTooltipBodyKey, this.ExtraTooltipBody);
             BuilderUtils.ImportStandardLocalization(this.ExtraTooltipTitleKey, this.ExtraTooltipTitle);
+
+
+            if (this.IconPath != null)
+            {
+                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(this.BaseAssetPath + "/" + this.IconPath);
+                AccessTools.Field(typeof(RoomModifierData), "icon").SetValue(roomModifierData, sprite);
+            }
+
             return roomModifierData;
         }
 
