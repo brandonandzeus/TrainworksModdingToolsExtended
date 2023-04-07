@@ -31,13 +31,13 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public CardTriggerType Trigger
         {
-            get { return this.trigger; }
+            get { return trigger; }
             set
             {
-                this.trigger = value;
-                if (this.DescriptionKey == null)
+                trigger = value;
+                if (DescriptionKey == null)
                 {
-                    this.DescriptionKey = this.trigger + "_CardTriggerEffectData_DescriptionKey";
+                    DescriptionKey = trigger + "_CardTriggerEffectData_DescriptionKey";
                 }
             }
         }
@@ -67,9 +67,9 @@ namespace Trainworks.BuildersV2
 
         public CardTriggerEffectDataBuilder()
         {
-            this.CardTriggerEffects = new List<CardTriggerData>();
-            this.CardEffectBuilders = new List<CardEffectDataBuilder>();
-            this.CardEffects = new List<CardEffectData>();
+            CardTriggerEffects = new List<CardTriggerData>();
+            CardEffectBuilders = new List<CardEffectDataBuilder>();
+            CardEffects = new List<CardEffectData>();
         }
 
         /// <summary>
@@ -79,17 +79,17 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardTriggerEffectData</returns>
         public CardTriggerEffectData Build()
         {
-            foreach (var builder in this.CardEffectBuilders)
+            foreach (var builder in CardEffectBuilders)
             {
-                this.CardEffects.Add(builder.Build());
+                CardEffects.Add(builder.Build());
             }
 
             CardTriggerEffectData cardTriggerEffectData = new CardTriggerEffectData();
-            AccessTools.Field(typeof(CardTriggerEffectData), "cardEffects").SetValue(cardTriggerEffectData, this.CardEffects);
-            AccessTools.Field(typeof(CardTriggerEffectData), "cardTriggerEffects").SetValue(cardTriggerEffectData, this.CardTriggerEffects);
-            BuilderUtils.ImportStandardLocalization(this.DescriptionKey, this.Description);
-            AccessTools.Field(typeof(CardTriggerEffectData), "descriptionKey").SetValue(cardTriggerEffectData, this.DescriptionKey);
-            AccessTools.Field(typeof(CardTriggerEffectData), "trigger").SetValue(cardTriggerEffectData, this.Trigger);
+            AccessTools.Field(typeof(CardTriggerEffectData), "cardEffects").SetValue(cardTriggerEffectData, CardEffects);
+            AccessTools.Field(typeof(CardTriggerEffectData), "cardTriggerEffects").SetValue(cardTriggerEffectData, CardTriggerEffects);
+            BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
+            AccessTools.Field(typeof(CardTriggerEffectData), "descriptionKey").SetValue(cardTriggerEffectData, DescriptionKey);
+            AccessTools.Field(typeof(CardTriggerEffectData), "trigger").SetValue(cardTriggerEffectData, Trigger);
 
             return cardTriggerEffectData;
         }

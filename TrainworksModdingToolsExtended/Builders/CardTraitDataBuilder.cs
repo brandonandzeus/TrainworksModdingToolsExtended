@@ -17,11 +17,11 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public Type TraitStateType
         {
-            get { return this.traitStateType; }
+            get { return traitStateType; }
             set
             {
-                this.traitStateType = value;
-                this.TraitStateName = this.traitStateType.AssemblyQualifiedName;
+                traitStateType = value;
+                TraitStateName = traitStateType.AssemblyQualifiedName;
             }
         }
 
@@ -98,9 +98,14 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardTraitData), "paramCardData").SetValue(cardTraitData, ParamCardData);
             AccessTools.Field(typeof(CardTraitData), "paramCardType").SetValue(cardTraitData, ParamCardType);
             if (ParamCardUpgradeDataBuilder == null)
+            {
                 AccessTools.Field(typeof(CardTraitData), "paramCardUpgradeData").SetValue(cardTraitData, ParamCardUpgradeData);
+            }
             else
+            {
                 AccessTools.Field(typeof(CardTraitData), "paramCardUpgradeData").SetValue(cardTraitData, ParamCardUpgradeDataBuilder.Build());
+            }
+
             AccessTools.Field(typeof(CardTraitData), "paramEntryDuration").SetValue(cardTraitData, ParamEntryDuration);
             AccessTools.Field(typeof(CardTraitData), "paramFloat").SetValue(cardTraitData, ParamFloat);
             AccessTools.Field(typeof(CardTraitData), "paramInt").SetValue(cardTraitData, ParamInt);

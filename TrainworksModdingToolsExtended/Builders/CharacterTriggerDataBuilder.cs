@@ -16,17 +16,17 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public CharacterTriggerData.Trigger Trigger
         {
-            get { return this.trigger; }
+            get { return trigger; }
             set
             {
-                this.trigger = value;
-                if (this.DescriptionKey == null)
+                trigger = value;
+                if (DescriptionKey == null)
                 {
-                    this.DescriptionKey = this.trigger + "_CharacterTriggerData_DescriptionKey";
+                    DescriptionKey = trigger + "_CharacterTriggerData_DescriptionKey";
                 }
-                if (this.AdditionalTextOnTriggerKey == null)
+                if (AdditionalTextOnTriggerKey == null)
                 {
-                    this.AdditionalTextOnTriggerKey = this.trigger + "_CharacterTriggerData_BonusTriggerKey";
+                    AdditionalTextOnTriggerKey = trigger + "_CharacterTriggerData_BonusTriggerKey";
                 }
             }
         }
@@ -65,8 +65,8 @@ namespace Trainworks.BuildersV2
 
         public CharacterTriggerDataBuilder()
         {
-            this.EffectBuilders = new List<CardEffectDataBuilder>();
-            this.Effects = new List<CardEffectData>();
+            EffectBuilders = new List<CardEffectDataBuilder>();
+            Effects = new List<CardEffectData>();
         }
 
         /// <summary>
@@ -76,19 +76,19 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardTraitData</returns>
         public CharacterTriggerData Build()
         {
-            foreach (var builder in this.EffectBuilders)
+            foreach (var builder in EffectBuilders)
             {
-                this.Effects.Add(builder.Build());
+                Effects.Add(builder.Build());
             }
-            CharacterTriggerData characterTriggerData = new CharacterTriggerData(this.Trigger, null);
-            BuilderUtils.ImportStandardLocalization(this.AdditionalTextOnTriggerKey, this.AdditionalTextOnTrigger);
-            AccessTools.Field(typeof(CharacterTriggerData), "additionalTextOnTriggerKey").SetValue(characterTriggerData, this.AdditionalTextOnTriggerKey);
-            BuilderUtils.ImportStandardLocalization(this.DescriptionKey, this.Description);
-            AccessTools.Field(typeof(CharacterTriggerData), "descriptionKey").SetValue(characterTriggerData, this.DescriptionKey);
-            AccessTools.Field(typeof(CharacterTriggerData), "displayEffectHintText").SetValue(characterTriggerData, this.DisplayEffectHintText);
-            AccessTools.Field(typeof(CharacterTriggerData), "effects").SetValue(characterTriggerData, this.Effects);
-            AccessTools.Field(typeof(CharacterTriggerData), "hideTriggerTooltip").SetValue(characterTriggerData, this.HideTriggerTooltip);
-            AccessTools.Field(typeof(CharacterTriggerData), "trigger").SetValue(characterTriggerData, this.Trigger);
+            CharacterTriggerData characterTriggerData = new CharacterTriggerData(Trigger, null);
+            BuilderUtils.ImportStandardLocalization(AdditionalTextOnTriggerKey, AdditionalTextOnTrigger);
+            AccessTools.Field(typeof(CharacterTriggerData), "additionalTextOnTriggerKey").SetValue(characterTriggerData, AdditionalTextOnTriggerKey);
+            BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
+            AccessTools.Field(typeof(CharacterTriggerData), "descriptionKey").SetValue(characterTriggerData, DescriptionKey);
+            AccessTools.Field(typeof(CharacterTriggerData), "displayEffectHintText").SetValue(characterTriggerData, DisplayEffectHintText);
+            AccessTools.Field(typeof(CharacterTriggerData), "effects").SetValue(characterTriggerData, Effects);
+            AccessTools.Field(typeof(CharacterTriggerData), "hideTriggerTooltip").SetValue(characterTriggerData, HideTriggerTooltip);
+            AccessTools.Field(typeof(CharacterTriggerData), "trigger").SetValue(characterTriggerData, Trigger);
             return characterTriggerData;
         }
     }

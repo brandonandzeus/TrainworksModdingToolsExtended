@@ -18,11 +18,11 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public Type RoomStateModifierClassType
         {
-            get { return this.roomStateModifierClassType; }
+            get { return roomStateModifierClassType; }
             set
             {
-                this.roomStateModifierClassType = value;
-                this.RoomStateModifierClassName = this.roomStateModifierClassType.AssemblyQualifiedName;
+                roomStateModifierClassType = value;
+                RoomStateModifierClassName = roomStateModifierClassType.AssemblyQualifiedName;
             }
         }
 
@@ -34,25 +34,25 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string RoomStateModifierClassName
         {
-            get { return this.roomStateModifierClassName; }
+            get { return roomStateModifierClassName; }
             set
             {
-                this.roomStateModifierClassName = value;
-                if (this.DescriptionKey == null)
+                roomStateModifierClassName = value;
+                if (DescriptionKey == null)
                 {
-                    this.DescriptionKey = this.roomStateModifierClassName + "_RoomModifierData_DescriptionKey";
+                    DescriptionKey = roomStateModifierClassName + "_RoomModifierData_DescriptionKey";
                 }
-                if (this.DescriptionKeyInPlay == null)
+                if (DescriptionKeyInPlay == null)
                 {
-                    this.DescriptionKeyInPlay = this.roomStateModifierClassName + "_RoomModifierData_DescriptionKeyInPlay";
+                    DescriptionKeyInPlay = roomStateModifierClassName + "_RoomModifierData_DescriptionKeyInPlay";
                 }
-                if (this.ExtraTooltipBodyKey == null)
+                if (ExtraTooltipBodyKey == null)
                 {
-                    this.ExtraTooltipBodyKey = this.roomStateModifierClassName + "_RoomModifierData_ExtraTooltipBodyKey";
+                    ExtraTooltipBodyKey = roomStateModifierClassName + "_RoomModifierData_ExtraTooltipBodyKey";
                 }
-                if (this.ExtraTooltipTitleKey == null)
+                if (ExtraTooltipTitleKey == null)
                 {
-                    this.ExtraTooltipTitleKey = this.roomStateModifierClassName + "_RoomModifierData_ExtraTooltipTitleKey";
+                    ExtraTooltipTitleKey = roomStateModifierClassName + "_RoomModifierData_ExtraTooltipTitleKey";
                 }
             }
         }
@@ -99,15 +99,15 @@ namespace Trainworks.BuildersV2
 
         public RoomModifierDataBuilder()
         {
-            this.DescriptionKey = "";
-            this.DescriptionKeyInPlay = "";
-            this.ParamSubtype = "SubtypesData_None";
-            this.ParamStatusEffects = new StatusEffectStackData[0];
-            this.ExtraTooltipBodyKey = "";
-            this.ExtraTooltipTitleKey = "";
+            DescriptionKey = "";
+            DescriptionKeyInPlay = "";
+            ParamSubtype = "SubtypesData_None";
+            ParamStatusEffects = new StatusEffectStackData[0];
+            ExtraTooltipBodyKey = "";
+            ExtraTooltipTitleKey = "";
 
             var assembly = Assembly.GetCallingAssembly();
-            this.BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
+            BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
         /// <summary>
@@ -118,28 +118,33 @@ namespace Trainworks.BuildersV2
         {
             RoomModifierData roomModifierData = new RoomModifierData();
 
-            AccessTools.Field(typeof(RoomModifierData), "descriptionKey").SetValue(roomModifierData, this.DescriptionKey);
-            AccessTools.Field(typeof(RoomModifierData), "descriptionKeyInPlay").SetValue(roomModifierData, this.DescriptionKeyInPlay);
-            AccessTools.Field(typeof(RoomModifierData), "extraTooltipBodyKey").SetValue(roomModifierData, this.ExtraTooltipBodyKey);
-            AccessTools.Field(typeof(RoomModifierData), "extraTooltipTitleKey").SetValue(roomModifierData, this.ExtraTooltipTitleKey);
-            AccessTools.Field(typeof(RoomModifierData), "paramInt").SetValue(roomModifierData, this.ParamInt);
-            AccessTools.Field(typeof(RoomModifierData), "paramStatusEffects").SetValue(roomModifierData, this.ParamStatusEffects);
-            AccessTools.Field(typeof(RoomModifierData), "paramSubtype").SetValue(roomModifierData, this.ParamSubtype);
+            AccessTools.Field(typeof(RoomModifierData), "descriptionKey").SetValue(roomModifierData, DescriptionKey);
+            AccessTools.Field(typeof(RoomModifierData), "descriptionKeyInPlay").SetValue(roomModifierData, DescriptionKeyInPlay);
+            AccessTools.Field(typeof(RoomModifierData), "extraTooltipBodyKey").SetValue(roomModifierData, ExtraTooltipBodyKey);
+            AccessTools.Field(typeof(RoomModifierData), "extraTooltipTitleKey").SetValue(roomModifierData, ExtraTooltipTitleKey);
+            AccessTools.Field(typeof(RoomModifierData), "paramInt").SetValue(roomModifierData, ParamInt);
+            AccessTools.Field(typeof(RoomModifierData), "paramStatusEffects").SetValue(roomModifierData, ParamStatusEffects);
+            AccessTools.Field(typeof(RoomModifierData), "paramSubtype").SetValue(roomModifierData, ParamSubtype);
             if (ParamCardUpgradeDataBuilder == null)
-                AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, this.ParamCardUpgradeData);
-            else
-                AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, this.ParamCardUpgradeDataBuilder.Build());
-            AccessTools.Field(typeof(RoomModifierData), "roomStateModifierClassName").SetValue(roomModifierData, this.RoomStateModifierClassName);
-
-            BuilderUtils.ImportStandardLocalization(this.DescriptionKey, this.Description);
-            BuilderUtils.ImportStandardLocalization(this.DescriptionKeyInPlay, this.DescriptionInPlay);
-            BuilderUtils.ImportStandardLocalization(this.ExtraTooltipBodyKey, this.ExtraTooltipBody);
-            BuilderUtils.ImportStandardLocalization(this.ExtraTooltipTitleKey, this.ExtraTooltipTitle);
-
-
-            if (this.IconPath != null)
             {
-                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(this.BaseAssetPath + "/" + this.IconPath);
+                AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, ParamCardUpgradeData);
+            }
+            else
+            {
+                AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, ParamCardUpgradeDataBuilder.Build());
+            }
+
+            AccessTools.Field(typeof(RoomModifierData), "roomStateModifierClassName").SetValue(roomModifierData, RoomStateModifierClassName);
+
+            BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
+            BuilderUtils.ImportStandardLocalization(DescriptionKeyInPlay, DescriptionInPlay);
+            BuilderUtils.ImportStandardLocalization(ExtraTooltipBodyKey, ExtraTooltipBody);
+            BuilderUtils.ImportStandardLocalization(ExtraTooltipTitleKey, ExtraTooltipTitle);
+
+
+            if (IconPath != null)
+            {
+                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(BaseAssetPath + "/" + IconPath);
                 AccessTools.Field(typeof(RoomModifierData), "icon").SetValue(roomModifierData, sprite);
             }
 
@@ -153,7 +158,7 @@ namespace Trainworks.BuildersV2
         /// <param name="stackCount">Number of stacks to apply</param>
         public void AddStartingStatusEffect(string statusEffectID, int stackCount)
         {
-            this.ParamStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, this.ParamStatusEffects);
+            ParamStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, ParamStatusEffects);
         }
     }
 }

@@ -15,11 +15,11 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public Type RelicEffectClassType
         {
-            get { return this.relicEffectClassType; }
+            get { return relicEffectClassType; }
             set
             {
-                this.relicEffectClassType = value;
-                this.RelicEffectClassName = this.relicEffectClassType.AssemblyQualifiedName;
+                relicEffectClassType = value;
+                RelicEffectClassName = relicEffectClassType.AssemblyQualifiedName;
             }
         }
 
@@ -32,17 +32,17 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string RelicEffectClassName
         {
-            get { return this.relicEffectClassName; }
+            get { return relicEffectClassName; }
             set
             {
-                this.relicEffectClassName = value;
-                if (this.TooltipBodyKey == null)
+                relicEffectClassName = value;
+                if (TooltipBodyKey == null)
                 {
-                    this.TooltipBodyKey = this.relicEffectClassName + "_RelicEffectData_TooltipBodyKey";
+                    TooltipBodyKey = relicEffectClassName + "_RelicEffectData_TooltipBodyKey";
                 }
-                if (this.TooltipTitleKey == null)
+                if (TooltipTitleKey == null)
                 {
-                    this.TooltipTitleKey = this.relicEffectClassName + "_RelicEffectData_TooltipTitleKey";
+                    TooltipTitleKey = relicEffectClassName + "_RelicEffectData_TooltipTitleKey";
                 }
             }
         }
@@ -110,20 +110,20 @@ namespace Trainworks.BuildersV2
 
         public RelicEffectDataBuilder()
         {
-            this.EffectConditions = new List<RelicEffectCondition>();
-            this.Traits = new List<CardTraitData>();
-            this.Triggers = new List<CharacterTriggerData>();
-            this.ParamCardEffects = new List<CardEffectData>();
-            this.ParamCharacters = new List<CharacterData>();
-            this.ParamExcludeCharacterSubtypes = new string[0];
-            this.ExcludedTraits = new List<CardTraitData>();
-            this.ParamStatusEffects = new StatusEffectStackData[0];
-            this.AdditionalTooltips = new AdditionalTooltipData[0];
-            this.EffectConditionBuilders = new List<RelicEffectConditionBuilder>();
-            this.TraitBuilders = new List<CardTraitDataBuilder>();
-            this.TriggerBuilders = new List<CharacterTriggerDataBuilder>();
-            this.ParamCardEffectBuilders = new List<CardEffectDataBuilder>();
-            this.CardTriggers = new List<CardTriggerType>();
+            EffectConditions = new List<RelicEffectCondition>();
+            Traits = new List<CardTraitData>();
+            Triggers = new List<CharacterTriggerData>();
+            ParamCardEffects = new List<CardEffectData>();
+            ParamCharacters = new List<CharacterData>();
+            ParamExcludeCharacterSubtypes = new string[0];
+            ExcludedTraits = new List<CardTraitData>();
+            ParamStatusEffects = new StatusEffectStackData[0];
+            AdditionalTooltips = new AdditionalTooltipData[0];
+            EffectConditionBuilders = new List<RelicEffectConditionBuilder>();
+            TraitBuilders = new List<CardTraitDataBuilder>();
+            TriggerBuilders = new List<CharacterTriggerDataBuilder>();
+            ParamCardEffectBuilders = new List<CardEffectDataBuilder>();
+            CardTriggers = new List<CardTriggerType>();
         }
 
         /// <summary>
@@ -133,67 +133,67 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RelicEffectData</returns>
         public RelicEffectData Build()
         {
-            foreach (var builder in this.EffectConditionBuilders)
+            foreach (var builder in EffectConditionBuilders)
             {
-                this.EffectConditions.Add(builder.Build());
+                EffectConditions.Add(builder.Build());
             }
-            foreach (var builder in this.TraitBuilders)
+            foreach (var builder in TraitBuilders)
             {
-                this.Traits.Add(builder.Build());
+                Traits.Add(builder.Build());
             }
-            foreach (var builder in this.TriggerBuilders)
+            foreach (var builder in TriggerBuilders)
             {
-                this.Triggers.Add(builder.Build());
+                Triggers.Add(builder.Build());
             }
-            foreach (var builder in this.ParamCardEffectBuilders)
+            foreach (var builder in ParamCardEffectBuilders)
             {
-                this.ParamCardEffects.Add(builder.Build());
+                ParamCardEffects.Add(builder.Build());
             }
 
             RelicEffectData relicEffectData = new RelicEffectData();
             AccessTools.Field(typeof(RelicEffectData), "additionalTooltips").SetValue(relicEffectData, AdditionalTooltips);
-            AccessTools.Field(typeof(RelicEffectData), "appliedVfx").SetValue(relicEffectData, this.AppliedVfx);
-            AccessTools.Field(typeof(RelicEffectData), "cardTriggers").SetValue(relicEffectData, this.CardTriggers);
-            AccessTools.Field(typeof(RelicEffectData), "effectConditions").SetValue(relicEffectData, this.EffectConditions);
-            AccessTools.Field(typeof(RelicEffectData), "excludedTraits").SetValue(relicEffectData, this.ExcludedTraits);
-            AccessTools.Field(typeof(RelicEffectData), "paramBool").SetValue(relicEffectData, this.ParamBool);
-            AccessTools.Field(typeof(RelicEffectData), "paramCardEffects").SetValue(relicEffectData, this.ParamCardEffects);
-            AccessTools.Field(typeof(RelicEffectData), "paramCardFilter").SetValue(relicEffectData, this.ParamCardFilter);
-            AccessTools.Field(typeof(RelicEffectData), "paramCardPool").SetValue(relicEffectData, this.ParamCardPool);
-            AccessTools.Field(typeof(RelicEffectData), "paramCardSetBuilder").SetValue(relicEffectData, this.ParamCardSetBuilder);
-            AccessTools.Field(typeof(RelicEffectData), "paramCardType").SetValue(relicEffectData, this.ParamCardType);
-            AccessTools.Field(typeof(RelicEffectData), "paramCardUpgradeData").SetValue(relicEffectData, this.ParamCardUpgradeData);
-            AccessTools.Field(typeof(RelicEffectData), "paramCharacters").SetValue(relicEffectData, this.ParamCharacters);
-            AccessTools.Field(typeof(RelicEffectData), "paramCharacterSubtype").SetValue(relicEffectData, this.ParamCharacterSubtype);
-            AccessTools.Field(typeof(RelicEffectData), "paramEnhancerPool").SetValue(relicEffectData, this.ParamEnhancerPool);
-            AccessTools.Field(typeof(RelicEffectData), "paramExcludeCharacterSubtypes").SetValue(relicEffectData, this.ParamExcludeCharacterSubtypes);
-            AccessTools.Field(typeof(RelicEffectData), "paramFloat").SetValue(relicEffectData, this.ParamFloat);
-            AccessTools.Field(typeof(RelicEffectData), "paramInt").SetValue(relicEffectData, this.ParamInt);
-            AccessTools.Field(typeof(RelicEffectData), "paramMaxInt").SetValue(relicEffectData, this.ParamMaxInt);
-            AccessTools.Field(typeof(RelicEffectData), "paramMinInt").SetValue(relicEffectData, this.ParamMinInt);
-            AccessTools.Field(typeof(RelicEffectData), "paramRandomChampionPool").SetValue(relicEffectData, this.ParamRandomChampionPool);
-            AccessTools.Field(typeof(RelicEffectData), "paramRelic").SetValue(relicEffectData, this.ParamRelic);
-            AccessTools.Field(typeof(RelicEffectData), "paramReward").SetValue(relicEffectData, this.ParamReward);
-            AccessTools.Field(typeof(RelicEffectData), "paramRoomData").SetValue(relicEffectData, this.ParamRoomData);
-            AccessTools.Field(typeof(RelicEffectData), "paramSourceTeam").SetValue(relicEffectData, this.ParamSourceTeam);
-            AccessTools.Field(typeof(RelicEffectData), "paramSpecialCharacterType").SetValue(relicEffectData, this.ParamSpecialCharacterType);
-            AccessTools.Field(typeof(RelicEffectData), "paramStatusEffects").SetValue(relicEffectData, this.ParamStatusEffects);
-            AccessTools.Field(typeof(RelicEffectData), "paramString").SetValue(relicEffectData, this.ParamString);
-            AccessTools.Field(typeof(RelicEffectData), "paramTargetMode").SetValue(relicEffectData, this.ParamTargetMode);
-            AccessTools.Field(typeof(RelicEffectData), "paramTrigger").SetValue(relicEffectData, this.ParamTrigger);
-            AccessTools.Field(typeof(RelicEffectData), "paramUseIntRange").SetValue(relicEffectData, this.ParamUseIntRange);
-            AccessTools.Field(typeof(RelicEffectData), "relicEffectClassName").SetValue(relicEffectData, this.RelicEffectClassName);
-            AccessTools.Field(typeof(RelicEffectData), "sourceCardTraitParam").SetValue(relicEffectData, this.SourceCardTraitParam);
-            AccessTools.Field(typeof(RelicEffectData), "targetCardTraitParam").SetValue(relicEffectData, this.TargetCardTraitParam);
-            AccessTools.Field(typeof(RelicEffectData), "tooltipBodyKey").SetValue(relicEffectData, this.TooltipBodyKey);
-            AccessTools.Field(typeof(RelicEffectData), "tooltipTitleKey").SetValue(relicEffectData, this.TooltipTitleKey);
-            AccessTools.Field(typeof(RelicEffectData), "traits").SetValue(relicEffectData, this.Traits);
-            AccessTools.Field(typeof(RelicEffectData), "triggers").SetValue(relicEffectData, this.Triggers);
-            AccessTools.Field(typeof(RelicEffectData), "triggerTooltipsSuppressed").SetValue(relicEffectData, this.TriggerTooltipsSuppressed);
+            AccessTools.Field(typeof(RelicEffectData), "appliedVfx").SetValue(relicEffectData, AppliedVfx);
+            AccessTools.Field(typeof(RelicEffectData), "cardTriggers").SetValue(relicEffectData, CardTriggers);
+            AccessTools.Field(typeof(RelicEffectData), "effectConditions").SetValue(relicEffectData, EffectConditions);
+            AccessTools.Field(typeof(RelicEffectData), "excludedTraits").SetValue(relicEffectData, ExcludedTraits);
+            AccessTools.Field(typeof(RelicEffectData), "paramBool").SetValue(relicEffectData, ParamBool);
+            AccessTools.Field(typeof(RelicEffectData), "paramCardEffects").SetValue(relicEffectData, ParamCardEffects);
+            AccessTools.Field(typeof(RelicEffectData), "paramCardFilter").SetValue(relicEffectData, ParamCardFilter);
+            AccessTools.Field(typeof(RelicEffectData), "paramCardPool").SetValue(relicEffectData, ParamCardPool);
+            AccessTools.Field(typeof(RelicEffectData), "paramCardSetBuilder").SetValue(relicEffectData, ParamCardSetBuilder);
+            AccessTools.Field(typeof(RelicEffectData), "paramCardType").SetValue(relicEffectData, ParamCardType);
+            AccessTools.Field(typeof(RelicEffectData), "paramCardUpgradeData").SetValue(relicEffectData, ParamCardUpgradeData);
+            AccessTools.Field(typeof(RelicEffectData), "paramCharacters").SetValue(relicEffectData, ParamCharacters);
+            AccessTools.Field(typeof(RelicEffectData), "paramCharacterSubtype").SetValue(relicEffectData, ParamCharacterSubtype);
+            AccessTools.Field(typeof(RelicEffectData), "paramEnhancerPool").SetValue(relicEffectData, ParamEnhancerPool);
+            AccessTools.Field(typeof(RelicEffectData), "paramExcludeCharacterSubtypes").SetValue(relicEffectData, ParamExcludeCharacterSubtypes);
+            AccessTools.Field(typeof(RelicEffectData), "paramFloat").SetValue(relicEffectData, ParamFloat);
+            AccessTools.Field(typeof(RelicEffectData), "paramInt").SetValue(relicEffectData, ParamInt);
+            AccessTools.Field(typeof(RelicEffectData), "paramMaxInt").SetValue(relicEffectData, ParamMaxInt);
+            AccessTools.Field(typeof(RelicEffectData), "paramMinInt").SetValue(relicEffectData, ParamMinInt);
+            AccessTools.Field(typeof(RelicEffectData), "paramRandomChampionPool").SetValue(relicEffectData, ParamRandomChampionPool);
+            AccessTools.Field(typeof(RelicEffectData), "paramRelic").SetValue(relicEffectData, ParamRelic);
+            AccessTools.Field(typeof(RelicEffectData), "paramReward").SetValue(relicEffectData, ParamReward);
+            AccessTools.Field(typeof(RelicEffectData), "paramRoomData").SetValue(relicEffectData, ParamRoomData);
+            AccessTools.Field(typeof(RelicEffectData), "paramSourceTeam").SetValue(relicEffectData, ParamSourceTeam);
+            AccessTools.Field(typeof(RelicEffectData), "paramSpecialCharacterType").SetValue(relicEffectData, ParamSpecialCharacterType);
+            AccessTools.Field(typeof(RelicEffectData), "paramStatusEffects").SetValue(relicEffectData, ParamStatusEffects);
+            AccessTools.Field(typeof(RelicEffectData), "paramString").SetValue(relicEffectData, ParamString);
+            AccessTools.Field(typeof(RelicEffectData), "paramTargetMode").SetValue(relicEffectData, ParamTargetMode);
+            AccessTools.Field(typeof(RelicEffectData), "paramTrigger").SetValue(relicEffectData, ParamTrigger);
+            AccessTools.Field(typeof(RelicEffectData), "paramUseIntRange").SetValue(relicEffectData, ParamUseIntRange);
+            AccessTools.Field(typeof(RelicEffectData), "relicEffectClassName").SetValue(relicEffectData, RelicEffectClassName);
+            AccessTools.Field(typeof(RelicEffectData), "sourceCardTraitParam").SetValue(relicEffectData, SourceCardTraitParam);
+            AccessTools.Field(typeof(RelicEffectData), "targetCardTraitParam").SetValue(relicEffectData, TargetCardTraitParam);
+            AccessTools.Field(typeof(RelicEffectData), "tooltipBodyKey").SetValue(relicEffectData, TooltipBodyKey);
+            AccessTools.Field(typeof(RelicEffectData), "tooltipTitleKey").SetValue(relicEffectData, TooltipTitleKey);
+            AccessTools.Field(typeof(RelicEffectData), "traits").SetValue(relicEffectData, Traits);
+            AccessTools.Field(typeof(RelicEffectData), "triggers").SetValue(relicEffectData, Triggers);
+            AccessTools.Field(typeof(RelicEffectData), "triggerTooltipsSuppressed").SetValue(relicEffectData, TriggerTooltipsSuppressed);
 
 
-            BuilderUtils.ImportStandardLocalization(this.TooltipBodyKey, this.TooltipBody);
-            BuilderUtils.ImportStandardLocalization(this.TooltipTitleKey, this.TooltipTitle);
+            BuilderUtils.ImportStandardLocalization(TooltipBodyKey, TooltipBody);
+            BuilderUtils.ImportStandardLocalization(TooltipTitleKey, TooltipTitle);
 
             return relicEffectData;
         }
@@ -205,7 +205,7 @@ namespace Trainworks.BuildersV2
         /// <param name="stackCount">Number of stacks to apply</param>
         public void AddStatusEffect(string statusEffectID, int stackCount)
         {
-            this.ParamStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, this.ParamStatusEffects);
+            ParamStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, ParamStatusEffects);
         }
     }
 }

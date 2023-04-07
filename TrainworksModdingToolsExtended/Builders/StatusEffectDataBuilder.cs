@@ -19,11 +19,11 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public Type StatusEffectStateType
         {
-            get { return this.statusEffectStateType; }
+            get { return statusEffectStateType; }
             set
             {
-                this.statusEffectStateType = value;
-                this.StatusEffectStateName = this.statusEffectStateType.AssemblyQualifiedName;
+                statusEffectStateType = value;
+                StatusEffectStateName = statusEffectStateType.AssemblyQualifiedName;
             }
         }
 
@@ -42,16 +42,20 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string StatusId
         {
-            get { return this.statusId; }
+            get { return statusId; }
             set
             {
-                this.statusId = value;
-                if (this.StatusIdKey == null)
+                statusId = value;
+                if (StatusIdKey == null)
                 {
-                    if (this.statusId.Length == 1)
-                        this.StatusIdKey = "StatusEffect_" + char.ToUpper(this.statusId[0]);
-                    else if (this.statusId.Length > 1)
-                        this.StatusIdKey = "StatusEffect_" + char.ToUpper(this.statusId[0]) + this.statusId.Substring(1);
+                    if (statusId.Length == 1)
+                    {
+                        StatusIdKey = "StatusEffect_" + char.ToUpper(statusId[0]);
+                    }
+                    else if (statusId.Length > 1)
+                    {
+                        StatusIdKey = "StatusEffect_" + char.ToUpper(statusId[0]) + statusId.Substring(1);
+                    }
                 }
             }
         }
@@ -159,7 +163,7 @@ namespace Trainworks.BuildersV2
             VFXDisplayType = StatusEffectData.VFXDisplayType.Default;
 
             var assembly = Assembly.GetCallingAssembly();
-            this.BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
+            BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
         public StatusEffectData Build()
@@ -197,9 +201,9 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(StatusEffectData), "triggerStage").SetValue(statusEffect, TriggerStage);
             AccessTools.Field(typeof(StatusEffectData), "vfxDisplayType").SetValue(statusEffect, VFXDisplayType);
 
-            if (this.IconPath != null)
+            if (IconPath != null)
             {
-                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(this.BaseAssetPath + "/" + this.IconPath);
+                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(BaseAssetPath + "/" + IconPath);
                 AccessTools.Field(typeof(StatusEffectData), "icon").SetValue(statusEffect, sprite);
             }
 

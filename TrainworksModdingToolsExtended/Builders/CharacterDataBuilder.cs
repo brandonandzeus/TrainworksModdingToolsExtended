@@ -23,13 +23,13 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string CharacterID
         {
-            get { return this.characterID; }
+            get { return characterID; }
             set
             {
-                this.characterID = value;
-                if (this.NameKey == null)
+                characterID = value;
+                if (NameKey == null)
                 {
-                    this.NameKey = this.characterID + "_CharacterData_NameKey";
+                    NameKey = characterID + "_CharacterData_NameKey";
                 }
             }
         }
@@ -212,7 +212,7 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly registered CharacterData</returns>
         public CharacterData BuildAndRegister()
         {
-            var characterData = this.Build();
+            var characterData = Build();
             CustomCharacterManager.RegisterCustomCharacter(characterData);
 
             // Build the unit's synthesis ability
@@ -252,97 +252,102 @@ namespace Trainworks.BuildersV2
         public CharacterData Build()
         {
             CharacterData characterData = ScriptableObject.CreateInstance<CharacterData>();
-            characterData.name = this.CharacterID;
+            characterData.name = CharacterID;
 
-            foreach (var builder in this.TriggerBuilders)
+            foreach (var builder in TriggerBuilders)
             {
-                this.Triggers.Add(builder.Build());
+                Triggers.Add(builder.Build());
             }
-            foreach (var builder in this.RoomModifierBuilders)
+            foreach (var builder in RoomModifierBuilders)
             {
-                this.RoomModifiers.Add(builder.Build());
+                RoomModifiers.Add(builder.Build());
             }
 
-            var guid = GUIDGenerator.GenerateDeterministicGUID(this.CharacterID);
+            var guid = GUIDGenerator.GenerateDeterministicGUID(CharacterID);
 
-            if (this.CharacterPrefabVariantRef == null)
+            if (CharacterPrefabVariantRef == null)
             {
-                if (this.CharacterPrefabVariantRefBuilder == null)
+                if (CharacterPrefabVariantRefBuilder == null)
                 {
-                    if (this.BundleLoadingInfo != null)
+                    if (BundleLoadingInfo != null)
                     {
-                        this.BundleLoadingInfo.PluginPath = this.BaseAssetPath;
-                        this.CharacterPrefabVariantRefBuilder = new Builders.AssetRefBuilder
+                        BundleLoadingInfo.PluginPath = BaseAssetPath;
+                        CharacterPrefabVariantRefBuilder = new Builders.AssetRefBuilder
                         {
-                            AssetLoadingInfo = this.BundleLoadingInfo
+                            AssetLoadingInfo = BundleLoadingInfo
                         };
                     }
                     else
                     {
                         var assetLoadingInfo = new AssetLoadingInfo()
                         {
-                            FilePath = this.AssetPath,
-                            PluginPath = this.BaseAssetPath,
+                            FilePath = AssetPath,
+                            PluginPath = BaseAssetPath,
                             AssetType = Builders.AssetRefBuilder.AssetTypeEnum.Character
                         };
-                        this.CharacterPrefabVariantRefBuilder = new Builders.AssetRefBuilder
+                        CharacterPrefabVariantRefBuilder = new Builders.AssetRefBuilder
                         {
                             AssetLoadingInfo = assetLoadingInfo
                         };
                     }
                 }
-                this.CharacterPrefabVariantRef = this.CharacterPrefabVariantRefBuilder.BuildAndRegister();
+                CharacterPrefabVariantRef = CharacterPrefabVariantRefBuilder.BuildAndRegister();
             }
 
-            if (this.PriorityDraw)
+            if (PriorityDraw)
             {
-                this.SubtypeKeys.Add("SubtypesData_Chosen");
+                SubtypeKeys.Add("SubtypesData_Chosen");
             }
 
 
             AccessTools.Field(typeof(CharacterData), "id").SetValue(characterData, guid);
-            AccessTools.Field(typeof(CharacterData), "animationController").SetValue(characterData, this.AnimationController);
-            AccessTools.Field(typeof(CharacterData), "ascendsTrainAutomatically").SetValue(characterData, this.AscendsTrainAutomatically);
-            AccessTools.Field(typeof(CharacterData), "attackDamage").SetValue(characterData, this.AttackDamage);
-            AccessTools.Field(typeof(CharacterData), "attackTeleportsToDefender").SetValue(characterData, this.AttackTeleportsToDefender);
+            AccessTools.Field(typeof(CharacterData), "animationController").SetValue(characterData, AnimationController);
+            AccessTools.Field(typeof(CharacterData), "ascendsTrainAutomatically").SetValue(characterData, AscendsTrainAutomatically);
+            AccessTools.Field(typeof(CharacterData), "attackDamage").SetValue(characterData, AttackDamage);
+            AccessTools.Field(typeof(CharacterData), "attackTeleportsToDefender").SetValue(characterData, AttackTeleportsToDefender);
             AccessTools.Field(typeof(CharacterData), "blockVisualSizeIncrease").SetValue(characterData, BlockVisualSizeIncrease);
             // TODO this needs a DataBuilder.
-            AccessTools.Field(typeof(CharacterData), "bossActionGroups").SetValue(characterData, this.BossActionGroups);
-            AccessTools.Field(typeof(CharacterData), "bossRoomSpellCastVFX").SetValue(characterData, this.BossRoomSpellCastVFX);
-            AccessTools.Field(typeof(CharacterData), "bossSpellCastVFX").SetValue(characterData, this.BossSpellCastVFX);
+            AccessTools.Field(typeof(CharacterData), "bossActionGroups").SetValue(characterData, BossActionGroups);
+            AccessTools.Field(typeof(CharacterData), "bossRoomSpellCastVFX").SetValue(characterData, BossRoomSpellCastVFX);
+            AccessTools.Field(typeof(CharacterData), "bossSpellCastVFX").SetValue(characterData, BossSpellCastVFX);
             AccessTools.Field(typeof(CharacterData), "bypassPactCrystalsUpgradeDataList").SetValue(characterData, BypassPactCrystalsUpgradeDataList);
-            AccessTools.Field(typeof(CharacterData), "canAttack").SetValue(characterData, this.CanAttack);
-            AccessTools.Field(typeof(CharacterData), "canBeHealed").SetValue(characterData, this.CanBeHealed);
+            AccessTools.Field(typeof(CharacterData), "canAttack").SetValue(characterData, CanAttack);
+            AccessTools.Field(typeof(CharacterData), "canBeHealed").SetValue(characterData, CanBeHealed);
             if (CharacterChatterDataBuilder == null)
-                AccessTools.Field(typeof(CharacterData), "characterChatterData").SetValue(characterData, this.CharacterChatterData);
+            {
+                AccessTools.Field(typeof(CharacterData), "characterChatterData").SetValue(characterData, CharacterChatterData);
+            }
             else
-                AccessTools.Field(typeof(CharacterData), "characterChatterData").SetValue(characterData, this.CharacterChatterDataBuilder.Build());
-            AccessTools.Field(typeof(CharacterData), "characterLoreTooltipKeys").SetValue(characterData, this.CharacterLoreTooltipKeys);
-            AccessTools.Field(typeof(CharacterData), "characterPrefabVariantRef").SetValue(characterData, this.CharacterPrefabVariantRef);
-            AccessTools.Field(typeof(CharacterData), "characterSoundData").SetValue(characterData, this.CharacterSoundData);
-            AccessTools.Field(typeof(CharacterData), "characterSpriteCache").SetValue(characterData, this.CharacterSpriteCache);
-            AccessTools.Field(typeof(CharacterData), "deathSlidesBackwards").SetValue(characterData, this.DeathSlidesBackwards);
-            AccessTools.Field(typeof(CharacterData), "deathType").SetValue(characterData, this.DeathType);
-            AccessTools.Field(typeof(CharacterData), "deathVFX").SetValue(characterData, this.DeathVFX);
-            AccessTools.Field(typeof(CharacterData), "fallbackData").SetValue(characterData, this.FallBackData);
-            AccessTools.Field(typeof(CharacterData), "health").SetValue(characterData, this.Health);
-            AccessTools.Field(typeof(CharacterData), "impactVFX").SetValue(characterData, this.ImpactVFX);
-            AccessTools.Field(typeof(CharacterData), "isMiniboss").SetValue(characterData, this.IsMiniboss);
-            AccessTools.Field(typeof(CharacterData), "isOuterTrainBoss").SetValue(characterData, this.IsOuterTrainBoss);
-            AccessTools.Field(typeof(CharacterData), "nameKey").SetValue(characterData, this.NameKey);
+            {
+                AccessTools.Field(typeof(CharacterData), "characterChatterData").SetValue(characterData, CharacterChatterDataBuilder.Build());
+            }
+
+            AccessTools.Field(typeof(CharacterData), "characterLoreTooltipKeys").SetValue(characterData, CharacterLoreTooltipKeys);
+            AccessTools.Field(typeof(CharacterData), "characterPrefabVariantRef").SetValue(characterData, CharacterPrefabVariantRef);
+            AccessTools.Field(typeof(CharacterData), "characterSoundData").SetValue(characterData, CharacterSoundData);
+            AccessTools.Field(typeof(CharacterData), "characterSpriteCache").SetValue(characterData, CharacterSpriteCache);
+            AccessTools.Field(typeof(CharacterData), "deathSlidesBackwards").SetValue(characterData, DeathSlidesBackwards);
+            AccessTools.Field(typeof(CharacterData), "deathType").SetValue(characterData, DeathType);
+            AccessTools.Field(typeof(CharacterData), "deathVFX").SetValue(characterData, DeathVFX);
+            AccessTools.Field(typeof(CharacterData), "fallbackData").SetValue(characterData, FallBackData);
+            AccessTools.Field(typeof(CharacterData), "health").SetValue(characterData, Health);
+            AccessTools.Field(typeof(CharacterData), "impactVFX").SetValue(characterData, ImpactVFX);
+            AccessTools.Field(typeof(CharacterData), "isMiniboss").SetValue(characterData, IsMiniboss);
+            AccessTools.Field(typeof(CharacterData), "isOuterTrainBoss").SetValue(characterData, IsOuterTrainBoss);
+            AccessTools.Field(typeof(CharacterData), "nameKey").SetValue(characterData, NameKey);
             AccessTools.Field(typeof(CharacterData), "pactCrystalsRequiredCount").SetValue(characterData, PactCrystalsRequiredCount);
             AccessTools.Field(typeof(CharacterData), "pactCrystalsVariantData").SetValue(characterData, PactCrystalsVariantData);
-            AccessTools.Field(typeof(CharacterData), "projectilePrefab").SetValue(characterData, this.ProjectilePrefab);
+            AccessTools.Field(typeof(CharacterData), "projectilePrefab").SetValue(characterData, ProjectilePrefab);
             AccessTools.Field(typeof(CharacterData), "removeTriggersOnRelentlessChange").SetValue(characterData, RemoveTriggersOnRelentlessChange);
-            AccessTools.Field(typeof(CharacterData), "roomModifiers").SetValue(characterData, this.RoomModifiers);
-            AccessTools.Field(typeof(CharacterData), "size").SetValue(characterData, this.Size);
-            AccessTools.Field(typeof(CharacterData), "startingStatusEffects").SetValue(characterData, this.StartingStatusEffects);
-            AccessTools.Field(typeof(CharacterData), "statusEffectImmunities").SetValue(characterData, this.StatusEffectImmunities);
-            AccessTools.Field(typeof(CharacterData), "subtypeKeys").SetValue(characterData, this.SubtypeKeys);
-            AccessTools.Field(typeof(CharacterData), "triggers").SetValue(characterData, this.Triggers);
+            AccessTools.Field(typeof(CharacterData), "roomModifiers").SetValue(characterData, RoomModifiers);
+            AccessTools.Field(typeof(CharacterData), "size").SetValue(characterData, Size);
+            AccessTools.Field(typeof(CharacterData), "startingStatusEffects").SetValue(characterData, StartingStatusEffects);
+            AccessTools.Field(typeof(CharacterData), "statusEffectImmunities").SetValue(characterData, StatusEffectImmunities);
+            AccessTools.Field(typeof(CharacterData), "subtypeKeys").SetValue(characterData, SubtypeKeys);
+            AccessTools.Field(typeof(CharacterData), "triggers").SetValue(characterData, Triggers);
             AccessTools.Field(typeof(CharacterData), "validBossAttackPhase").SetValue(characterData, ValidBossAttackPhase);
 
-            BuilderUtils.ImportStandardLocalization(this.NameKey, this.Name);
+            BuilderUtils.ImportStandardLocalization(NameKey, Name);
             return characterData;
         }
 
@@ -360,9 +365,9 @@ namespace Trainworks.BuildersV2
                     .SetValue(assetReferenceGameObject, m_debugName);
             AccessTools.Field(typeof(AssetReferenceGameObject), "m_AssetGUID")
                 .SetValue(assetReferenceGameObject, m_AssetGUID);
-            this.CharacterPrefabVariantRef = assetReferenceGameObject;
+            CharacterPrefabVariantRef = assetReferenceGameObject;
 
-            this.AssetPath = m_AssetGUID;
+            AssetPath = m_AssetGUID;
         }
 
         /// <summary>
@@ -372,7 +377,7 @@ namespace Trainworks.BuildersV2
         /// <param name="stackCount">Number of stacks to apply</param>
         public void AddStartingStatusEffect(string statusEffectID, int stackCount)
         {
-            this.StartingStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, this.StartingStatusEffects);
+            StartingStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, StartingStatusEffects);
         }
     }
 }

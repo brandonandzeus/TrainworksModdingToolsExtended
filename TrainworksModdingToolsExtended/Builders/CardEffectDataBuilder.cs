@@ -11,7 +11,6 @@ namespace Trainworks.BuildersV2
         /// Don't set directly; use EffectStateType instead.
         /// Type of the effect class to instantiate.
         /// </summary>
-        [JsonIgnore]
         public Type effectStateType;
 
         /// <summary>
@@ -20,11 +19,11 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public Type EffectStateType
         {
-            get { return this.effectStateType; }
+            get { return effectStateType; }
             set
             {
-                this.effectStateType = value;
-                this.EffectStateName = this.effectStateType.AssemblyQualifiedName;
+                effectStateType = value;
+                EffectStateName = effectStateType.AssemblyQualifiedName;
             }
         }
 
@@ -153,13 +152,13 @@ namespace Trainworks.BuildersV2
 
         public CardEffectDataBuilder()
         {
-            this.TargetTeamType = Team.Type.Heroes;
-            this.ShouldTest = true;
-            this.ParamMultiplier = 1f;
-            this.ParamStatusEffects = new StatusEffectStackData[0];
-            this.ParamTimingDelays = Vector3.zero;
-            this.AdditionalTooltips = new AdditionalTooltipData[0];
-            this.TargetModeStatusEffectsFilter = new string[0];
+            TargetTeamType = Team.Type.Heroes;
+            ShouldTest = true;
+            ParamMultiplier = 1f;
+            ParamStatusEffects = new StatusEffectStackData[0];
+            ParamTimingDelays = Vector3.zero;
+            AdditionalTooltips = new AdditionalTooltipData[0];
+            TargetModeStatusEffectsFilter = new string[0];
         }
 
         /// <summary>
@@ -169,53 +168,58 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardEffectData</returns>
         public CardEffectData Build()
         {
-            if (this.ParamCharacterDataBuilder != null)
+            if (ParamCharacterDataBuilder != null)
             {
-                this.ParamCharacterData = this.ParamCharacterDataBuilder.BuildAndRegister();
+                ParamCharacterData = ParamCharacterDataBuilder.BuildAndRegister();
             }
             CardEffectData cardEffectData = new CardEffectData();
-            AccessTools.Field(typeof(CardEffectData), "additionalParamInt").SetValue(cardEffectData, this.AdditionalParamInt);
-            AccessTools.Field(typeof(CardEffectData), "additionalTooltips").SetValue(cardEffectData, this.AdditionalTooltips);
-            AccessTools.Field(typeof(CardEffectData), "animToPlay").SetValue(cardEffectData, this.AnimToPlay);
-            AccessTools.Field(typeof(CardEffectData), "appliedToSelfVFX").SetValue(cardEffectData, this.AppliedToSelfVFX);
-            AccessTools.Field(typeof(CardEffectData), "appliedVFX").SetValue(cardEffectData, this.AppliedVFX);
-            AccessTools.Field(typeof(CardEffectData), "copyModifiersFromSource").SetValue(cardEffectData, this.CopyModifiersFromSource);
-            AccessTools.Field(typeof(CardEffectData), "effectStateName").SetValue(cardEffectData, this.EffectStateName);
-            AccessTools.Field(typeof(CardEffectData), "filterBasedOnMainSubClass").SetValue(cardEffectData, this.FilterBasedOnMainSubClass);
-            AccessTools.Field(typeof(CardEffectData), "hideTooltip").SetValue(cardEffectData, this.HideTooltip);
-            AccessTools.Field(typeof(CardEffectData), "ignoreTemporaryModifiersFromSource").SetValue(cardEffectData, this.IgnoreTemporaryModifiersFromSource);
-            AccessTools.Field(typeof(CardEffectData), "paramAdditionalCharacterData").SetValue(cardEffectData, this.ParamAdditionalCharacterData);
-            AccessTools.Field(typeof(CardEffectData), "paramBool").SetValue(cardEffectData, this.ParamBool);
-            AccessTools.Field(typeof(CardEffectData), "paramCardFilter").SetValue(cardEffectData, this.ParamCardFilter);
-            AccessTools.Field(typeof(CardEffectData), "paramCardPool").SetValue(cardEffectData, this.ParamCardPool);
+            AccessTools.Field(typeof(CardEffectData), "additionalParamInt").SetValue(cardEffectData, AdditionalParamInt);
+            AccessTools.Field(typeof(CardEffectData), "additionalTooltips").SetValue(cardEffectData, AdditionalTooltips);
+            AccessTools.Field(typeof(CardEffectData), "animToPlay").SetValue(cardEffectData, AnimToPlay);
+            AccessTools.Field(typeof(CardEffectData), "appliedToSelfVFX").SetValue(cardEffectData, AppliedToSelfVFX);
+            AccessTools.Field(typeof(CardEffectData), "appliedVFX").SetValue(cardEffectData, AppliedVFX);
+            AccessTools.Field(typeof(CardEffectData), "copyModifiersFromSource").SetValue(cardEffectData, CopyModifiersFromSource);
+            AccessTools.Field(typeof(CardEffectData), "effectStateName").SetValue(cardEffectData, EffectStateName);
+            AccessTools.Field(typeof(CardEffectData), "filterBasedOnMainSubClass").SetValue(cardEffectData, FilterBasedOnMainSubClass);
+            AccessTools.Field(typeof(CardEffectData), "hideTooltip").SetValue(cardEffectData, HideTooltip);
+            AccessTools.Field(typeof(CardEffectData), "ignoreTemporaryModifiersFromSource").SetValue(cardEffectData, IgnoreTemporaryModifiersFromSource);
+            AccessTools.Field(typeof(CardEffectData), "paramAdditionalCharacterData").SetValue(cardEffectData, ParamAdditionalCharacterData);
+            AccessTools.Field(typeof(CardEffectData), "paramBool").SetValue(cardEffectData, ParamBool);
+            AccessTools.Field(typeof(CardEffectData), "paramCardFilter").SetValue(cardEffectData, ParamCardFilter);
+            AccessTools.Field(typeof(CardEffectData), "paramCardPool").SetValue(cardEffectData, ParamCardPool);
             if (ParamCardUpgradeDataBuilder == null)
-                AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, this.ParamCardUpgradeData);
+            {
+                AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, ParamCardUpgradeData);
+            }
             else
-                AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, this.ParamCardUpgradeDataBuilder.Build());
-            AccessTools.Field(typeof(CardEffectData), "paramCharacterData").SetValue(cardEffectData, this.ParamCharacterData);
-            AccessTools.Field(typeof(CardEffectData), "paramCharacterDataPool").SetValue(cardEffectData, this.ParamCharacterDataPool);
-            AccessTools.Field(typeof(CardEffectData), "paramInt").SetValue(cardEffectData, this.ParamInt);
-            AccessTools.Field(typeof(CardEffectData), "paramMaxInt").SetValue(cardEffectData, this.ParamMaxInt);
-            AccessTools.Field(typeof(CardEffectData), "paramMinInt").SetValue(cardEffectData, this.ParamMinInt);
-            AccessTools.Field(typeof(CardEffectData), "paramMultiplier").SetValue(cardEffectData, this.ParamMultiplier);
-            AccessTools.Field(typeof(CardEffectData), "paramRoomData").SetValue(cardEffectData, this.ParamRoomData);
-            AccessTools.Field(typeof(CardEffectData), "paramStatusEffects").SetValue(cardEffectData, this.ParamStatusEffects);
-            AccessTools.Field(typeof(CardEffectData), "paramStr").SetValue(cardEffectData, this.ParamStr);
-            AccessTools.Field(typeof(CardEffectData), "paramSubtype").SetValue(cardEffectData, this.ParamSubtype);
-            AccessTools.Field(typeof(CardEffectData), "paramTimingDelays").SetValue(cardEffectData, this.ParamTimingDelays);
-            AccessTools.Field(typeof(CardEffectData), "paramTrigger").SetValue(cardEffectData, this.ParamTrigger);
-            AccessTools.Field(typeof(CardEffectData), "shouldTest").SetValue(cardEffectData, this.ShouldTest);
-            AccessTools.Field(typeof(CardEffectData), "statusEffectStackMultiplier").SetValue(cardEffectData, this.StatusEffectStackMultiplier);
-            AccessTools.Field(typeof(CardEffectData), "targetCardSelectionMode").SetValue(cardEffectData, this.TargetCardSelectionMode);
-            AccessTools.Field(typeof(CardEffectData), "targetCardType").SetValue(cardEffectData, this.TargetCardType);
-            AccessTools.Field(typeof(CardEffectData), "targetCharacterSubtype").SetValue(cardEffectData, this.TargetCharacterSubtype);
-            AccessTools.Field(typeof(CardEffectData), "targetIgnoreBosses").SetValue(cardEffectData, this.TargetIgnoreBosses);
-            AccessTools.Field(typeof(CardEffectData), "targetMode").SetValue(cardEffectData, this.TargetMode);
-            AccessTools.Field(typeof(CardEffectData), "targetModeHealthFilter").SetValue(cardEffectData, this.TargetModeHealthFilter);
-            AccessTools.Field(typeof(CardEffectData), "targetModeStatusEffectsFilter").SetValue(cardEffectData, this.TargetModeStatusEffectsFilter);
-            AccessTools.Field(typeof(CardEffectData), "targetTeamType").SetValue(cardEffectData, this.TargetTeamType);
-            AccessTools.Field(typeof(CardEffectData), "useIntRange").SetValue(cardEffectData, this.UseIntRange);
-            AccessTools.Field(typeof(CardEffectData), "useStatusEffectStackMultiplier").SetValue(cardEffectData, this.UseStatusEffectStackMultiplier);
+            {
+                AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, ParamCardUpgradeDataBuilder.Build());
+            }
+
+            AccessTools.Field(typeof(CardEffectData), "paramCharacterData").SetValue(cardEffectData, ParamCharacterData);
+            AccessTools.Field(typeof(CardEffectData), "paramCharacterDataPool").SetValue(cardEffectData, ParamCharacterDataPool);
+            AccessTools.Field(typeof(CardEffectData), "paramInt").SetValue(cardEffectData, ParamInt);
+            AccessTools.Field(typeof(CardEffectData), "paramMaxInt").SetValue(cardEffectData, ParamMaxInt);
+            AccessTools.Field(typeof(CardEffectData), "paramMinInt").SetValue(cardEffectData, ParamMinInt);
+            AccessTools.Field(typeof(CardEffectData), "paramMultiplier").SetValue(cardEffectData, ParamMultiplier);
+            AccessTools.Field(typeof(CardEffectData), "paramRoomData").SetValue(cardEffectData, ParamRoomData);
+            AccessTools.Field(typeof(CardEffectData), "paramStatusEffects").SetValue(cardEffectData, ParamStatusEffects);
+            AccessTools.Field(typeof(CardEffectData), "paramStr").SetValue(cardEffectData, ParamStr);
+            AccessTools.Field(typeof(CardEffectData), "paramSubtype").SetValue(cardEffectData, ParamSubtype);
+            AccessTools.Field(typeof(CardEffectData), "paramTimingDelays").SetValue(cardEffectData, ParamTimingDelays);
+            AccessTools.Field(typeof(CardEffectData), "paramTrigger").SetValue(cardEffectData, ParamTrigger);
+            AccessTools.Field(typeof(CardEffectData), "shouldTest").SetValue(cardEffectData, ShouldTest);
+            AccessTools.Field(typeof(CardEffectData), "statusEffectStackMultiplier").SetValue(cardEffectData, StatusEffectStackMultiplier);
+            AccessTools.Field(typeof(CardEffectData), "targetCardSelectionMode").SetValue(cardEffectData, TargetCardSelectionMode);
+            AccessTools.Field(typeof(CardEffectData), "targetCardType").SetValue(cardEffectData, TargetCardType);
+            AccessTools.Field(typeof(CardEffectData), "targetCharacterSubtype").SetValue(cardEffectData, TargetCharacterSubtype);
+            AccessTools.Field(typeof(CardEffectData), "targetIgnoreBosses").SetValue(cardEffectData, TargetIgnoreBosses);
+            AccessTools.Field(typeof(CardEffectData), "targetMode").SetValue(cardEffectData, TargetMode);
+            AccessTools.Field(typeof(CardEffectData), "targetModeHealthFilter").SetValue(cardEffectData, TargetModeHealthFilter);
+            AccessTools.Field(typeof(CardEffectData), "targetModeStatusEffectsFilter").SetValue(cardEffectData, TargetModeStatusEffectsFilter);
+            AccessTools.Field(typeof(CardEffectData), "targetTeamType").SetValue(cardEffectData, TargetTeamType);
+            AccessTools.Field(typeof(CardEffectData), "useIntRange").SetValue(cardEffectData, UseIntRange);
+            AccessTools.Field(typeof(CardEffectData), "useStatusEffectStackMultiplier").SetValue(cardEffectData, UseStatusEffectStackMultiplier);
             return cardEffectData;
         }
 
@@ -226,7 +230,7 @@ namespace Trainworks.BuildersV2
         /// <param name="stackCount">Number of stacks to apply</param>
         public CardEffectDataBuilder AddStatusEffect(string statusEffectID, int stackCount)
         {
-            this.ParamStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, this.ParamStatusEffects);
+            ParamStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, ParamStatusEffects);
             return this;
         }
     }

@@ -26,17 +26,17 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string CardID
         {
-            get { return this.cardID; }
+            get { return cardID; }
             set
             {
-                this.cardID = value;
-                if (this.NameKey == null)
+                cardID = value;
+                if (NameKey == null)
                 {
-                    this.NameKey = this.cardID + "_CardData_NameKey";
+                    NameKey = cardID + "_CardData_NameKey";
                 }
-                if (this.OverrideDescriptionKey == null)
+                if (OverrideDescriptionKey == null)
                 {
-                    this.OverrideDescriptionKey = this.cardID + "_CardData_OverrideDescriptionKey";
+                    OverrideDescriptionKey = cardID + "_CardData_OverrideDescriptionKey";
                 }
             }
         }
@@ -201,27 +201,27 @@ namespace Trainworks.BuildersV2
             UriBuilder uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
             string assemblyPath = Path.GetDirectoryName(path);
-            this.Name = "";
-            this.Description = "";
-            this.OverrideDescriptionKey = null;
+            Name = "";
+            Description = "";
+            OverrideDescriptionKey = null;
 
-            this.CardPoolIDs = new List<string>();
-            this.EffectBuilders = new List<CardEffectDataBuilder>();
-            this.TraitBuilders = new List<CardTraitDataBuilder>();
-            this.EffectTriggerBuilders = new List<CharacterTriggerDataBuilder>();
-            this.TriggerBuilders = new List<CardTriggerEffectDataBuilder>();
-            this.Effects = new List<CardEffectData>();
-            this.Traits = new List<CardTraitData>();
-            this.EffectTriggers = new List<CharacterTriggerData>();
-            this.Triggers = new List<CardTriggerEffectData>();
-            this.SharedMasteryCards = new List<CardData>();
-            this.StartingUpgrades = new List<CardUpgradeData>();
-            this.CardLoreTooltipKeys = new List<string>();
+            CardPoolIDs = new List<string>();
+            EffectBuilders = new List<CardEffectDataBuilder>();
+            TraitBuilders = new List<CardTraitDataBuilder>();
+            EffectTriggerBuilders = new List<CharacterTriggerDataBuilder>();
+            TriggerBuilders = new List<CardTriggerEffectDataBuilder>();
+            Effects = new List<CardEffectData>();
+            Traits = new List<CardTraitData>();
+            EffectTriggers = new List<CharacterTriggerData>();
+            Triggers = new List<CardTriggerEffectData>();
+            SharedMasteryCards = new List<CardData>();
+            StartingUpgrades = new List<CardUpgradeData>();
+            CardLoreTooltipKeys = new List<string>();
 
             var assembly = Assembly.GetCallingAssembly();
             if (PluginManager.AssemblyNameToPluginGUID.ContainsKey(assembly.FullName))
             {
-                this.BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
+                BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
             }
         }
 
@@ -232,9 +232,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly registered CardData</returns>
         public CardData BuildAndRegister()
         {
-            var cardData = this.Build();
+            var cardData = Build();
             Trainworks.Log(LogLevel.Debug, "Adding custom card: " + cardData.GetName());
-            CustomCardManager.RegisterCustomCard(cardData, this.CardPoolIDs);
+            CustomCardManager.RegisterCustomCard(cardData, CardPoolIDs);
 
             return cardData;
         }
@@ -246,94 +246,94 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardData</returns>
         public CardData Build()
         {
-            foreach (var builder in this.EffectBuilders)
+            foreach (var builder in EffectBuilders)
             {
-                this.Effects.Add(builder.Build());
+                Effects.Add(builder.Build());
             }
-            foreach (var builder in this.TraitBuilders)
+            foreach (var builder in TraitBuilders)
             {
-                this.Traits.Add(builder.Build());
+                Traits.Add(builder.Build());
             }
-            foreach (var builder in this.EffectTriggerBuilders)
+            foreach (var builder in EffectTriggerBuilders)
             {
-                this.EffectTriggers.Add(builder.Build());
+                EffectTriggers.Add(builder.Build());
             }
-            foreach (var builder in this.TriggerBuilders)
+            foreach (var builder in TriggerBuilders)
             {
-                this.Triggers.Add(builder.Build());
+                Triggers.Add(builder.Build());
             }
 
             var allGameData = ProviderManager.SaveManager.GetAllGameData();
-            if (this.LinkedClass == null)
+            if (LinkedClass == null)
             {
-                this.LinkedClass = CustomClassManager.GetClassDataByID(this.ClanID);
+                LinkedClass = CustomClassManager.GetClassDataByID(ClanID);
             }
             CardData cardData = ScriptableObject.CreateInstance<CardData>();
-            var guid = GUIDGenerator.GenerateDeterministicGUID(this.CardID);
+            var guid = GUIDGenerator.GenerateDeterministicGUID(CardID);
             AccessTools.Field(typeof(CardData), "id").SetValue(cardData, guid);
-            cardData.name = this.CardID;
-            if (this.CardArtPrefabVariantRef == null)
+            cardData.name = CardID;
+            if (CardArtPrefabVariantRef == null)
             {
-                if (this.CardArtPrefabVariantRefBuilder == null)
+                if (CardArtPrefabVariantRefBuilder == null)
                 {
-                    if (this.BundleLoadingInfo != null)
+                    if (BundleLoadingInfo != null)
                     {
-                        this.BundleLoadingInfo.PluginPath = this.BaseAssetPath;
-                        this.CardArtPrefabVariantRefBuilder = new Builders.AssetRefBuilder
+                        BundleLoadingInfo.PluginPath = BaseAssetPath;
+                        CardArtPrefabVariantRefBuilder = new Builders.AssetRefBuilder
                         {
-                            AssetLoadingInfo = this.BundleLoadingInfo
+                            AssetLoadingInfo = BundleLoadingInfo
                         };
                     }
                     else
                     {
                         var assetLoadingInfo = new AssetLoadingInfo()
                         {
-                            FilePath = this.AssetPath,
-                            PluginPath = this.BaseAssetPath,
+                            FilePath = AssetPath,
+                            PluginPath = BaseAssetPath,
                             AssetType = Builders.AssetRefBuilder.AssetTypeEnum.CardArt
                         };
-                        this.CardArtPrefabVariantRefBuilder = new Builders.AssetRefBuilder
+                        CardArtPrefabVariantRefBuilder = new Builders.AssetRefBuilder
                         {
                             AssetLoadingInfo = assetLoadingInfo
                         };
                     }
                 }
-                this.CardArtPrefabVariantRef = this.CardArtPrefabVariantRefBuilder.BuildAndRegister();
+                CardArtPrefabVariantRef = CardArtPrefabVariantRefBuilder.BuildAndRegister();
             }
-            AccessTools.Field(typeof(CardData), "cardArtPrefabVariantRef").SetValue(cardData, this.CardArtPrefabVariantRef);
-            AccessTools.Field(typeof(CardData), "cardLoreTooltipKeys").SetValue(cardData, this.CardLoreTooltipKeys);
-            AccessTools.Field(typeof(CardData), "cardType").SetValue(cardData, this.CardType);
-            AccessTools.Field(typeof(CardData), "cost").SetValue(cardData, this.Cost);
-            AccessTools.Field(typeof(CardData), "costType").SetValue(cardData, this.CostType);
-            AccessTools.Field(typeof(CardData), "effects").SetValue(cardData, this.Effects);
-            AccessTools.Field(typeof(CardData), "effectTriggers").SetValue(cardData, this.EffectTriggers);
-            AccessTools.Field(typeof(CardData), "fallbackData").SetValue(cardData, this.FallbackData);
-            AccessTools.Field(typeof(CardData), "ignoreWhenCountingMastery").SetValue(cardData, this.IgnoreWhenCountingMastery);
-            AccessTools.Field(typeof(CardData), "initialKeyboardTarget").SetValue(cardData, this.InitialKeyboardTarget);
-            AccessTools.Field(typeof(CardData), "linkedClass").SetValue(cardData, this.LinkedClass);
-            AccessTools.Field(typeof(CardData), "linkedMasteryCard").SetValue(cardData, this.LinkedMasteryCard);
-            AccessTools.Field(typeof(CardData), "nameKey").SetValue(cardData, this.NameKey);
-            AccessTools.Field(typeof(CardData), "overrideDescriptionKey").SetValue(cardData, this.OverrideDescriptionKey);
-            AccessTools.Field(typeof(CardData), "rarity").SetValue(cardData, this.Rarity);
-            AccessTools.Field(typeof(CardData), "requiredDLC").SetValue(cardData, this.RequiredDLC);
-            AccessTools.Field(typeof(CardData), "sharedMasteryCards").SetValue(cardData, this.SharedMasteryCards);
-            if (this.SpriteCache != null)
+            AccessTools.Field(typeof(CardData), "cardArtPrefabVariantRef").SetValue(cardData, CardArtPrefabVariantRef);
+            AccessTools.Field(typeof(CardData), "cardLoreTooltipKeys").SetValue(cardData, CardLoreTooltipKeys);
+            AccessTools.Field(typeof(CardData), "cardType").SetValue(cardData, CardType);
+            AccessTools.Field(typeof(CardData), "cost").SetValue(cardData, Cost);
+            AccessTools.Field(typeof(CardData), "costType").SetValue(cardData, CostType);
+            AccessTools.Field(typeof(CardData), "effects").SetValue(cardData, Effects);
+            AccessTools.Field(typeof(CardData), "effectTriggers").SetValue(cardData, EffectTriggers);
+            AccessTools.Field(typeof(CardData), "fallbackData").SetValue(cardData, FallbackData);
+            AccessTools.Field(typeof(CardData), "ignoreWhenCountingMastery").SetValue(cardData, IgnoreWhenCountingMastery);
+            AccessTools.Field(typeof(CardData), "initialKeyboardTarget").SetValue(cardData, InitialKeyboardTarget);
+            AccessTools.Field(typeof(CardData), "linkedClass").SetValue(cardData, LinkedClass);
+            AccessTools.Field(typeof(CardData), "linkedMasteryCard").SetValue(cardData, LinkedMasteryCard);
+            AccessTools.Field(typeof(CardData), "nameKey").SetValue(cardData, NameKey);
+            AccessTools.Field(typeof(CardData), "overrideDescriptionKey").SetValue(cardData, OverrideDescriptionKey);
+            AccessTools.Field(typeof(CardData), "rarity").SetValue(cardData, Rarity);
+            AccessTools.Field(typeof(CardData), "requiredDLC").SetValue(cardData, RequiredDLC);
+            AccessTools.Field(typeof(CardData), "sharedMasteryCards").SetValue(cardData, SharedMasteryCards);
+            if (SpriteCache != null)
             {
-                AccessTools.Field(typeof(CardData), "spriteCache").SetValue(cardData, this.SpriteCache);
+                AccessTools.Field(typeof(CardData), "spriteCache").SetValue(cardData, SpriteCache);
             }
-            AccessTools.Field(typeof(CardData), "startingUpgrades").SetValue(cardData, this.StartingUpgrades);
-            AccessTools.Field(typeof(CardData), "targetless").SetValue(cardData, this.Targetless);
-            AccessTools.Field(typeof(CardData), "targetsRoom").SetValue(cardData, this.TargetsRoom);
-            foreach (CardTraitData cardTraitData in this.Traits)
+            AccessTools.Field(typeof(CardData), "startingUpgrades").SetValue(cardData, StartingUpgrades);
+            AccessTools.Field(typeof(CardData), "targetless").SetValue(cardData, Targetless);
+            AccessTools.Field(typeof(CardData), "targetsRoom").SetValue(cardData, TargetsRoom);
+            foreach (CardTraitData cardTraitData in Traits)
             {
                 AccessTools.Field(typeof(CardTraitData), "paramCardData").SetValue(cardTraitData, cardData);
             }
-            AccessTools.Field(typeof(CardData), "traits").SetValue(cardData, this.Traits);
-            AccessTools.Field(typeof(CardData), "triggers").SetValue(cardData, this.Triggers);
-            AccessTools.Field(typeof(CardData), "unlockLevel").SetValue(cardData, this.UnlockLevel);
+            AccessTools.Field(typeof(CardData), "traits").SetValue(cardData, Traits);
+            AccessTools.Field(typeof(CardData), "triggers").SetValue(cardData, Triggers);
+            AccessTools.Field(typeof(CardData), "unlockLevel").SetValue(cardData, UnlockLevel);
 
-            BuilderUtils.ImportStandardLocalization(this.NameKey, this.Name);
-            BuilderUtils.ImportStandardLocalization(this.OverrideDescriptionKey, this.Description);
+            BuilderUtils.ImportStandardLocalization(NameKey, Name);
+            BuilderUtils.ImportStandardLocalization(OverrideDescriptionKey, Description);
 
             return cardData;
         }
@@ -352,9 +352,9 @@ namespace Trainworks.BuildersV2
                     .SetValue(assetReferenceGameObject, m_debugName);
             AccessTools.Field(typeof(AssetReferenceGameObject), "m_AssetGUID")
                 .SetValue(assetReferenceGameObject, m_AssetGUID);
-            this.CardArtPrefabVariantRef = assetReferenceGameObject;
+            CardArtPrefabVariantRef = assetReferenceGameObject;
 
-            this.AssetPath = m_AssetGUID;
+            AssetPath = m_AssetGUID;
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace Trainworks.BuildersV2
         /// <param name="clanID">ID of the clan, most easily retrieved using the helper class "VanillaClanIDs"</param>
         public void SetClan(string clanID)
         {
-            this.ClanID = clanID;
+            ClanID = clanID;
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace Trainworks.BuildersV2
         /// <param name="cardPoolID">ID of the card pool, most easily retrieved using the helper class "VanillaCardPoolIDs"</param>
         public void AddToCardPool(string cardPoolID)
         {
-            this.CardPoolIDs.Add(cardPoolID);
+            CardPoolIDs.Add(cardPoolID);
         }
     }
 }

@@ -20,17 +20,17 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string MutatorID
         {
-            get { return this.mutatorID; }
+            get { return mutatorID; }
             set
             {
-                this.mutatorID = value;
-                if (this.NameKey == null)
+                mutatorID = value;
+                if (NameKey == null)
                 {
-                    this.NameKey = this.mutatorID + "_MutatorData_NameKey";
+                    NameKey = mutatorID + "_MutatorData_NameKey";
                 }
-                if (this.DescriptionKey == null)
+                if (DescriptionKey == null)
                 {
-                    this.DescriptionKey = this.mutatorID + "_MutatorData_DescriptionKey";
+                    DescriptionKey = mutatorID + "_MutatorData_DescriptionKey";
                 }
             }
         }
@@ -106,19 +106,19 @@ namespace Trainworks.BuildersV2
         public MutatorDataBuilder()
         {
 
-            this.Name = "";
-            this.Description = null;
-            this.Effects = new List<RelicEffectData>();
-            this.EffectBuilders = new List<Builders.RelicEffectDataBuilder>();
-            this.RelicActivatedKey = "";
-            this.RelicLoreTooltipKeys = new List<string>();
-            this.BoonValue = 0;
-            this.DisableInDailyChallenges = false;
-            this.RequiredDLC = ShinyShoe.DLC.None;
-            this.Tags = new List<string>();
+            Name = "";
+            Description = null;
+            Effects = new List<RelicEffectData>();
+            EffectBuilders = new List<Builders.RelicEffectDataBuilder>();
+            RelicActivatedKey = "";
+            RelicLoreTooltipKeys = new List<string>();
+            BoonValue = 0;
+            DisableInDailyChallenges = false;
+            RequiredDLC = ShinyShoe.DLC.None;
+            Tags = new List<string>();
 
             var assembly = Assembly.GetCallingAssembly();
-            this.BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
+            BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly registered RelicData</returns>
         public MutatorData BuildAndRegister()
         {
-            var mutatorData = this.Build();
+            var mutatorData = Build();
             CustomMutatorManager.RegisterCustomMutator(mutatorData);
             return mutatorData;
         }
@@ -140,34 +140,34 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RelicData</returns>
         public MutatorData Build()
         {
-            foreach (var builder in this.EffectBuilders)
+            foreach (var builder in EffectBuilders)
             {
-                this.Effects.Add(builder.Build());
+                Effects.Add(builder.Build());
             }
 
             var relicData = ScriptableObject.CreateInstance<MutatorData>();
 
-            AccessTools.Field(typeof(GameData), "id").SetValue(relicData, this.MutatorID);
-            relicData.name = this.MutatorID;
+            AccessTools.Field(typeof(GameData), "id").SetValue(relicData, MutatorID);
+            relicData.name = MutatorID;
             // RelicData fields
-            BuilderUtils.ImportStandardLocalization(this.DescriptionKey, this.Description);
-            AccessTools.Field(typeof(RelicData), "descriptionKey").SetValue(relicData, this.DescriptionKey);
-            AccessTools.Field(typeof(RelicData), "effects").SetValue(relicData, this.Effects);
-            if (this.IconPath != null)
+            BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
+            AccessTools.Field(typeof(RelicData), "descriptionKey").SetValue(relicData, DescriptionKey);
+            AccessTools.Field(typeof(RelicData), "effects").SetValue(relicData, Effects);
+            if (IconPath != null)
             {
-                Sprite iconSprite = CustomAssetManager.LoadSpriteFromPath(this.FullAssetPath);
+                Sprite iconSprite = CustomAssetManager.LoadSpriteFromPath(FullAssetPath);
                 AccessTools.Field(typeof(RelicData), "icon").SetValue(relicData, iconSprite);
             }
-            BuilderUtils.ImportStandardLocalization(this.NameKey, this.Name);
-            AccessTools.Field(typeof(RelicData), "nameKey").SetValue(relicData, this.NameKey);
-            AccessTools.Field(typeof(RelicData), "relicActivatedKey").SetValue(relicData, this.RelicActivatedKey);
-            AccessTools.Field(typeof(RelicData), "relicLoreTooltipKeys").SetValue(relicData, this.RelicLoreTooltipKeys);
+            BuilderUtils.ImportStandardLocalization(NameKey, Name);
+            AccessTools.Field(typeof(RelicData), "nameKey").SetValue(relicData, NameKey);
+            AccessTools.Field(typeof(RelicData), "relicActivatedKey").SetValue(relicData, RelicActivatedKey);
+            AccessTools.Field(typeof(RelicData), "relicLoreTooltipKeys").SetValue(relicData, RelicLoreTooltipKeys);
 
             // MutatorData fields
-            AccessTools.Field(typeof(MutatorData), "boonValue").SetValue(relicData, this.BoonValue);
-            AccessTools.Field(typeof(MutatorData), "tags").SetValue(relicData, this.Tags);
-            AccessTools.Field(typeof(MutatorData), "disableInDailyChallenges").SetValue(relicData, this.DisableInDailyChallenges);
-            AccessTools.Field(typeof(MutatorData), "requiredDLC").SetValue(relicData, this.RequiredDLC);
+            AccessTools.Field(typeof(MutatorData), "boonValue").SetValue(relicData, BoonValue);
+            AccessTools.Field(typeof(MutatorData), "tags").SetValue(relicData, Tags);
+            AccessTools.Field(typeof(MutatorData), "disableInDailyChallenges").SetValue(relicData, DisableInDailyChallenges);
+            AccessTools.Field(typeof(MutatorData), "requiredDLC").SetValue(relicData, RequiredDLC);
             return relicData;
         }
     }
