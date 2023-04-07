@@ -10,7 +10,9 @@ namespace Trainworks.BuildersV2
     /// </summary>
     public class CharacterChatterDataBuilder
     {
-        // Must be a unique name.
+        /// <summary>
+        /// Chatter ID, this must be a unique id.
+        /// </summary>
         public string ChatterID { get; set; }
 
         /// <summary>

@@ -9,10 +9,7 @@ namespace Trainworks.BuildersV2
 {
     public class CardUpgradeDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use UpgradeTitle instead.
-        /// </summary>
-        public string upgradeTitle;
+        private string upgradeTitle;
 
         /// <summary>
         /// Overrides UpgradeTitleKey

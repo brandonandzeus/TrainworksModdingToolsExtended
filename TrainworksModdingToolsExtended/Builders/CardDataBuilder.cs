@@ -13,12 +13,7 @@ namespace Trainworks.BuildersV2
 {
     public class CardDataBuilder
     {
-
-        /// <summary>
-        /// Don't set directly; use CardID instead.
-        /// Unique string used to store and retrieve the card data.
-        /// </summary>
-        public string cardID;
+        private string cardID;
 
         /// <summary>
         /// Unique string used to store and retrieve the card data.

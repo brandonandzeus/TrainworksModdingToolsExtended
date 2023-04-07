@@ -9,7 +9,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Don't set directly; use Trigger instead.
         /// </summary>
-        public CardTriggerType trigger;
+        private CardTriggerType trigger;
 
         /// <summary>
         /// Implicitly sets DescriptionKey if null.

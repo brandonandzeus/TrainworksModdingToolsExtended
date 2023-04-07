@@ -8,11 +8,7 @@ namespace Trainworks.BuildersV2
 {
     public class MutatorDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use MutatorID instead.
-        /// Unique string used to store and retrieve the mutator data.
-        /// </summary>
-        public string mutatorID;
+        private string mutatorID;
 
         /// <summary>
         /// Unique string used to store and retrieve the mutator data.
@@ -60,8 +56,7 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string IconPath { get; set; }
 
-        // TODO port RelicEffectDataBuilder
-        public List<Builders.RelicEffectDataBuilder> EffectBuilders { get; set; }
+        public List<RelicEffectDataBuilder> EffectBuilders { get; set; }
         public List<RelicEffectData> Effects { get; set; }
 
         public string RelicActivatedKey { get; set; }
@@ -95,7 +90,7 @@ namespace Trainworks.BuildersV2
         public bool DisableInDailyChallenges { get; set; }
 
         /// <summary>
-        /// The full, absolute path to the asset. Concatenates BaseAssetPath and IconPath.
+        /// The full, absolute path to the asset.
         /// </summary>
         public string FullAssetPath => BaseAssetPath + "/" + IconPath;
         /// <summary>
@@ -109,7 +104,7 @@ namespace Trainworks.BuildersV2
             Name = "";
             Description = null;
             Effects = new List<RelicEffectData>();
-            EffectBuilders = new List<Builders.RelicEffectDataBuilder>();
+            EffectBuilders = new List<RelicEffectDataBuilder>();
             RelicActivatedKey = "";
             RelicLoreTooltipKeys = new List<string>();
             BoonValue = 0;

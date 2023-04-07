@@ -8,11 +8,7 @@ namespace Trainworks.BuildersV2
 {
     public class CollectableRelicDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use CardID instead.
-        /// Unique string used to store and retrieve the relic data.
-        /// </summary>
-        public string collectableRelicID;
+        private string collectableRelicID;
 
         /// <summary>
         /// Unique string used to store and retrieve the relic data.
@@ -84,7 +80,7 @@ namespace Trainworks.BuildersV2
         public bool IsBossGivenRelic { get; set; }
 
         /// <summary>
-        /// The full, absolute path to the asset. Concatenates BaseAssetPath and IconPath.
+        /// The full, absolute path to the asset.
         /// </summary>
         public string FullAssetPath => BaseAssetPath + "/" + IconPath;
         /// <summary>
@@ -98,7 +94,6 @@ namespace Trainworks.BuildersV2
 
         public CollectableRelicDataBuilder()
         {
-
             Name = "";
             Description = null;
             Effects = new List<RelicEffectData>();

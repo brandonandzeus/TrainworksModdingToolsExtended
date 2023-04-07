@@ -57,9 +57,25 @@ namespace Trainworks.BuildersV2
             }
         }
 
+        /// <summary>
+        /// This description.
+        /// Note if this is set this will set the localized text across all languages
+        /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// This description in play.
+        /// Note if this is set this will set the localized text across all languages
+        /// </summary>
         public string DescriptionInPlay { get; set; }
+        /// <summary>
+        /// This is the Extra Tooltip Body text.
+        /// Note if this is set this will set the localized text across all languages
+        /// </summary>
         public string ExtraTooltipBody { get; set; }
+        /// <summary>
+        /// This is the Extra Tooltip Title.
+        /// Note if this is set this will set the localized text across all languages
+        /// </summary>
         public string ExtraTooltipTitle { get; set; }
         /// <summary>
         /// Localization key for description. Default value is [RoomModifierClassName]_RoomModifierData_DescriptionKey.

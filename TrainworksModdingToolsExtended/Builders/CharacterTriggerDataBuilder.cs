@@ -6,10 +6,7 @@ namespace Trainworks.BuildersV2
     // Note code is unchanged from Trainworks Modding Tools.
     public class CharacterTriggerDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use Trigger instead.
-        /// </summary>
-        public CharacterTriggerData.Trigger trigger;
+        private CharacterTriggerData.Trigger trigger;
 
         /// <summary>
         /// Implicitly sets DescriptionKey and AdditionalTextOnTriggerKey if null.
@@ -41,11 +38,13 @@ namespace Trainworks.BuildersV2
         public List<CardEffectData> Effects { get; set; }
 
         /// <summary>
-        /// Overrides DescriptionKey
+        /// Description displayed for the relic.
+        /// Note that setting this field will set the localization for all langauges.
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        /// Overrides AdditionalTextOnTrigger
+        /// Additional Text on Trigger
+        /// Note that setting this field will set the localization for all langauges.
         /// </summary>
         public string AdditionalTextOnTrigger { get; set; }
 

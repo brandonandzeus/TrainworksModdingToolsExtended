@@ -5,11 +5,7 @@ namespace Trainworks.BuildersV2
 {
     public class CardTraitDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use TraitStateType instead.
-        /// Type of the trait class to instantiate.
-        /// </summary>
-        public Type traitStateType;
+        private Type traitStateType;
 
         /// <summary>
         /// Type of the trait class to instantiate.

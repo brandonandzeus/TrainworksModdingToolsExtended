@@ -7,11 +7,7 @@ namespace Trainworks.BuildersV2
 {
     public class CardEffectDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use EffectStateType instead.
-        /// Type of the effect class to instantiate.
-        /// </summary>
-        public Type effectStateType;
+        private Type effectStateType;
 
         /// <summary>
         /// Type of the effect class to instantiate.

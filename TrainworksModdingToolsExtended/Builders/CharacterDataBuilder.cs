@@ -11,11 +11,7 @@ namespace Trainworks.BuildersV2
 {
     public class CharacterDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use CharacterID instead.
-        /// Unique string used to store and retrieve the character data.
-        /// </summary>
-        public string characterID;
+        private string characterID;
 
         /// <summary>
         /// Unique string used to store and retrieve the character data.
