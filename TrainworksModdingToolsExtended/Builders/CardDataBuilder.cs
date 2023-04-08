@@ -56,6 +56,7 @@ namespace Trainworks.BuildersV2
         public string Name { get; set; }
         /// <summary>
         /// Localization key for the card's name.
+        /// You shouldn't need to set this directly as its set by CardID
         /// </summary>
         public string NameKey { get; set; }
         /// <summary>
@@ -141,6 +142,12 @@ namespace Trainworks.BuildersV2
         public List<CardUpgradeData> StartingUpgrades { get; set; }
 
         /// <summary>
+        /// StartingUpgrades as a list of CardUpgradeDataBuilder for convienence.
+        /// These will be appended to StartingUpgrades.
+        /// </summary>
+        public List<CardUpgradeDataBuilder> StartingUpgradeBuilders { get; set; }
+
+        /// <summary>
         /// Use an existing base game card's lore tooltip by adding its key to this list.
         /// </summary>
         public List<string> CardLoreTooltipKeys { get; set; }
@@ -211,6 +218,7 @@ namespace Trainworks.BuildersV2
             Triggers = new List<CardTriggerEffectData>();
             SharedMasteryCards = new List<CardData>();
             StartingUpgrades = new List<CardUpgradeData>();
+            StartingUpgradeBuilders = new List<CardUpgradeDataBuilder>();
             CardLoreTooltipKeys = new List<string>();
 
             var assembly = Assembly.GetCallingAssembly();
@@ -256,6 +264,10 @@ namespace Trainworks.BuildersV2
             foreach (var builder in TriggerBuilders)
             {
                 Triggers.Add(builder.Build());
+            }
+            foreach (var builder in StartingUpgradeBuilders)
+            {
+                StartingUpgrades.Add(builder.Build());
             }
 
             var allGameData = ProviderManager.SaveManager.GetAllGameData();
