@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Trainworks.ConstantsV2
+﻿namespace Trainworks.ConstantsV2
 {
     /// <summary>
     /// Trial IDs, Trials are the challenges given in each non major boss rings.

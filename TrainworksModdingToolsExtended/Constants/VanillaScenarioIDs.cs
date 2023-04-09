@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Trainworks.ConstantsV2
+﻿namespace Trainworks.ConstantsV2
 {
     /// <summary>
     /// Constants for the Scenario IDs. Scenarios are just Battles.
