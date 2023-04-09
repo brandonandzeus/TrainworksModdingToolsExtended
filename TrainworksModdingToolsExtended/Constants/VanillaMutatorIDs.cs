@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Trainworks.ConstantsV2
 {
-    class VanillaMutatorIDs
+    public static class VanillaMutatorIDs
     {
         /// <summary>
         /// Asset name: AfterBattleBlessing
