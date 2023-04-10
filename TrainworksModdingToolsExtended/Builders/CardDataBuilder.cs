@@ -332,23 +332,5 @@ namespace Trainworks.BuildersV2
 
             AssetPath = m_AssetGUID;
         }
-
-        /// <summary>
-        /// Sets this card's clan to the clan whose ID is passed in
-        /// </summary>
-        /// <param name="clanID">ID of the clan, most easily retrieved using the helper class "VanillaClanIDs"</param>
-        public void SetClan(string clanID)
-        {
-            ClanID = clanID;
-        }
-
-        /// <summary>
-        /// Adds this card to the cardpool whose ID is passed in
-        /// </summary>
-        /// <param name="cardPoolID">ID of the card pool, most easily retrieved using the helper class "VanillaCardPoolIDs"</param>
-        public void AddToCardPool(string cardPoolID)
-        {
-            CardPoolIDs.Add(cardPoolID);
-        }
     }
 }

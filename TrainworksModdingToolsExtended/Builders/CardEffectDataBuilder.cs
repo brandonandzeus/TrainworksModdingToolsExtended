@@ -149,10 +149,10 @@ namespace Trainworks.BuildersV2
             TargetTeamType = Team.Type.Heroes;
             ShouldTest = true;
             ParamMultiplier = 1f;
-            ParamStatusEffects = new StatusEffectStackData[0];
+            ParamStatusEffects = Array.Empty<StatusEffectStackData>();
             ParamTimingDelays = Vector3.zero;
-            AdditionalTooltips = new AdditionalTooltipData[0];
-            TargetModeStatusEffectsFilter = new string[0];
+            AdditionalTooltips = Array.Empty<AdditionalTooltipData>();
+            TargetModeStatusEffectsFilter = Array.Empty<string>();
         }
 
         /// <summary>
@@ -217,17 +217,6 @@ namespace Trainworks.BuildersV2
                 characterDataPool.Add(character.BuildAndRegister());
 
             return cardEffectData;
-        }
-
-        /// <summary>
-        /// Add a status effect to this effect's status effect array.
-        /// </summary>
-        /// <param name="statusEffectID">ID of the status effect, most easily retrieved using the helper class "VanillaStatusEffectIDs"</param>
-        /// <param name="stackCount">Number of stacks to apply</param>
-        public CardEffectDataBuilder AddStatusEffect(string statusEffectID, int stackCount)
-        {
-            ParamStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, ParamStatusEffects);
-            return this;
         }
     }
 }
