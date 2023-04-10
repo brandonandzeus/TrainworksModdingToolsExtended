@@ -57,10 +57,8 @@ namespace Trainworks.BuildersV2
 
         public List<CharacterChatterData.ChatterExpressionData> GetChatterExpressionData(List<string> keys)
         {
-            if (keys.Count == 0)
-            {
+            if (keys.IsNullOrEmpty())
                 return null;
-            }
 
             List<CharacterChatterData.ChatterExpressionData> expressions = new List<CharacterChatterData.ChatterExpressionData>();
 
