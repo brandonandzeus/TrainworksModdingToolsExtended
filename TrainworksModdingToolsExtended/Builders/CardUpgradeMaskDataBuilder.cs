@@ -8,6 +8,7 @@ namespace Trainworks.BuildersV2
     // Adopted from ThreeFishes's Equestrian Clan.
     public class CardUpgradeMaskDataBuilder
     {
+        public string CardUpgradeMaskDataID { get; set; }
         public CardType CardType { get; set; } = CardType.Invalid;
         public List<string> RequiredSubtypes { get; set; } = new List<string>();
         public List<string> ExcludedSubtypes { get; set; } = new List<string>();
@@ -56,7 +57,7 @@ namespace Trainworks.BuildersV2
         public CardUpgradeMaskData Build()
         {
             CardUpgradeMaskData cardUpgradeMaskData = ScriptableObject.CreateInstance<CardUpgradeMaskData>();
-
+            cardUpgradeMaskData.name = CardUpgradeMaskDataID;
             Type realEnumType = AccessTools.Inner(typeof(CardUpgradeMaskData), "CompareOperator");
             AccessTools.Field(typeof(CardUpgradeMaskData), "allowedCardPools").SetValue(cardUpgradeMaskData, AllowedCardPools);
             AccessTools.Field(typeof(CardUpgradeMaskData), "cardType").SetValue(cardUpgradeMaskData, CardType);
