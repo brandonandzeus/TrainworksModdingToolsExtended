@@ -1,8 +1,5 @@
-﻿using BepInEx.Logging;
-using HarmonyLib;
-using System;
+﻿using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using Trainworks.Managers;
 using Trainworks.Utilities;
@@ -40,7 +37,6 @@ namespace Trainworks.BuildersV2
         /// The IDs of all card pools the card should be inserted into.
         /// </summary>
         public List<string> CardPoolIDs { get; set; }
-
         /// <summary>
         /// Ember cost of the card.
         /// </summary>
@@ -56,38 +52,37 @@ namespace Trainworks.BuildersV2
         public string Name { get; set; }
         /// <summary>
         /// Localization key for the card's name.
-        /// You shouldn't need to set this directly as its set by CardID
+        /// You shouldn't need to set this directly as its automatically set by CardID
         /// </summary>
         public string NameKey { get; set; }
         /// <summary>
         /// Custom description text appended to the end of the card.
         /// Note this is set for all langauges if set.
-        /// Overridden by the OverrideDescriptionKey field.
         /// </summary>
         public string Description { get; set; }
         /// <summary>
         /// Localization key for the card's description.
+        /// You shouldn't need to set this as its automatically set by CardID.
         /// </summary>
         public string OverrideDescriptionKey { get; set; }
-
         /// <summary>
         /// ID of the clan the card is a part of. Leave null for clanless.
         /// Base game clan IDs should be retrieved via helper class "VanillaClanIDs".
+        /// If using a custom clan ID, the custom clan must be built first.
         /// </summary>
         public string ClanID { get; set; }
-
         /// <summary>
-        /// The full, absolute path to the asset. Concatenates BaseAssetPath and AssetPath.
+        /// The full, absolute path to the asset.
         /// </summary>
         public string FullAssetPath => BaseAssetPath + "/" + AssetPath;
         /// <summary>
         /// Set automatically in the constructor. Base asset path, usually the plugin directory.
         /// </summary>
-        public string BaseAssetPath { get; set; }
+        public string BaseAssetPath { get; private set; }
         /// <summary>
-        /// Custom asset path to load from. Must be inside the BaseAssetPath.
+        /// Custom asset path to load from relative to the plugin's path
         /// </summary>
-        public string AssetPath { get; set; } = "";
+        public string AssetPath { get; set; }
         /// <summary>
         /// Loading Info for loading a card's sprite from an asset bundle.
         /// </summary>
@@ -96,29 +91,26 @@ namespace Trainworks.BuildersV2
         /// Use an existing base game card's art by filling this in with the appropriate card's asset reference information.
         /// </summary>
         public AssetReferenceGameObject CardArtPrefabVariantRef { get; set; }
-
         /// <summary>
-        /// Append to this list to add new card effects. The Build() method recursively builds all nested builders.
+        /// Convenience Builder for Traits. Will be appended to this list of new card effects.
         /// </summary>
         public List<CardEffectDataBuilder> EffectBuilders { get; set; }
         /// <summary>
-        /// Append to this list to add new card traits. The Build() method recursively builds all nested builders.
+        /// Convenience Builder for Traits. Will be appended to this list of new card traits.
         /// </summary>
         public List<CardTraitDataBuilder> TraitBuilders { get; set; }
         /// <summary>
-        /// Append to this list to add new character triggers. The Build() method recursively builds all nested builders.
+        /// Convenience Builder for Triggers. Will be appended to this list of new character triggers.
         /// </summary>
         public List<CharacterTriggerDataBuilder> EffectTriggerBuilders { get; set; }
         /// <summary>
-        /// Append to this list to add new card triggers. The Build() method recursively builds all nested builders.
+        /// Convenience Builder for Triggers. Will be appended to this list of new card triggers.
         /// </summary>
         public List<CardTriggerEffectDataBuilder> TriggerBuilders { get; set; }
         /// <summary>
-        /// Set CardArtPrefabVariantRef without reflection. The Build() method recursively builds all nested builders.
+        /// Set CardArtPrefabVariantRef without reflection.
         /// </summary>
         public Builders.AssetRefBuilder CardArtPrefabVariantRefBuilder { get; set; }
-
-
         /// <summary>
         /// List of pre-built card effects.
         /// </summary>
@@ -135,23 +127,19 @@ namespace Trainworks.BuildersV2
         /// List of pre-built card triggers.
         /// </summary>
         public List<CardTriggerEffectData> Triggers { get; set; }
-
         /// <summary>
         /// These upgrades are applied to all new instances of this card by default.
         /// </summary>
         public List<CardUpgradeData> StartingUpgrades { get; set; }
-
         /// <summary>
         /// StartingUpgrades as a list of CardUpgradeDataBuilder for convienence.
         /// These will be appended to StartingUpgrades.
         /// </summary>
         public List<CardUpgradeDataBuilder> StartingUpgradeBuilders { get; set; }
-
         /// <summary>
         /// Use an existing base game card's lore tooltip by adding its key to this list.
         /// </summary>
         public List<string> CardLoreTooltipKeys { get; set; }
-
         /// <summary>
         /// Whether or not the card has a target.
         /// </summary>
@@ -160,11 +148,6 @@ namespace Trainworks.BuildersV2
         /// Whether or not the card targets a room.
         /// </summary>
         public bool TargetsRoom { get; set; }
-
-        /// <summary>
-        /// The class associated with the card.
-        /// </summary>
-        public ClassData LinkedClass { get; set; }
         /// <summary>
         /// The type of card: Spell, Monster, Blight, Scourge, or Invalid.
         /// </summary>
@@ -173,7 +156,6 @@ namespace Trainworks.BuildersV2
         /// The card's rarity: Common, Uncommon, Rare, Champion, Starter
         /// </summary>
         public CollectableRarity Rarity { get; set; }
-
         /// <summary>
         /// Level at which the card is unlocked.
         /// </summary>
@@ -184,29 +166,15 @@ namespace Trainworks.BuildersV2
         /// Whether or not this card is displayed in the logbook when counting all of the player's mastered cards.
         /// </summary>
         public bool IgnoreWhenCountingMastery { get; set; }
-
         /// <summary>
         /// A cache for the card's sprite so it doesn't have to be reloaded repeatedly.
         /// </summary>
         public Sprite SpriteCache { get; set; }
-        /// <summary>
-        /// In the event that art assets cannot be found, the game will search this for backup assets.
-        /// </summary>
-        public FallbackData FallbackData { get; set; }
-
         public CardInitialKeyboardTarget InitialKeyboardTarget { get; set; }
         public ShinyShoe.DLC RequiredDLC { get; set; }
 
         public CardDataBuilder()
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            string assemblyPath = Path.GetDirectoryName(path);
-            Name = "";
-            Description = "";
-            OverrideDescriptionKey = null;
-
             CardPoolIDs = new List<string>();
             EffectBuilders = new List<CardEffectDataBuilder>();
             TraitBuilders = new List<CardTraitDataBuilder>();
@@ -220,12 +188,13 @@ namespace Trainworks.BuildersV2
             StartingUpgrades = new List<CardUpgradeData>();
             StartingUpgradeBuilders = new List<CardUpgradeDataBuilder>();
             CardLoreTooltipKeys = new List<string>();
+            RequiredDLC = ShinyShoe.DLC.None;
+            TargetsRoom = true;
+            InitialKeyboardTarget = CardInitialKeyboardTarget.FrontFriendly;
+            // TODO Get the FallbackData instance.
 
             var assembly = Assembly.GetCallingAssembly();
-            if (PluginManager.AssemblyNameToPluginGUID.ContainsKey(assembly.FullName))
-            {
-                BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
-            }
+            BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
         /// <summary>
@@ -236,9 +205,7 @@ namespace Trainworks.BuildersV2
         public CardData BuildAndRegister()
         {
             var cardData = Build();
-            Trainworks.Log(LogLevel.Debug, "Adding custom card: " + cardData.GetName());
             CustomCardManager.RegisterCustomCard(cardData, CardPoolIDs);
-
             return cardData;
         }
 
@@ -249,36 +216,60 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardData</returns>
         public CardData Build()
         {
-            foreach (var builder in EffectBuilders)
-            {
-                Effects.Add(builder.Build());
-            }
-            foreach (var builder in TraitBuilders)
-            {
-                Traits.Add(builder.Build());
-            }
-            foreach (var builder in EffectTriggerBuilders)
-            {
-                EffectTriggers.Add(builder.Build());
-            }
-            foreach (var builder in TriggerBuilders)
-            {
-                Triggers.Add(builder.Build());
-            }
-            foreach (var builder in StartingUpgradeBuilders)
-            {
-                StartingUpgrades.Add(builder.Build());
-            }
-
-            var allGameData = ProviderManager.SaveManager.GetAllGameData();
-            if (LinkedClass == null)
-            {
-                LinkedClass = CustomClassManager.GetClassDataByID(ClanID);
-            }
             CardData cardData = ScriptableObject.CreateInstance<CardData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(CardID);
-            AccessTools.Field(typeof(CardData), "id").SetValue(cardData, guid);
+            AccessTools.Field(typeof(GameData), "id").SetValue(cardData, guid);
             cardData.name = CardID;
+
+            var cardEffects = cardData.GetEffects();
+            cardEffects.AddRange(Effects);
+            foreach (var builder in EffectBuilders)
+            {
+                cardEffects.Add(builder.Build());
+            }
+            var cardEffectTriggers = cardData.GetEffectTriggers();
+            cardEffectTriggers.AddRange(EffectTriggers);
+            foreach (var builder in EffectTriggerBuilders)
+            {
+                cardEffectTriggers.Add(builder.Build());
+            }
+            var cardTraits = cardData.GetTraits();
+            cardTraits.AddRange(Traits);
+            foreach (var builder in TraitBuilders)
+            {
+                cardTraits.Add(builder.Build());
+            }
+            var cardTriggers = cardData.GetCardTriggers();
+            cardTriggers.AddRange(Triggers);
+            foreach (var builder in TriggerBuilders)
+            {
+                cardTriggers.Add(builder.Build());
+            }
+            var startingUpgrades = cardData.GetUpgradeData();
+            startingUpgrades.AddRange(StartingUpgrades);
+            foreach (var builder in StartingUpgradeBuilders)
+            {
+                startingUpgrades.Add(builder.Build());
+            }
+
+            var linkedClass = CustomClassManager.GetClassDataByID(ClanID);
+            AccessTools.Field(typeof(CardData), "cardLoreTooltipKeys").SetValue(cardData, CardLoreTooltipKeys);
+            AccessTools.Field(typeof(CardData), "cardType").SetValue(cardData, CardType);
+            AccessTools.Field(typeof(CardData), "cost").SetValue(cardData, Cost);
+            AccessTools.Field(typeof(CardData), "costType").SetValue(cardData, CostType);
+            AccessTools.Field(typeof(CardData), "ignoreWhenCountingMastery").SetValue(cardData, IgnoreWhenCountingMastery);
+            AccessTools.Field(typeof(CardData), "initialKeyboardTarget").SetValue(cardData, InitialKeyboardTarget);
+            AccessTools.Field(typeof(CardData), "linkedClass").SetValue(cardData, linkedClass);
+            AccessTools.Field(typeof(CardData), "linkedMasteryCard").SetValue(cardData, LinkedMasteryCard);
+            AccessTools.Field(typeof(CardData), "nameKey").SetValue(cardData, NameKey);
+            AccessTools.Field(typeof(CardData), "overrideDescriptionKey").SetValue(cardData, OverrideDescriptionKey);
+            AccessTools.Field(typeof(CardData), "rarity").SetValue(cardData, Rarity);
+            AccessTools.Field(typeof(CardData), "requiredDLC").SetValue(cardData, RequiredDLC);
+            AccessTools.Field(typeof(CardData), "sharedMasteryCards").SetValue(cardData, SharedMasteryCards);
+            AccessTools.Field(typeof(CardData), "targetless").SetValue(cardData, Targetless);
+            AccessTools.Field(typeof(CardData), "targetsRoom").SetValue(cardData, TargetsRoom);
+            AccessTools.Field(typeof(CardData), "unlockLevel").SetValue(cardData, UnlockLevel);
+
             if (CardArtPrefabVariantRef == null)
             {
                 if (CardArtPrefabVariantRefBuilder == null)
@@ -308,36 +299,14 @@ namespace Trainworks.BuildersV2
                 CardArtPrefabVariantRef = CardArtPrefabVariantRefBuilder.BuildAndRegister();
             }
             AccessTools.Field(typeof(CardData), "cardArtPrefabVariantRef").SetValue(cardData, CardArtPrefabVariantRef);
-            AccessTools.Field(typeof(CardData), "cardLoreTooltipKeys").SetValue(cardData, CardLoreTooltipKeys);
-            AccessTools.Field(typeof(CardData), "cardType").SetValue(cardData, CardType);
-            AccessTools.Field(typeof(CardData), "cost").SetValue(cardData, Cost);
-            AccessTools.Field(typeof(CardData), "costType").SetValue(cardData, CostType);
-            AccessTools.Field(typeof(CardData), "effects").SetValue(cardData, Effects);
-            AccessTools.Field(typeof(CardData), "effectTriggers").SetValue(cardData, EffectTriggers);
-            AccessTools.Field(typeof(CardData), "fallbackData").SetValue(cardData, FallbackData);
-            AccessTools.Field(typeof(CardData), "ignoreWhenCountingMastery").SetValue(cardData, IgnoreWhenCountingMastery);
-            AccessTools.Field(typeof(CardData), "initialKeyboardTarget").SetValue(cardData, InitialKeyboardTarget);
-            AccessTools.Field(typeof(CardData), "linkedClass").SetValue(cardData, LinkedClass);
-            AccessTools.Field(typeof(CardData), "linkedMasteryCard").SetValue(cardData, LinkedMasteryCard);
-            AccessTools.Field(typeof(CardData), "nameKey").SetValue(cardData, NameKey);
-            AccessTools.Field(typeof(CardData), "overrideDescriptionKey").SetValue(cardData, OverrideDescriptionKey);
-            AccessTools.Field(typeof(CardData), "rarity").SetValue(cardData, Rarity);
-            AccessTools.Field(typeof(CardData), "requiredDLC").SetValue(cardData, RequiredDLC);
-            AccessTools.Field(typeof(CardData), "sharedMasteryCards").SetValue(cardData, SharedMasteryCards);
             if (SpriteCache != null)
             {
                 AccessTools.Field(typeof(CardData), "spriteCache").SetValue(cardData, SpriteCache);
             }
-            AccessTools.Field(typeof(CardData), "startingUpgrades").SetValue(cardData, StartingUpgrades);
-            AccessTools.Field(typeof(CardData), "targetless").SetValue(cardData, Targetless);
-            AccessTools.Field(typeof(CardData), "targetsRoom").SetValue(cardData, TargetsRoom);
             foreach (CardTraitData cardTraitData in Traits)
             {
                 AccessTools.Field(typeof(CardTraitData), "paramCardData").SetValue(cardTraitData, cardData);
             }
-            AccessTools.Field(typeof(CardData), "traits").SetValue(cardData, Traits);
-            AccessTools.Field(typeof(CardData), "triggers").SetValue(cardData, Triggers);
-            AccessTools.Field(typeof(CardData), "unlockLevel").SetValue(cardData, UnlockLevel);
 
             BuilderUtils.ImportStandardLocalization(NameKey, Name);
             BuilderUtils.ImportStandardLocalization(OverrideDescriptionKey, Description);
