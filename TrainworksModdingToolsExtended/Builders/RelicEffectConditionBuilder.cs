@@ -6,25 +6,18 @@ namespace Trainworks.BuildersV2
     public class RelicEffectConditionBuilder
     {
         public CardStatistics.TrackedValueType ParamTrackedValue { get; set; }
-
         public CardStatistics.CardTypeTarget ParamCardType { get; set; }
-
         /// <summary>
         /// Determines if we should use the total trigger count as the tracked value instead of using a value from CardStatistics. Use this to limit triggers to X per turn or per battle.
         /// </summary>
         public bool ParamTrackTriggerCount { get; set; }
-
         public CardStatistics.EntryDuration ParamEntryDuration { get; set; }
-
         public RelicEffectCondition.Comparator ParamComparator { get; set; } = RelicEffectCondition.Comparator.Equal | RelicEffectCondition.Comparator.GreaterThan;
-
         public int ParamInt { get; set; }
-
         /// <summary>
         /// Allow multiple triggers per duration that is defined as Entry Duration. This can be used to limit a relic from trigger more than X times per turn or per battle 
         /// </summary>
         public bool AllowMultipleTriggersPerDuration { get; set; } = true;
-
         public string ParamSubtype { get; set; }
 
         /// <summary>
@@ -34,7 +27,6 @@ namespace Trainworks.BuildersV2
         public RelicEffectCondition Build()
         {
             RelicEffectCondition relicEffectCondition = new RelicEffectCondition();
-
             AccessTools.Field(typeof(RelicEffectCondition), "paramTrackedValue").SetValue(relicEffectCondition, ParamTrackedValue);
             AccessTools.Field(typeof(RelicEffectCondition), "paramCardType").SetValue(relicEffectCondition, ParamCardType);
             AccessTools.Field(typeof(RelicEffectCondition), "paramTrackTriggerCount").SetValue(relicEffectCondition, ParamTrackTriggerCount);
@@ -43,7 +35,6 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RelicEffectCondition), "paramInt").SetValue(relicEffectCondition, ParamInt);
             AccessTools.Field(typeof(RelicEffectCondition), "allowMultipleTriggersPerDuration").SetValue(relicEffectCondition, AllowMultipleTriggersPerDuration);
             AccessTools.Field(typeof(RelicEffectCondition), "paramSubtype").SetValue(relicEffectCondition, ParamSubtype);
-
             return relicEffectCondition;
         }
     }

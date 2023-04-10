@@ -25,7 +25,6 @@ namespace Trainworks.BuildersV2
                 RoomStateModifierClassName = roomStateModifierClassType.AssemblyQualifiedName;
             }
         }
-
         /// <summary>
         /// Implicitly sets DescriptionKey, DescriptionKeyInPlay, ExtraTooltipBodyKey, and ExtraTooltipTitleKey if null.
         /// Note that RoomStateModifierClassType is preferred especially if you are using
@@ -97,37 +96,41 @@ namespace Trainworks.BuildersV2
         /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
         /// </summary>
         public string ExtraTooltipBodyKey { get; set; }
+
+        public int ParamInt { get; set; }
+        public string ParamSubtype { get; set; }
+        public CardUpgradeData ParamCardUpgradeData { get; set; }
+        /// <summary>
+        /// Convenience Builder for CardUpgradeData Parameter.
+        /// if set overrides ParamCardUpgradeData.
+        /// </summary>
+        public CardUpgradeDataBuilder ParamCardUpgradeDataBuilder { get; set; }
+        public StatusEffectStackData[] ParamStatusEffects { get; set; }
+        /// <summary>
+        /// The full, absolute path to the asset.
+        /// </summary>
+        public string FullAssetPath => BaseAssetPath + "/" + IconPath;
+        /// <summary>
+        /// Set automatically in the constructor. Base asset path, usually the plugin directory.
+        /// </summary>
+        public string BaseAssetPath { get; private set; }
         /// <summary>
         /// Path relative to the plugin's file path for the icon.
         /// Note the icon should be a black and white image sized 24x24.
         /// </summary>
         public string IconPath { get; set; }
-        public int ParamInt { get; set; }
-        public string ParamSubtype { get; set; }
-        public CardUpgradeData ParamCardUpgradeData { get; set; }
-        /// <summary>
-        /// CardUpgradeData Parameter.
-        /// if set overrides ParamCardUpgradeData.
-        /// </summary>
-        public CardUpgradeDataBuilder ParamCardUpgradeDataBuilder { get; set; }
-        public StatusEffectStackData[] ParamStatusEffects { get; set; }
-        public string BaseAssetPath { get; private set; }
 
         public RoomModifierDataBuilder()
         {
-            DescriptionKey = "";
-            DescriptionKeyInPlay = "";
             ParamSubtype = "SubtypesData_None";
-            ParamStatusEffects = new StatusEffectStackData[0];
-            ExtraTooltipBodyKey = "";
-            ExtraTooltipTitleKey = "";
+            ParamStatusEffects = Array.Empty<StatusEffectStackData>();
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
         /// <summary>
-        /// Builds the RoomModifierData represented by this builders's parameters recursively;
+        /// Builds the RoomModifierData represented by this builders's parameters
         /// </summary>
         /// <returns>The newly created RoomModifierData</returns>
         public RoomModifierData Build()
@@ -141,40 +144,24 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RoomModifierData), "paramInt").SetValue(roomModifierData, ParamInt);
             AccessTools.Field(typeof(RoomModifierData), "paramStatusEffects").SetValue(roomModifierData, ParamStatusEffects);
             AccessTools.Field(typeof(RoomModifierData), "paramSubtype").SetValue(roomModifierData, ParamSubtype);
-            if (ParamCardUpgradeDataBuilder == null)
-            {
-                AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, ParamCardUpgradeData);
-            }
-            else
-            {
-                AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, ParamCardUpgradeDataBuilder.Build());
-            }
-
             AccessTools.Field(typeof(RoomModifierData), "roomStateModifierClassName").SetValue(roomModifierData, RoomStateModifierClassName);
+
+            var upgrade = ParamCardUpgradeData;
+            if (ParamCardUpgradeDataBuilder != null)
+                upgrade = ParamCardUpgradeDataBuilder.Build();
+            AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, upgrade);
+            if (IconPath != null)
+            {
+                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(FullAssetPath);
+                AccessTools.Field(typeof(RoomModifierData), "icon").SetValue(roomModifierData, sprite);
+            }
 
             BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
             BuilderUtils.ImportStandardLocalization(DescriptionKeyInPlay, DescriptionInPlay);
             BuilderUtils.ImportStandardLocalization(ExtraTooltipBodyKey, ExtraTooltipBody);
             BuilderUtils.ImportStandardLocalization(ExtraTooltipTitleKey, ExtraTooltipTitle);
 
-
-            if (IconPath != null)
-            {
-                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(BaseAssetPath + "/" + IconPath);
-                AccessTools.Field(typeof(RoomModifierData), "icon").SetValue(roomModifierData, sprite);
-            }
-
             return roomModifierData;
-        }
-
-        /// <summary>
-        /// Add a status effect to this room's params.
-        /// </summary>
-        /// <param name="statusEffectID">ID of the status effect, most easily retrieved using the helper class "VanillaStatusEffectIDs"</param>
-        /// <param name="stackCount">Number of stacks to apply</param>
-        public void AddStartingStatusEffect(string statusEffectID, int stackCount)
-        {
-            ParamStatusEffects = BuilderUtils.AddStatusEffect(statusEffectID, stackCount, ParamStatusEffects);
         }
     }
 }
