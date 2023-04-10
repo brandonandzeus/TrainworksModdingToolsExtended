@@ -238,7 +238,7 @@ namespace Trainworks.BuildersV2
         {
             CharacterData characterData = ScriptableObject.CreateInstance<CharacterData>();
             characterData.name = CharacterID;
-            var guid = GUIDGenerator.GenerateDeterministicGUID(CharacterID);
+            
 
             var triggers = characterData.GetTriggers();
             triggers.AddRange(Triggers);
@@ -258,6 +258,7 @@ namespace Trainworks.BuildersV2
                 subtypeKeys.Add("SubtypesData_Chosen");
             }
 
+            var guid = GUIDGenerator.GenerateDeterministicGUID(CharacterID);
             AccessTools.Field(typeof(CharacterData), "id").SetValue(characterData, guid);
             AccessTools.Field(typeof(CharacterData), "animationController").SetValue(characterData, AnimationController);
             AccessTools.Field(typeof(CharacterData), "ascendsTrainAutomatically").SetValue(characterData, AscendsTrainAutomatically);

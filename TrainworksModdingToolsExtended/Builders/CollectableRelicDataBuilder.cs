@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Trainworks.Managers;
+using Trainworks.Utilities;
 using UnityEngine;
 
 namespace Trainworks.BuildersV2
@@ -56,29 +57,18 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string DescriptionKey { get; set; }
         /// <summary>
-        /// Custom asset path to load relic art from.
-        /// </summary>
-        public string IconPath { get; set; }
-
-        /// <summary>
         /// ID of the clan the card is a part of. Leave null for clanless.
         /// Base game clan IDs should be retrieved via helper class "VanillaClanIDs".
         /// </summary>
         public string ClanID { get; set; }
-
         public List<RelicEffectDataBuilder> EffectBuilders { get; set; }
         public List<RelicEffectData> Effects { get; set; }
         public CollectableRarity Rarity { get; set; }
-
-        public ClassData LinkedClass { get; set; }
         public int UnlockLevel { get; set; }
-
         public string RelicActivatedKey { get; set; }
         public List<string> RelicLoreTooltipKeys { get; set; }
-
         public bool FromStoryEvent { get; set; }
         public bool IsBossGivenRelic { get; set; }
-
         /// <summary>
         /// The full, absolute path to the asset.
         /// </summary>
@@ -87,6 +77,13 @@ namespace Trainworks.BuildersV2
         /// Set automatically in the constructor. Base asset path, usually the plugin directory.
         /// </summary>
         public string BaseAssetPath { get; private set; }
+        /// <summary>
+        /// Custom asset path to load relic art from.
+        /// </summary>
+        public string IconPath { get; set; }
+        /// <summary>
+        /// Is this collectible relic a divine variant.
+        /// </summary>
         public bool DivineVariant { get; set; }
         public RelicData.RelicLoreTooltipStyle RelicLoreTooltipStyle { get; set; }
         public bool IgnoreForNoRelicAchievement { get; set; }
@@ -94,8 +91,6 @@ namespace Trainworks.BuildersV2
 
         public CollectableRelicDataBuilder()
         {
-            Name = "";
-            Description = null;
             Effects = new List<RelicEffectData>();
             EffectBuilders = new List<RelicEffectDataBuilder>();
             RelicLoreTooltipStyle = RelicData.RelicLoreTooltipStyle.Herzal;
@@ -124,44 +119,40 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RelicData</returns>
         public CollectableRelicData Build()
         {
-            foreach (var builder in EffectBuilders)
-            {
-                Effects.Add(builder.Build());
-            }
-
-            if (LinkedClass == null)
-            {
-                LinkedClass = CustomClassManager.GetClassDataByID(ClanID);
-            }
-
             var relicData = ScriptableObject.CreateInstance<CollectableRelicData>();
 
-            AccessTools.Field(typeof(GameData), "id").SetValue(relicData, CollectableRelicID);
+            var effects = relicData.GetEffects();
+            effects.AddRange(Effects);
+            foreach (var builder in EffectBuilders)
+                effects.Add(builder.Build());
+
+            var guid = GUIDGenerator.GenerateDeterministicGUID(CollectableRelicID);
+            AccessTools.Field(typeof(GameData), "id").SetValue(relicData, guid);
             relicData.name = CollectableRelicID;
             // RelicData fields
             AccessTools.Field(typeof(RelicData), "descriptionKey").SetValue(relicData, DescriptionKey);
             AccessTools.Field(typeof(RelicData), "divineVariant").SetValue(relicData, DivineVariant);
             AccessTools.Field(typeof(RelicData), "effects").SetValue(relicData, Effects);
-
+            AccessTools.Field(typeof(RelicData), "nameKey").SetValue(relicData, NameKey);
+            AccessTools.Field(typeof(RelicData), "relicActivatedKey").SetValue(relicData, RelicActivatedKey);
+            AccessTools.Field(typeof(RelicData), "relicLoreTooltipKeys").SetValue(relicData, RelicLoreTooltipKeys);
+            AccessTools.Field(typeof(RelicData), "relicLoreTooltipStyle").SetValue(relicData, RelicLoreTooltipStyle);
             if (IconPath != null)
             {
                 Sprite iconSprite = CustomAssetManager.LoadSpriteFromPath(FullAssetPath);
                 AccessTools.Field(typeof(RelicData), "icon").SetValue(relicData, iconSprite);
             }
 
-            AccessTools.Field(typeof(RelicData), "nameKey").SetValue(relicData, NameKey);
-            AccessTools.Field(typeof(RelicData), "relicActivatedKey").SetValue(relicData, RelicActivatedKey);
-            AccessTools.Field(typeof(RelicData), "relicLoreTooltipKeys").SetValue(relicData, RelicLoreTooltipKeys);
-            AccessTools.Field(typeof(RelicData), "relicLoreTooltipStyle").SetValue(relicData, RelicLoreTooltipStyle);
-
             // CollectableRelicData fields
             AccessTools.Field(typeof(CollectableRelicData), "fromStoryEvent").SetValue(relicData, FromStoryEvent);
             AccessTools.Field(typeof(CollectableRelicData), "ignoreForNoRelicAchievement").SetValue(relicData, IgnoreForNoRelicAchievement);
             AccessTools.Field(typeof(CollectableRelicData), "isBossGivenRelic").SetValue(relicData, IsBossGivenRelic);
-            AccessTools.Field(typeof(CollectableRelicData), "linkedClass").SetValue(relicData, LinkedClass);
             AccessTools.Field(typeof(CollectableRelicData), "rarity").SetValue(relicData, Rarity);
             AccessTools.Field(typeof(CollectableRelicData), "requiredDLC").SetValue(relicData, RequiredDLC);
             AccessTools.Field(typeof(CollectableRelicData), "unlockLevel").SetValue(relicData, UnlockLevel);
+
+            var linkedClass = CustomClassManager.GetClassDataByID(ClanID);
+            AccessTools.Field(typeof(CollectableRelicData), "linkedClass").SetValue(relicData, linkedClass);
 
             BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
             BuilderUtils.ImportStandardLocalization(NameKey, Name);
