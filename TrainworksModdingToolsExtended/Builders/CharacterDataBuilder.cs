@@ -75,7 +75,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Custom asset path to load from. Must be inside the BaseAssetPath.
         /// </summary>
-        public string AssetPath { get; set; };
+        public string AssetPath { get; set; }
         /// <summary>
         /// Loading Info for loading a character's art
         /// </summary>
