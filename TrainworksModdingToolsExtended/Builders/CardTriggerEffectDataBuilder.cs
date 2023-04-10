@@ -6,28 +6,12 @@ namespace Trainworks.BuildersV2
     // This class is mostly unchanged excluding more clear comments.
     public class CardTriggerEffectDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use Trigger instead.
-        /// </summary>
         private CardTriggerType trigger;
 
         /// <summary>
+        /// The Card Trigger Type.
         /// Implicitly sets DescriptionKey if null.
-        /// Any of the below CardTriggerType can be used to proc the listed effects.
-        /// <list type="bullet">
-        /// <item><description>OnCast</description></item>
-        /// <item><description>OnKill</description></item>
-        /// <item><description>OnDiscard</description></item>
-        /// <item><description>OnMonsterDeath</description></item>
-        /// <item><description>OnAnyMonsterDeathOnFloor</description></item>
-        /// <item><description>OnAnyHeroDeathOnFloor</description></item>
-        /// <item><description>OnHealed</description></item>
-        /// <item><description>OnPlayerDamageTaken</description></item>
-        /// <item><description>OnAnyUnitDeathOnFloor</description></item>
-        /// <item><description>OnTreasure</description></item>
-        /// <item><description>OnUnplayed</description></item>
-        /// <item><description>OnFeed</description></item>
-        /// </list>
+        /// Its highly recommended to set DescriptionKey to a unique value.
         /// </summary>
         public CardTriggerType Trigger
         {
@@ -41,29 +25,29 @@ namespace Trainworks.BuildersV2
                 }
             }
         }
-
         /// <summary>
         /// Custom description for the trigger effect.
         /// Note that setting this property will set the localization for all languages.
         /// </summary>
         public string Description { get; set; }
-
         /// <summary>
         /// Use an existing base game trigger's description key to copy the format of its description.
         /// *HIGHLY* Recommended to set this property if using a custom card trigger effect as the localization key is not unique.
         /// </summary>
         public string DescriptionKey { get; set; }
-
         /// <summary>
-        /// Append to this list to add new card trigger effects.
+        /// List of CardTrigger Effects.
+        /// Note no builder since CardTriggerData is mutable.
         /// </summary>
         public List<CardTriggerData> CardTriggerEffects { get; set; }
-
         /// <summary>
-        /// Append to this list to add new card effects. The Build() method recursively builds all nested builders.
+        /// List of CardEffects.
+        /// </summary>
+        public List<CardEffectData> CardEffects { get; set; }
+        /// <summary>
+        /// Convenience Builders to append to CardEffects.
         /// </summary>
         public List<CardEffectDataBuilder> CardEffectBuilders { get; set; }
-        public List<CardEffectData> CardEffects { get; set; }
 
         public CardTriggerEffectDataBuilder()
         {
@@ -73,23 +57,24 @@ namespace Trainworks.BuildersV2
         }
 
         /// <summary>
-        /// Builds the CardTriggerEffectData represented by this builder's parameters recursively;
-        /// i.e. all CardEffectBuilders in cardEffects will also be built.
+        /// Builds the CardTriggerEffectData represented by this builder's parameters.
+        /// all Builders represented in this class's various fields will also be built.
         /// </summary>
         /// <returns>The newly created CardTriggerEffectData</returns>
         public CardTriggerEffectData Build()
         {
-            foreach (var builder in CardEffectBuilders)
-            {
-                CardEffects.Add(builder.Build());
-            }
-
+            // Doesn't inherit from ScriptableObject
             CardTriggerEffectData cardTriggerEffectData = new CardTriggerEffectData();
-            AccessTools.Field(typeof(CardTriggerEffectData), "cardEffects").SetValue(cardTriggerEffectData, CardEffects);
             AccessTools.Field(typeof(CardTriggerEffectData), "cardTriggerEffects").SetValue(cardTriggerEffectData, CardTriggerEffects);
-            BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
             AccessTools.Field(typeof(CardTriggerEffectData), "descriptionKey").SetValue(cardTriggerEffectData, DescriptionKey);
             AccessTools.Field(typeof(CardTriggerEffectData), "trigger").SetValue(cardTriggerEffectData, Trigger);
+
+            var cardEffects = cardTriggerEffectData.GetCardEffects();
+            cardEffects.AddRange(CardEffects);
+            foreach (var builder in CardEffectBuilders)
+                cardEffects.Add(builder.Build());
+
+            BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
 
             return cardTriggerEffectData;
         }
