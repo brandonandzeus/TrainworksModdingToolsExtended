@@ -14,11 +14,7 @@ namespace Trainworks.BuildersV2
     /// </summary>
     public class ClassDataBuilder
     {
-        /// <summary>
-        /// Don't set directly; use ClassID instead.
-        /// </summary>
-        public string classID;
-
+        private string classID;
         /// <summary>
         /// Unique string used to store and retrieve the clan data.
         /// Implictly sets TitleLoc, DescriptionLoc, and SubclassDescriptionLoc if those values are null.
@@ -45,27 +41,27 @@ namespace Trainworks.BuildersV2
         }
         /// <summary>
         /// Name of the clan.
+        /// Note if set will set the localization across all languages.
         /// </summary>
         public string Name { get; set; }
         /// <summary>
         /// Description of the clan.
+        /// Note if set will set the localization across all languages.
         /// </summary>
         public string Description { get; set; }
         /// <summary>
         /// Description of the clan when selected as the allied clan.
+        /// Note if set will set the localization across all languages.
         /// </summary>
         public string SubclassDescription { get; set; }
-
         /// <summary>
         /// Please set storyChampionData and championCharacterArt
         /// </summary>
         public List<ChampionData> Champions { get; set; }
-
         /// <summary>
         /// Set automatically in the constructor. Base asset path, usually the plugin directory.
         /// </summary>
-        public string BaseAssetPath { get; set; }
-
+        public string BaseAssetPath { get; private set; }
         /// <summary>
         /// Must contain 4 sprite paths; in order:
         /// small icon (32x32)
@@ -90,18 +86,12 @@ namespace Trainworks.BuildersV2
         /// Add a custom icon for the card draft on battle victory.
         /// </summary>
         public string DraftIconPath { get; set; }
-
-        public List<ClassData.StartingCardOptions> MainClassStartingCards { get; set; }
-        public List<ClassData.StartingCardOptions> SubclassStartingCards { get; set; }
-
         public Color UiColor { get; set; }
         public Color UiColorDark { get; set; }
-
         public Dictionary<MetagameSaveData.TrackedValue, string> UnlockKeys { get; set; }
         public MetagameSaveData.TrackedValue ClassUnlockCondition { get; set; }
         public int ClassUnlockParam { get; set; }
         public List<string> ClassUnlockPreviewTexts { get; set; }
-
         /// <summary>
         /// Gives the clan a starter relic.
         /// Important note in terms of processing effects, the starter relics will always be executed first.
@@ -110,59 +100,57 @@ namespace Trainworks.BuildersV2
         /// a patch, Since Covenant 1 removes all starter cards, and adds them back with a CardSet.
         /// </summary>
         public List<RelicData> StarterRelics { get; set; } = new List<RelicData>();
-        public DLC RequiredDlc { get; set; } = DLC.None;
+        public DLC RequiredDLC { get; set; } = DLC.None;
         /// <summary>
         /// Clan Select SFX Cue.
         /// </summary>
         public string ClanSelectSfxCue { get; set; }
-
         /// <summary>
         /// Enables charged echo floor effects for clan.
         /// Note that if you want a wurmkin clan clone StarterCardUpgrade and
         /// RandomDraftEnhancerPool also need to be set to apply CardTraitCorruption to cards.
         /// </summary>
         public bool CorruptionEnabled { get; set; }
-
         /// <summary>
         /// Upgrade applied to all starter cards.
         /// </summary>
         public CardUpgradeData StarterCardUpgrade { get; set; }
-
         /// <summary>
         /// Convenience Builder object for StarterCardUpgrade. If set overrides StarterCardUpgrade.
         /// </summary>
         public CardUpgradeDataBuilder StarterCardUpgradeBuilder { get; set; }
-
         /// <summary>
         /// A enhancer from this pool is applied to 1 random card in each draft.
         /// </summary>
         public EnhancerPool RandomDraftEnhancerPool { get; set; }
-
         /// <summary>
         /// Convenience Builder object for RandomDraftEnhancerPool. If set overrides RandomDraftEnhancerPool.
         /// </summary>
         public EnhancerPoolBuilder RandomDraftEnhancerPoolBuilder { get; set; }
-
+        /// <summary>
+        /// Localization key for Clan Title.
+        /// You shouldn't need to set this as its automatically set by ClassID
+        /// </summary>
         public string TitleLoc { get; set; }
+        /// <summary>
+        /// Localization key for Clan Description.
+        /// You shouldn't need to set this as its automatically set by ClassID
+        /// </summary>
         public string DescriptionLoc { get; set; }
+        /// <summary>
+        /// Localization key for Clan Subclass Description.
+        /// You shouldn't need to set this as its automatically set by ClassID
+        /// </summary>}
         public string SubclassDescriptionLoc { get; set; }
-
         public string[] ClassSelectScreenCharacterIDsMain { get; set; }
         public string[] ClassSelectScreenCharacterIDsSub { get; set; }
-
 
         public ClassDataBuilder()
         {
             IconAssetPaths = new List<string>();
-            MainClassStartingCards = new List<ClassData.StartingCardOptions>();
-            SubclassStartingCards = new List<ClassData.StartingCardOptions>();
             UnlockKeys = new Dictionary<MetagameSaveData.TrackedValue, string>();
             ClassUnlockPreviewTexts = new List<string>();
-            Champions = new List<ChampionData>
-            {
-                (ChampionData)UnityEngine.ScriptableObject.CreateInstance("ChampionData"),
-                (ChampionData)UnityEngine.ScriptableObject.CreateInstance("ChampionData"),
-            };
+            Champions = new List<ChampionData>();
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
@@ -199,14 +187,14 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(ClassData), "corruptionEnabled").SetValue(classData, CorruptionEnabled);
             AccessTools.Field(typeof(ClassData), "descriptionLoc").SetValue(classData, DescriptionLoc);
             AccessTools.Field(typeof(ClassData), "randomDraftEnhancerPool").SetValue(classData, RandomDraftEnhancerPool);
-            AccessTools.Field(typeof(ClassData), "requiredDlc").SetValue(classData, RequiredDlc);
+            AccessTools.Field(typeof(ClassData), "requiredDlc").SetValue(classData, RequiredDLC);
             AccessTools.Field(typeof(ClassData), "starterCardUpgrade").SetValue(classData, StarterCardUpgrade);
             AccessTools.Field(typeof(ClassData), "starterRelics").SetValue(classData, StarterRelics);
             AccessTools.Field(typeof(ClassData), "subclassDescriptionLoc").SetValue(classData, SubclassDescriptionLoc);
             AccessTools.Field(typeof(ClassData), "titleLoc").SetValue(classData, TitleLoc);
             AccessTools.Field(typeof(ClassData), "uiColor").SetValue(classData, UiColor);
             AccessTools.Field(typeof(ClassData), "uiColorDark").SetValue(classData, UiColorDark);
-            
+
             // Clan Icons
             var icons = new List<Sprite>();
             foreach (string iconPath in IconAssetPaths)
@@ -238,7 +226,6 @@ namespace Trainworks.BuildersV2
             // Class select character IDs
             CustomClassManager.CustomClassSelectScreenCharacterIDsMain.Add(GUIDGenerator.GenerateDeterministicGUID(ClassID), ClassSelectScreenCharacterIDsMain);
             CustomClassManager.CustomClassSelectScreenCharacterIDsSub.Add(GUIDGenerator.GenerateDeterministicGUID(ClassID), ClassSelectScreenCharacterIDsSub);
-
 
             BuilderUtils.ImportStandardLocalization(DescriptionLoc, Description);
             BuilderUtils.ImportStandardLocalization(SubclassDescriptionLoc, SubclassDescription);
