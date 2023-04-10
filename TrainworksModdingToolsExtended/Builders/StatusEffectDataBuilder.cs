@@ -26,8 +26,6 @@ namespace Trainworks.BuildersV2
                 StatusEffectStateName = statusEffectStateType.AssemblyQualifiedName;
             }
         }
-
-
         /// <summary>
         /// Class name of the status effect class to instantiate.
         /// Note that StatusEffectStateType is preferred especially if you are using
@@ -35,7 +33,6 @@ namespace Trainworks.BuildersV2
         /// class is.
         /// </summary>
         public string StatusEffectStateName { get; set; }
-
         /// <summary>
         /// ID of the status effect.
         /// Implicitly sets StatusIdKey.
@@ -59,18 +56,12 @@ namespace Trainworks.BuildersV2
                 }
             }
         }
-
         /// <summary>
         /// Base localization key for the status effect.
         /// There's not much reason to directly set this as its set by StatusIdKey
         /// It is set to StatusEffect_[StatusId] where StatusId is the capitalized string.
         /// </summary>
         public string StatusIdKey { get; set; }
-        /// <summary>
-        /// Path relative to the plugin's file path for the icon.
-        /// Note the icon should be a black and white image sized 24x24.
-        /// </summary>
-        public string IconPath { get; set; }
         /// <summary>
         /// Path relative to the plugin's file path for the SFX.
         /// </summary>
@@ -79,41 +70,34 @@ namespace Trainworks.BuildersV2
         /// Path relative to the plugin's file path for the SFX.
         /// </summary>
         public string TriggeredSFXName { get; set; }
-
         /// <summary>
         /// The display category for the status effect. Positive, Negative, or Persistent.
         /// </summary>
         public StatusEffectData.DisplayCategory DisplayCategory { get; set; }
-
         /// <summary>
         /// The VFX to display on the character when the status effect is added.
         /// </summary>
         public VfxAtLoc AddedVFX { get; set; }
         public VfxAtLocList MoreAddedVFX { get; set; }
-
         /// <summary>
         /// The VFX to display on the character while this status effect is active.
         /// </summary>
         public VfxAtLoc PersistentVFX { get; set; }
         public VfxAtLocList MorePersistentVFX { get; set; }
-
         /// <summary>
         /// The VFX to display on the character when the effect is triggered.
         /// </summary>
         public VfxAtLoc TriggeredVFX { get; set; }
         public VfxAtLocList MoreTriggeredVFX { get; set; }
-
         /// <summary>
         /// The VFX to display on the character when the status effect is removed.
         /// </summary>
         public VfxAtLoc RemovedVFX { get; set; }
         public VfxAtLocList MoreRemovedVFX { get; set; }
-
         /// <summary>
         /// The VFX to display on a character when it is damaged/affected by this effect.
         /// </summary>
         public VfxAtLoc AffectedVFX { get; set; }
-
         /// <summary>
         /// Controls when OnTriggered/TestTrigger is called for custom status effects.
         /// </summary>
@@ -126,7 +110,6 @@ namespace Trainworks.BuildersV2
         public bool RemoveAtEndOfTurnIfTriggered { get; set; }
         public bool RemoveAtEndOfTurn { get; set; }
         public bool RemoveWhenTriggered { get; set; }
-
         /// <summary>
         /// This is the same as Remove When Triggered except it will be removed only after the card currently being played finishes playing\n\nNOTE: This should only be used for status effects that are triggered by a card being played.
         /// </summary>
@@ -152,7 +135,19 @@ namespace Trainworks.BuildersV2
         public int ParamSecondaryInt { get; set; }
         public float ParamFloat { get; set; }
         public VFXDisplayType VFXDisplayType { get; set; }
+        /// <summary>
+        /// The full, absolute path to the asset.
+        /// </summary>
+        public string FullAssetPath => BaseAssetPath + "/" + IconPath;
+        /// <summary>
+        /// Set automatically in the constructor. Base asset path, usually the plugin directory.
+        /// </summary>
         public string BaseAssetPath { get; private set; }
+        /// <summary>
+        /// Path relative to the plugin's file path for the icon.
+        /// Note the icon should be a black and white image sized 24x24.
+        /// </summary>
+        public string IconPath { get; set; }
 
         public StatusEffectDataBuilder()
         {
@@ -169,7 +164,6 @@ namespace Trainworks.BuildersV2
         public StatusEffectData Build()
         {
             StatusEffectData statusEffect = new StatusEffectData();
-
             AccessTools.Field(typeof(StatusEffectData), "addedVFX").SetValue(statusEffect, AddedVFX);
             AccessTools.Field(typeof(StatusEffectData), "additionalTriggerStages").SetValue(statusEffect, AdditionalTriggerStages);
             AccessTools.Field(typeof(StatusEffectData), "affectedVFX").SetValue(statusEffect, AffectedVFX);
@@ -203,7 +197,7 @@ namespace Trainworks.BuildersV2
 
             if (IconPath != null)
             {
-                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(BaseAssetPath + "/" + IconPath);
+                Sprite sprite = CustomAssetManager.LoadSpriteFromPath(FullAssetPath);
                 AccessTools.Field(typeof(StatusEffectData), "icon").SetValue(statusEffect, sprite);
             }
 
