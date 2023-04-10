@@ -31,7 +31,6 @@ namespace Trainworks.BuildersV2
         /// with the same name exists for some reason.
         /// </summary>
         public string EffectStateName { get; set; }
-
         /// <summary>
         /// Int parameter.
         /// </summary>
@@ -64,8 +63,6 @@ namespace Trainworks.BuildersV2
         /// Subtype parameter.
         /// </summary>
         public string ParamSubtype { get; set; }
-
-
         /// <summary>
         /// CharacterData parameter.
         /// </summary>
@@ -92,14 +89,17 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public CharacterData ParamCharacterData { get; set; }
         /// <summary>
-        /// Builder for CharacterData parameter.
-        /// Calling Build() will also build this parameter recursively.
+        /// Convenience Builder for CharacterData parameter. If set overrides ParamCharacterData.
         /// </summary>
         public CharacterDataBuilder ParamCharacterDataBuilder { get; set; }
         /// <summary>
         /// CharacterDataPool parameter.
         /// </summary>
         public List<CharacterData> ParamCharacterDataPool { get; set; }
+        /// <summary>
+        /// Convenience Builder for CharacterDataPool parameter. This will be append to CharacterDataPool when built.
+        /// </summary>
+        public List<CharacterDataBuilder> ParamCharacterDataPoolBuilder { get; set; }
         /// <summary>
         /// RoomData parameter.
         /// </summary>
@@ -116,18 +116,17 @@ namespace Trainworks.BuildersV2
         /// Trigger parameter.
         /// </summary>
         public CharacterTriggerData.Trigger ParamTrigger { get; set; }
-
+        /// <summary>
+        /// Which statusID to use to multiply the effect by.
+        /// </summary>
         public string StatusEffectStackMultiplier { get; set; }
-
         /// <summary>
         /// Tooltips displayed when hovering over any game entity this effect is applied to.
         /// </summary>
         public AdditionalTooltipData[] AdditionalTooltips { get; set; }
-
         public CharacterUI.Anim AnimToPlay { get; set; }
         public VfxAtLoc AppliedToSelfVFX { get; set; }
         public VfxAtLoc AppliedVFX { get; set; }
-
         public bool UseIntRange { get; set; }
         public bool UseStatusEffectStackMultiplier { get; set; }
         public bool CopyModifiersFromSource { get; set; }
@@ -135,7 +134,6 @@ namespace Trainworks.BuildersV2
         public bool HideTooltip { get; set; }
         public bool IgnoreTemporaryModifiersFromSource { get; set; }
         public bool ShouldTest { get; set; }
-
         public CardEffectData.CardSelectionMode TargetCardSelectionMode { get; set; }
         public CardType TargetCardType { get; set; }
         public string TargetCharacterSubtype { get; set; }
@@ -158,16 +156,13 @@ namespace Trainworks.BuildersV2
         }
 
         /// <summary>
-        /// Builds the CardEffectData represented by this builder's parameters recursively;
+        /// Builds the CardEffectData represented by this builder's parameters
         /// all Builders represented in this class's various fields will also be built.
         /// </summary>
         /// <returns>The newly created CardEffectData</returns>
         public CardEffectData Build()
         {
-            if (ParamCharacterDataBuilder != null)
-            {
-                ParamCharacterData = ParamCharacterDataBuilder.BuildAndRegister();
-            }
+            // Doesn't inherit from ScriptableObject
             CardEffectData cardEffectData = new CardEffectData();
             AccessTools.Field(typeof(CardEffectData), "additionalParamInt").SetValue(cardEffectData, AdditionalParamInt);
             AccessTools.Field(typeof(CardEffectData), "additionalTooltips").SetValue(cardEffectData, AdditionalTooltips);
@@ -183,17 +178,6 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardEffectData), "paramBool").SetValue(cardEffectData, ParamBool);
             AccessTools.Field(typeof(CardEffectData), "paramCardFilter").SetValue(cardEffectData, ParamCardFilter);
             AccessTools.Field(typeof(CardEffectData), "paramCardPool").SetValue(cardEffectData, ParamCardPool);
-            if (ParamCardUpgradeDataBuilder == null)
-            {
-                AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, ParamCardUpgradeData);
-            }
-            else
-            {
-                AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, ParamCardUpgradeDataBuilder.Build());
-            }
-
-            AccessTools.Field(typeof(CardEffectData), "paramCharacterData").SetValue(cardEffectData, ParamCharacterData);
-            AccessTools.Field(typeof(CardEffectData), "paramCharacterDataPool").SetValue(cardEffectData, ParamCharacterDataPool);
             AccessTools.Field(typeof(CardEffectData), "paramInt").SetValue(cardEffectData, ParamInt);
             AccessTools.Field(typeof(CardEffectData), "paramMaxInt").SetValue(cardEffectData, ParamMaxInt);
             AccessTools.Field(typeof(CardEffectData), "paramMinInt").SetValue(cardEffectData, ParamMinInt);
@@ -216,13 +200,29 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardEffectData), "targetTeamType").SetValue(cardEffectData, TargetTeamType);
             AccessTools.Field(typeof(CardEffectData), "useIntRange").SetValue(cardEffectData, UseIntRange);
             AccessTools.Field(typeof(CardEffectData), "useStatusEffectStackMultiplier").SetValue(cardEffectData, UseStatusEffectStackMultiplier);
+
+            CharacterData characterData = ParamCharacterData;
+            if (ParamCharacterDataBuilder != null)
+                characterData = ParamCharacterDataBuilder.BuildAndRegister();
+            AccessTools.Field(typeof(CardEffectData), "paramCharacterData").SetValue(cardEffectData, characterData);
+
+            CardUpgradeData upgrade = ParamCardUpgradeData;
+            if (ParamCardUpgradeDataBuilder != null)
+                upgrade = ParamCardUpgradeDataBuilder.Build();
+            AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, upgrade);
+
+            var characterDataPool = cardEffectData.GetParamCharacterDataPool();
+            characterDataPool.AddRange(ParamCharacterDataPool);
+            foreach (var character in ParamCharacterDataPoolBuilder)
+                characterDataPool.Add(character.BuildAndRegister());
+
             return cardEffectData;
         }
 
         /// <summary>
         /// Add a status effect to this effect's status effect array.
         /// </summary>
-        /// <param name="statusEffectID">ID of the status effect, most easily retrieved using the helper class "MTStatusEffectIDs"</param>
+        /// <param name="statusEffectID">ID of the status effect, most easily retrieved using the helper class "VanillaStatusEffectIDs"</param>
         /// <param name="stackCount">Number of stacks to apply</param>
         public CardEffectDataBuilder AddStatusEffect(string statusEffectID, int stackCount)
         {

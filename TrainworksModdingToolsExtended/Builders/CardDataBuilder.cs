@@ -198,7 +198,7 @@ namespace Trainworks.BuildersV2
         }
 
         /// <summary>
-        /// Builds the CardData represented by this builder's parameters recursively
+        /// Builds the CardData represented by this builder's parameters
         /// and registers it and its components with the appropriate managers.
         /// </summary>
         /// <returns>The newly registered CardData</returns>
@@ -210,8 +210,8 @@ namespace Trainworks.BuildersV2
         }
 
         /// <summary>
-        /// Builds the CardData represented by this builder's parameters recursively;
-        /// i.e. all CardEffectBuilders in EffectBuilders will also be built.
+        /// Builds the CardData represented by this builder's parameters
+        /// all Builders represented in this class's various fields will also be built.
         /// </summary>
         /// <returns>The newly created CardData</returns>
         public CardData Build()
