@@ -239,6 +239,7 @@ namespace Trainworks.BuildersV2
             CharacterData characterData = ScriptableObject.CreateInstance<CharacterData>();
             characterData.name = CharacterID;
 
+            // Saving allocations by reusing the allocated lists at initialization.
             var triggers = characterData.GetTriggers();
             triggers.AddRange(Triggers);
             foreach (var builder in TriggerBuilders)
@@ -253,7 +254,7 @@ namespace Trainworks.BuildersV2
                 RoomModifiers.Add(builder.Build());
             }
 
-            // No Getter.
+            // No Getter for subtype keys.
             var subtypeKeys = (List<string>)AccessTools.Field(typeof(CharacterData), "subtypeKeys").GetValue(characterData);
             subtypeKeys.AddRange(SubtypeKeys);
             if (PriorityDraw)
