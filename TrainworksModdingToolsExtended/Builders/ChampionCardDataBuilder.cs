@@ -32,20 +32,20 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly registered CardData</returns>
         public CardData BuildAndRegister(int ChampionIndex = 0)
         {
-            var cardData = this.Build();
+            var cardData = Build();
             CustomCardManager.RegisterCustomCard(cardData, CardPoolIDs);
 
             var Clan = cardData.GetLinkedClass();
 
             ChampionData ClanChamp = Clan.GetChampionData(ChampionIndex);
             ClanChamp.championCardData = cardData;
-            if (this.ChampionIconPath != null)
+            if (ChampionIconPath != null)
             {
-                Sprite championIconSprite = CustomAssetManager.LoadSpriteFromPath(this.BaseAssetPath + "/" + this.ChampionIconPath);
+                Sprite championIconSprite = CustomAssetManager.LoadSpriteFromPath(BaseAssetPath + "/" + ChampionIconPath);
                 ClanChamp.championIcon = championIconSprite;
             }
             ClanChamp.starterCardData = StarterCardData;
-            if (this.UpgradeTree != null)
+            if (UpgradeTree != null)
             {
                 ClanChamp.upgradeTree = UpgradeTree.Build();
             }

@@ -141,22 +141,30 @@ namespace Trainworks.BuildersV2
             var effectConditions = relicEffectData.GetEffectConditions();
             effectConditions.AddRange(EffectConditions);
             foreach (var builder in EffectConditionBuilders)
+            {
                 effectConditions.Add(builder.Build());
+            }
 
             var traits = relicEffectData.GetTraits();
             traits.AddRange(Traits);
             foreach (var builder in TraitBuilders)
+            {
                 traits.Add(builder.Build());
+            }
 
             var triggers = relicEffectData.GetTriggers();
             triggers.AddRange(Triggers);
             foreach (var builder in TriggerBuilders)
+            {
                 Triggers.Add(builder.Build());
+            }
 
             var cardEffects = relicEffectData.GetParamCardEffectData();
             cardEffects.AddRange(ParamCardEffects);
             foreach (var builder in ParamCardEffectBuilders)
+            {
                 cardEffects.Add(builder.Build());
+            }
 
             var cardTriggers = relicEffectData.GetCardTriggers();
             cardTriggers.AddRange(CardTriggers);
@@ -164,7 +172,9 @@ namespace Trainworks.BuildersV2
             var excludedTraits = relicEffectData.GetExcludedTraits();
             excludedTraits.AddRange(ExcludedTraits);
             foreach (var builder in ExcludedTraitBuilders)
+            {
                 excludedTraits.Add(builder.Build());
+            }
 
             AccessTools.Field(typeof(RelicEffectData), "additionalTooltips").SetValue(relicEffectData, AdditionalTooltips);
             AccessTools.Field(typeof(RelicEffectData), "appliedVfx").SetValue(relicEffectData, AppliedVfx);
@@ -199,15 +209,21 @@ namespace Trainworks.BuildersV2
 
             var upgrade = ParamCardUpgradeData;
             if (ParamCardUpgradeDataBuilder != null)
+            {
                 upgrade = ParamCardUpgradeDataBuilder.Build();
+            }
 
             var filter = ParamCardFilter;
             if (ParamCardFilterBuilder != null)
+            {
                 filter = ParamCardFilterBuilder.Build();
+            }
 
             var cardPool = ParamCardPool;
             if (ParamCardPoolBuilder != null)
+            {
                 cardPool = ParamCardPoolBuilder.BuildAndRegister();
+            }
 
             AccessTools.Field(typeof(RelicEffectData), "paramCardUpgradeData").SetValue(relicEffectData, upgrade);
             AccessTools.Field(typeof(RelicEffectData), "paramCardFilter").SetValue(relicEffectData, filter);

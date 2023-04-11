@@ -111,7 +111,9 @@ namespace Trainworks.BuildersV2
             var mutators = challengeData.GetMutators();
             mutators.AddRange(Mutators);
             foreach (var builder in MutatorBuilders)
+            {
                 mutators.Add(builder.Build());
+            }
 
             // RelicData fields
             AccessTools.Field(typeof(SpChallengeData), "nameKey").SetValue(challengeData, NameKey);

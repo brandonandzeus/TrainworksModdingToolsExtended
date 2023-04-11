@@ -224,36 +224,48 @@ namespace Trainworks.BuildersV2
             var cardTriggers = cardUpgradeData.GetCardTriggerUpgrades();
             cardTriggers.AddRange(CardTriggerUpgrades);
             foreach (var builder in CardTriggerUpgradeBuilders)
+            {
                 cardTriggers.Add(builder.Build());
+            }
 
             var filters = cardUpgradeData.GetFilters();
             filters.AddRange(Filters);
             foreach (var builder in FiltersBuilders)
+            {
                 filters.Add(builder.Build());
+            }
 
             cardUpgradeData.GetRemoveTraitUpgrades().AddRange(RemoveTraitUpgrades);
 
             var roomModifiers = cardUpgradeData.GetRoomModifierUpgrades();
             roomModifiers.AddRange(RoomModifierUpgrades);
             foreach (var builder in RoomModifierUpgradeBuilders)
+            {
                 roomModifiers.Add(builder.Build());
+            }
 
             cardUpgradeData.GetStatusEffectUpgrades().AddRange(StatusEffectUpgrades);
 
             var traitDatas = cardUpgradeData.GetTraitDataUpgrades();
             traitDatas.AddRange(TraitDataUpgrades);
             foreach (var builder in TraitDataUpgradeBuilders)
+            {
                 traitDatas.Add(builder.Build());
+            }
 
             var triggers = cardUpgradeData.GetTriggerUpgrades();
             triggers.AddRange(TriggerUpgrades);
             foreach (var builder in TriggerUpgradeBuilders)
+            {
                 triggers.Add(builder.Build());
+            }
 
             var upgradesToRemove = cardUpgradeData.GetUpgradesToRemove();
             upgradesToRemove.AddRange(UpgradesToRemove);
             foreach (var builder in UpgradesToRemoveBuilders)
+            {
                 upgradesToRemove.Add(builder.Build());
+            }
 
             if (AssetPath != null)
             {

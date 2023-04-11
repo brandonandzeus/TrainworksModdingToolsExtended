@@ -72,7 +72,9 @@ namespace Trainworks.BuildersV2
             var cardEffects = cardTriggerEffectData.GetCardEffects();
             cardEffects.AddRange(CardEffects);
             foreach (var builder in CardEffectBuilders)
+            {
                 cardEffects.Add(builder.Build());
+            }
 
             BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
 

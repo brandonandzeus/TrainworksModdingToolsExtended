@@ -242,12 +242,16 @@ namespace Trainworks.BuildersV2
             var triggers = characterData.GetTriggers();
             triggers.AddRange(Triggers);
             foreach (var builder in TriggerBuilders)
+            {
                 triggers.Add(builder.Build());
+            }
 
             var roomModifiers = characterData.GetRoomModifiersData();
             roomModifiers.AddRange(RoomModifiers);
             foreach (var builder in RoomModifierBuilders)
+            {
                 RoomModifiers.Add(builder.Build());
+            }
 
             // No Getter.
             var subtypeKeys = (List<string>)AccessTools.Field(typeof(CharacterData), "subtypeKeys").GetValue(characterData);

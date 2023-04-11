@@ -148,7 +148,10 @@ namespace Trainworks.BuildersV2
 
             var upgrade = ParamCardUpgradeData;
             if (ParamCardUpgradeDataBuilder != null)
+            {
                 upgrade = ParamCardUpgradeDataBuilder.Build();
+            }
+
             AccessTools.Field(typeof(RoomModifierData), "paramCardUpgardeData" /* sic */).SetValue(roomModifierData, upgrade);
             if (IconPath != null)
             {

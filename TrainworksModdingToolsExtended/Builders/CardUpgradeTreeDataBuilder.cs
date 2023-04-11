@@ -34,7 +34,9 @@ namespace Trainworks.BuildersV2
                     List<CardUpgradeData> newbranchlist = newBranch.GetCardUpgrades();
 
                     foreach (CardUpgradeDataBuilder leaf in branch)
+                    {
                         newbranchlist.Add(leaf.Build());
+                    }
 
                     upgradeTrees.Add(newBranch);
                 }

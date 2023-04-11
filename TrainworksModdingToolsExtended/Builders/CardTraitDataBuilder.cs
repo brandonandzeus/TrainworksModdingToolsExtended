@@ -106,7 +106,9 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardTraitData), "stackMode").SetValue(cardTraitData, StackMode);
             var upgrade = ParamCardUpgradeData;
             if (ParamCardUpgradeDataBuilder != null)
+            {
                 upgrade = ParamCardUpgradeDataBuilder.Build();
+            }
 
             AccessTools.Field(typeof(CardTraitData), "paramCardUpgradeData").SetValue(cardTraitData, upgrade);
             return cardTraitData;

@@ -78,7 +78,9 @@ namespace Trainworks.BuildersV2
             effects.Clear(); // Contains a null from constructor above.
             effects.AddRange(Effects);
             foreach (var builder in EffectBuilders)
+            {
                 effects.Add(builder.Build());
+            }
 
             AccessTools.Field(typeof(CharacterTriggerData), "additionalTextOnTriggerKey").SetValue(characterTriggerData, AdditionalTextOnTriggerKey);
             AccessTools.Field(typeof(CharacterTriggerData), "descriptionKey").SetValue(characterTriggerData, DescriptionKey);

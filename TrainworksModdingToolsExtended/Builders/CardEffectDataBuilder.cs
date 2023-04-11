@@ -203,18 +203,26 @@ namespace Trainworks.BuildersV2
 
             CharacterData characterData = ParamCharacterData;
             if (ParamCharacterDataBuilder != null)
+            {
                 characterData = ParamCharacterDataBuilder.BuildAndRegister();
+            }
+
             AccessTools.Field(typeof(CardEffectData), "paramCharacterData").SetValue(cardEffectData, characterData);
 
             CardUpgradeData upgrade = ParamCardUpgradeData;
             if (ParamCardUpgradeDataBuilder != null)
+            {
                 upgrade = ParamCardUpgradeDataBuilder.Build();
+            }
+
             AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, upgrade);
 
             var characterDataPool = cardEffectData.GetParamCharacterDataPool();
             characterDataPool.AddRange(ParamCharacterDataPool);
             foreach (var character in ParamCharacterDataPoolBuilder)
+            {
                 characterDataPool.Add(character.BuildAndRegister());
+            }
 
             return cardEffectData;
         }

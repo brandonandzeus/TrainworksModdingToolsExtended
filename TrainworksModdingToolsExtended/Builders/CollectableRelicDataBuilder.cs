@@ -124,7 +124,9 @@ namespace Trainworks.BuildersV2
             var effects = relicData.GetEffects();
             effects.AddRange(Effects);
             foreach (var builder in EffectBuilders)
+            {
                 effects.Add(builder.Build());
+            }
 
             var guid = GUIDGenerator.GenerateDeterministicGUID(CollectableRelicID);
             AccessTools.Field(typeof(GameData), "id").SetValue(relicData, guid);

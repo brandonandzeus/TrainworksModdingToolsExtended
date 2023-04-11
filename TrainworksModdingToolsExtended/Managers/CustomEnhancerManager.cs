@@ -1,11 +1,9 @@
 ﻿using BepInEx.Logging;
 using HarmonyLib;
-using System;
 using System.Collections.Generic;
 using Trainworks.ConstantsV2;
 using Trainworks.Managers;
 using Trainworks.Utilities;
-using UnityEngine;
 
 namespace Trainworks.ManagersV2
 {
@@ -43,9 +41,13 @@ namespace Trainworks.ManagersV2
         {
             EnhancerPool enhancerPool = null;
             if (CustomEnhancerPools.ContainsKey(enhancerPoolID))
+            {
                 enhancerPool = CustomEnhancerPools[enhancerPoolID];
+            }
             else
+            {
                 enhancerPool = GetVanillaEnhancerPool(enhancerPoolID);
+            }
 
             if (enhancerPool == null)
             {
@@ -87,7 +89,9 @@ namespace Trainworks.ManagersV2
             var guid = GUIDGenerator.GenerateDeterministicGUID(enhancerID);
 
             if (CustomEnhancers.ContainsKey(guid))
+            {
                 return CustomEnhancers[guid];
+            }
 
             foreach (var enhancer in ProviderManager.SaveManager.GetAllGameData().GetAllEnhancerData())
             {

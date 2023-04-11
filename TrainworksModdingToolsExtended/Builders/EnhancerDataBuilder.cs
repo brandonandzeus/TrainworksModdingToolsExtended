@@ -130,7 +130,10 @@ namespace Trainworks.BuildersV2
             // TODO check if using RelicEffectClassName is ok.
             CardUpgradeData upgrade = Upgrade;
             if (UpgradeBuilder != null)
+            {
                 upgrade = UpgradeBuilder.Build();
+            }
+
             List<RelicEffectData> Effects = new List<RelicEffectData>
             {
                 new RelicEffectDataBuilder
