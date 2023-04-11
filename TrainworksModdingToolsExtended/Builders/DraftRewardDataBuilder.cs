@@ -47,7 +47,6 @@ namespace Trainworks.BuildersV2
         public string NameKey { get; set; }
         /// <summary>
         /// Description title key, this shouldn't need to be set as its set by DraftRewardID.
-        /// 
         /// </summary>
         public string DescriptionKey { get; set; }
         public ClassData ClassDataOverride { get; set; }
