@@ -238,7 +238,6 @@ namespace Trainworks.BuildersV2
         {
             CharacterData characterData = ScriptableObject.CreateInstance<CharacterData>();
             characterData.name = CharacterID;
-            
 
             var triggers = characterData.GetTriggers();
             triggers.AddRange(Triggers);
