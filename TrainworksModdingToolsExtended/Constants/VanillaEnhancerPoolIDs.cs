@@ -10,7 +10,7 @@
         /// </summary>
         public static readonly string SpellUpgradePoolCostReduction = "SpellUpgradePoolCostReduction";
         /// <summary>
-        /// The second slot in the Spell Upgrade Shop. Contains Magic Power +10 and Consume, Magic Power +20 and Consume. 
+        /// The second slot in the Spell Upgrade Shop. Contains 'Magic Power +10' and 'Consume, Magic Power +20'. 
         /// </summary>
         public static readonly string SpellUpgradePoolCommon = "SpellUpgradePoolCommon";
         /// <summary>
