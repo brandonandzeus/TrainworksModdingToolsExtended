@@ -221,31 +221,31 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(GameData), "id").SetValue(cardData, guid);
             cardData.name = CardID;
 
-            var cardEffects = cardData.GetEffects();
+            var cardEffects = new List<CardEffectData>();
             cardEffects.AddRange(Effects);
             foreach (var builder in EffectBuilders)
             {
                 cardEffects.Add(builder.Build());
             }
-            var cardEffectTriggers = cardData.GetEffectTriggers();
+            var cardEffectTriggers = new List<CharacterTriggerData>();
             cardEffectTriggers.AddRange(EffectTriggers);
             foreach (var builder in EffectTriggerBuilders)
             {
                 cardEffectTriggers.Add(builder.Build());
             }
-            var cardTraits = cardData.GetTraits();
+            var cardTraits = new List<CardTraitData>();
             cardTraits.AddRange(Traits);
             foreach (var builder in TraitBuilders)
             {
                 cardTraits.Add(builder.Build());
             }
-            var cardTriggers = cardData.GetCardTriggers();
+            var cardTriggers = new List<CardTriggerEffectData>();
             cardTriggers.AddRange(Triggers);
             foreach (var builder in TriggerBuilders)
             {
                 cardTriggers.Add(builder.Build());
             }
-            var startingUpgrades = cardData.GetUpgradeData();
+            var startingUpgrades = new List<CardUpgradeData>();
             startingUpgrades.AddRange(StartingUpgrades);
             foreach (var builder in StartingUpgradeBuilders)
             {
