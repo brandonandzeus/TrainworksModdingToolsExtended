@@ -138,13 +138,7 @@ namespace Trainworks.BuildersV2
         {
             RelicEffectData relicEffectData = new RelicEffectData();
 
-            var effectConditions = relicEffectData.GetEffectConditions();
-            effectConditions.AddRange(EffectConditions);
-            foreach (var builder in EffectConditionBuilders)
-            {
-                effectConditions.Add(builder.Build());
-            }
-
+            // Saving an allocation by reusing the list that was allocated on initialization.
             var traits = relicEffectData.GetTraits();
             traits.AddRange(Traits);
             foreach (var builder in TraitBuilders)
@@ -156,7 +150,7 @@ namespace Trainworks.BuildersV2
             triggers.AddRange(Triggers);
             foreach (var builder in TriggerBuilders)
             {
-                Triggers.Add(builder.Build());
+                triggers.Add(builder.Build());
             }
 
             var cardEffects = relicEffectData.GetParamCardEffectData();
@@ -206,6 +200,15 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RelicEffectData), "tooltipBodyKey").SetValue(relicEffectData, TooltipBodyKey);
             AccessTools.Field(typeof(RelicEffectData), "tooltipTitleKey").SetValue(relicEffectData, TooltipTitleKey);
             AccessTools.Field(typeof(RelicEffectData), "triggerTooltipsSuppressed").SetValue(relicEffectData, TriggerTooltipsSuppressed);
+
+            // Non allocated field
+            var effectConditions = new List<RelicEffectCondition>();
+            effectConditions.AddRange(EffectConditions);
+            foreach (var builder in EffectConditionBuilders)
+            {
+                effectConditions.Add(builder.Build());
+            }
+            AccessTools.Field(typeof(RelicEffectData), "effectConditions").SetValue(relicEffectData, effectConditions);
 
             var upgrade = ParamCardUpgradeData;
             if (ParamCardUpgradeDataBuilder != null)
