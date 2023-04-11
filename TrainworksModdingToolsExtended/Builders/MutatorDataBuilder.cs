@@ -150,6 +150,7 @@ namespace Trainworks.BuildersV2
             }
 
             AccessTools.Field(typeof(RelicData), "descriptionKey").SetValue(relicData, DescriptionKey);
+            AccessTools.Field(typeof(RelicData), "effects").SetValue(relicData, effects);
             AccessTools.Field(typeof(RelicData), "nameKey").SetValue(relicData, NameKey);
             AccessTools.Field(typeof(RelicData), "relicActivatedKey").SetValue(relicData, RelicActivatedKey);
             AccessTools.Field(typeof(RelicData), "relicLoreTooltipKeys").SetValue(relicData, RelicLoreTooltipKeys);
