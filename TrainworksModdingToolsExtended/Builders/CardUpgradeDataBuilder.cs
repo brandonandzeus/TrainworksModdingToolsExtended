@@ -211,16 +211,19 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardUpgradeData), "bonusSize").SetValue(cardUpgradeData, BonusSize);
             AccessTools.Field(typeof(CardUpgradeData), "costReduction").SetValue(cardUpgradeData, CostReduction);
             AccessTools.Field(typeof(CardUpgradeData), "hideUpgradeIconOnCard").SetValue(cardUpgradeData, HideUpgradeIconOnCard);
+            AccessTools.Field(typeof(CardUpgradeData), "isUnitSynthesisUpgrade").SetValue(cardUpgradeData, IsUnitSynthesisUpgrade);
+            AccessTools.Field(typeof(CardUpgradeData), "isUnique").SetValue(cardUpgradeData, IsUnique);
+            AccessTools.Field(typeof(CardUpgradeData), "linkedPactDuplicateRarity").SetValue(cardUpgradeData, LinkedPactDuplicateRarity);
+            AccessTools.Field(typeof(CardUpgradeData), "removeTraitUpgrades").SetValue(cardUpgradeData, RemoveTraitUpgrades);
+            AccessTools.Field(typeof(CardUpgradeData), "sourceSynthesisUnit").SetValue(cardUpgradeData, SourceSynthesisUnit);
+            AccessTools.Field(typeof(CardUpgradeData), "statusEffectUpgrades").SetValue(cardUpgradeData, StatusEffectUpgrades);
             AccessTools.Field(typeof(CardUpgradeData), "upgradeDescriptionKey").SetValue(cardUpgradeData, UpgradeDescriptionKey);
             AccessTools.Field(typeof(CardUpgradeData), "upgradeNotificationKey").SetValue(cardUpgradeData, UpgradeNotificationKey);
             AccessTools.Field(typeof(CardUpgradeData), "upgradeTitleKey").SetValue(cardUpgradeData, UpgradeTitleKey);
             AccessTools.Field(typeof(CardUpgradeData), "useUpgradeHighlightTextTags").SetValue(cardUpgradeData, UseUpgradeHighlightTextTags);
             AccessTools.Field(typeof(CardUpgradeData), "xCostReduction").SetValue(cardUpgradeData, XCostReduction);
-            AccessTools.Field(typeof(CardUpgradeData), "isUnitSynthesisUpgrade").SetValue(cardUpgradeData, IsUnitSynthesisUpgrade);
-            AccessTools.Field(typeof(CardUpgradeData), "sourceSynthesisUnit").SetValue(cardUpgradeData, SourceSynthesisUnit);
-            AccessTools.Field(typeof(CardUpgradeData), "isUnique").SetValue(cardUpgradeData, IsUnique);
-            AccessTools.Field(typeof(CardUpgradeData), "linkedPactDuplicateRarity").SetValue(cardUpgradeData, LinkedPactDuplicateRarity);
 
+            // Save allocations by using the allocated list from initialization.
             var cardTriggers = cardUpgradeData.GetCardTriggerUpgrades();
             cardTriggers.AddRange(CardTriggerUpgrades);
             foreach (var builder in CardTriggerUpgradeBuilders)
@@ -235,22 +238,11 @@ namespace Trainworks.BuildersV2
                 filters.Add(builder.Build());
             }
 
-            cardUpgradeData.GetRemoveTraitUpgrades().AddRange(RemoveTraitUpgrades);
-
             var roomModifiers = cardUpgradeData.GetRoomModifierUpgrades();
             roomModifiers.AddRange(RoomModifierUpgrades);
             foreach (var builder in RoomModifierUpgradeBuilders)
             {
                 roomModifiers.Add(builder.Build());
-            }
-
-            cardUpgradeData.GetStatusEffectUpgrades().AddRange(StatusEffectUpgrades);
-
-            var traitDatas = cardUpgradeData.GetTraitDataUpgrades();
-            traitDatas.AddRange(TraitDataUpgrades);
-            foreach (var builder in TraitDataUpgradeBuilders)
-            {
-                traitDatas.Add(builder.Build());
             }
 
             var triggers = cardUpgradeData.GetTriggerUpgrades();
@@ -266,6 +258,16 @@ namespace Trainworks.BuildersV2
             {
                 upgradesToRemove.Add(builder.Build());
             }
+
+            // List was not allocated, make a new list and add data.
+            var traitDatas = new List<CardTraitData>();
+            traitDatas.AddRange(TraitDataUpgrades);
+            foreach (var builder in TraitDataUpgradeBuilders)
+            {
+                traitDatas.Add(builder.Build());
+            }
+            AccessTools.Field(typeof(CardUpgradeData), "traitDataUpgrades").SetValue(cardUpgradeData, traitDatas);
+
 
             if (AssetPath != null)
             {
