@@ -65,16 +65,20 @@ namespace Trainworks.BuildersV2
         {
             // Doesn't inherit from ScriptableObject
             CardTriggerEffectData cardTriggerEffectData = new CardTriggerEffectData();
-            AccessTools.Field(typeof(CardTriggerEffectData), "cardTriggerEffects").SetValue(cardTriggerEffectData, CardTriggerEffects);
+            
             AccessTools.Field(typeof(CardTriggerEffectData), "descriptionKey").SetValue(cardTriggerEffectData, DescriptionKey);
             AccessTools.Field(typeof(CardTriggerEffectData), "trigger").SetValue(cardTriggerEffectData, Trigger);
 
+            // Saving allocations by adding to the list that was already allocated.
             var cardEffects = cardTriggerEffectData.GetCardEffects();
             cardEffects.AddRange(CardEffects);
             foreach (var builder in CardEffectBuilders)
             {
                 cardEffects.Add(builder.Build());
             }
+
+            var cardTriggerEffects = cardTriggerEffectData.GetTriggerEffects();
+            cardTriggerEffects.AddRange(CardTriggerEffects);
 
             BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
 
