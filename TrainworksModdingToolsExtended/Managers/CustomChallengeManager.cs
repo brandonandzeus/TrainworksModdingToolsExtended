@@ -4,7 +4,7 @@ using Trainworks.Utilities;
 
 namespace Trainworks.Managers
 {
-    class CustomChallengeManager
+    public class CustomChallengeManager
     {
         private static Dictionary<string, SpChallengeData> CustomChallengeData = new Dictionary<string, SpChallengeData>();
 
