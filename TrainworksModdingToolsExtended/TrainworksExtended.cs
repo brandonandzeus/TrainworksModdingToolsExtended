@@ -1,17 +1,13 @@
 ﻿using BepInEx;
 using HarmonyLib;
-using Trainworks.Interfaces;
 
 namespace Trainworks
 {
-    /// <summary>
-    /// The entry point for the framework.
-    /// </summary>
     [BepInPlugin(MODGUID, MODNAME, VERSION)]
     [BepInProcess("MonsterTrain.exe")]
     [BepInProcess("MtLinkHandler.exe")]
     [BepInDependency("tools.modding.trainworks")]
-    public class TrainworksExtended : BaseUnityPlugin, IInitializable
+    public class TrainworksExtended : BaseUnityPlugin
     {
         public const string MODGUID = "tools.modding.trainworks.extended";
         public const string MODNAME = "Trainworks Modding Tools Extended";
@@ -22,10 +18,6 @@ namespace Trainworks
         {
             var harmony = new Harmony(MODGUID);
             harmony.PatchAll();
-        }
-
-        public void Initialize()
-        {
         }
     }
 }
