@@ -3,6 +3,7 @@ using ShinyShoe;
 using System.Collections.Generic;
 using System.Reflection;
 using Trainworks.Managers;
+using Trainworks.Utilities;
 using UnityEngine;
 
 namespace Trainworks.BuildersV2
@@ -73,7 +74,7 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string BaseAssetPath { get; private set; }
         /// <summary>
-        /// Custom asset path to load challenge art from. 76x76 image.
+        /// Not required to be set as it appears to be unused, but here for future-proofing.
         /// </summary>
         public string IconPath { get; set; }
 
@@ -81,6 +82,7 @@ namespace Trainworks.BuildersV2
         {
             Mutators = new List<MutatorData>();
             MutatorBuilders = new List<MutatorDataBuilder>();
+            RequiredDLC = DLC.None;
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
@@ -105,10 +107,12 @@ namespace Trainworks.BuildersV2
         public SpChallengeData Build()
         {
             var challengeData = ScriptableObject.CreateInstance<SpChallengeData>();
-            AccessTools.Field(typeof(GameData), "id").SetValue(challengeData, ChallengeID);
+            var guid = GUIDGenerator.GenerateDeterministicGUID(ChallengeID);
+            AccessTools.Field(typeof(GameData), "id").SetValue(challengeData, guid);
             challengeData.name = ChallengeID;
 
-            var mutators = challengeData.GetMutators();
+            // Object doesn't initialize mutators so can't challengeData.GetMutators() here.
+            var mutators = new List<MutatorData>();
             mutators.AddRange(Mutators);
             foreach (var builder in MutatorBuilders)
             {
@@ -119,6 +123,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(SpChallengeData), "nameKey").SetValue(challengeData, NameKey);
             AccessTools.Field(typeof(SpChallengeData), "descriptionKey").SetValue(challengeData, DescriptionKey);
             AccessTools.Field(typeof(SpChallengeData), "requiredDLC").SetValue(challengeData, RequiredDLC);
+            AccessTools.Field(typeof(SpChallengeData), "mutators").SetValue(challengeData, mutators);
             if (IconPath != null)
             {
                 Sprite iconSprite = CustomAssetManager.LoadSpriteFromPath(FullAssetPath);
