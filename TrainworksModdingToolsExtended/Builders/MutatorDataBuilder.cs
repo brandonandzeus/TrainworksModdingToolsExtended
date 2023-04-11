@@ -141,7 +141,8 @@ namespace Trainworks.BuildersV2
             relicData.name = MutatorID;
 
             // RelicData fields
-            var effects = relicData.GetEffects();
+            // Object doesn't initialize effects so can't relicData.GetEffects() here.
+            var effects = new List<RelicEffectData>();
             effects.AddRange(Effects);
             foreach (var builder in EffectBuilders)
             {
