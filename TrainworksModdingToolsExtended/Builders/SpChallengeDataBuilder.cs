@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Trainworks.BuildersV2
 {
-    class SpChallengeDataBuilder
+    public class SpChallengeDataBuilder
     {
         private string challengeID;
 
