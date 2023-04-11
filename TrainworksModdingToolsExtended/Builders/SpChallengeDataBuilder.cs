@@ -52,7 +52,6 @@ namespace Trainworks.BuildersV2
         /// Note that setting challengeID sets this field to [ChallengeID]_SpChallengeData_DescriptionKey.
         /// </summary>
         public string DescriptionKey { get; set; }
-
         /// <summary>
         /// List of Mutators to add to the ExpertChallenge to.
         /// </summary>
