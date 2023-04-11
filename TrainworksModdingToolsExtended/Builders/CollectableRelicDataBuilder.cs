@@ -121,7 +121,8 @@ namespace Trainworks.BuildersV2
         {
             var relicData = ScriptableObject.CreateInstance<CollectableRelicData>();
 
-            var effects = relicData.GetEffects();
+            // RelicData.effects is not allocated initially
+            var effects = new List<RelicEffectData>();
             effects.AddRange(Effects);
             foreach (var builder in EffectBuilders)
             {
@@ -134,7 +135,7 @@ namespace Trainworks.BuildersV2
             // RelicData fields
             AccessTools.Field(typeof(RelicData), "descriptionKey").SetValue(relicData, DescriptionKey);
             AccessTools.Field(typeof(RelicData), "divineVariant").SetValue(relicData, DivineVariant);
-            AccessTools.Field(typeof(RelicData), "effects").SetValue(relicData, Effects);
+            AccessTools.Field(typeof(RelicData), "effects").SetValue(relicData, effects);
             AccessTools.Field(typeof(RelicData), "nameKey").SetValue(relicData, NameKey);
             AccessTools.Field(typeof(RelicData), "relicActivatedKey").SetValue(relicData, RelicActivatedKey);
             AccessTools.Field(typeof(RelicData), "relicLoreTooltipKeys").SetValue(relicData, RelicLoreTooltipKeys);
