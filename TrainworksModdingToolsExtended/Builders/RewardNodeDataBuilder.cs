@@ -174,12 +174,14 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RewardNodeData), "requiredClass").SetValue(rewardNodeData, RequiredClass);
             AccessTools.Field(typeof(RewardNodeData), "dlcHellforgedCrystalsCost").SetValue(rewardNodeData, DlcHellforgedCrystalsCost);
 
-            List<RewardData> rewards = (List<RewardData>)rewardNodeData.GetRewards();
+            // Field is not allocated at initialization.
+            List<RewardData> rewards = new List<RewardData>();
             rewards.AddRange(Rewards);
             foreach (var builder in RewardBuilders)
             {
                 rewards.Add(builder.Build());
             }
+            AccessTools.Field(typeof(RewardNodeData), "rewards").SetValue(rewardNodeData, rewards);
 
             BuilderUtils.ImportStandardLocalization(NameKey, Name);
             BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
