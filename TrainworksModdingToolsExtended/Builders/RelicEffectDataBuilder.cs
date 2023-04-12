@@ -75,7 +75,14 @@ namespace Trainworks.BuildersV2
         public int ParamMaxInt { get; set; }
         public int ParamMinInt { get; set; }
         public bool ParamUseIntRange { get; set; }
+        /// <summary>
+        /// A Pool of random champions with upgrades to select
+        /// </summary>
         public RandomChampionPool ParamRandomChampionPool { get; set; }
+        /// <summary>
+        /// Convenience builder for ParamRandomChampionPool. If set overrides the parameter.
+        /// </summary>
+        public RandomChampionPoolBuilder ParamRandomChampionPoolBuilder { get; set; }
         public CollectableRelicData ParamRelic { get; set; }
         public RewardData ParamReward { get; set; }
         public RoomData ParamRoomData { get; set; }
@@ -186,7 +193,6 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RelicEffectData), "paramInt").SetValue(relicEffectData, ParamInt);
             AccessTools.Field(typeof(RelicEffectData), "paramMaxInt").SetValue(relicEffectData, ParamMaxInt);
             AccessTools.Field(typeof(RelicEffectData), "paramMinInt").SetValue(relicEffectData, ParamMinInt);
-            AccessTools.Field(typeof(RelicEffectData), "paramRandomChampionPool").SetValue(relicEffectData, ParamRandomChampionPool);
             AccessTools.Field(typeof(RelicEffectData), "paramRelic").SetValue(relicEffectData, ParamRelic);
             AccessTools.Field(typeof(RelicEffectData), "paramReward").SetValue(relicEffectData, ParamReward);
             AccessTools.Field(typeof(RelicEffectData), "paramRoomData").SetValue(relicEffectData, ParamRoomData);
@@ -231,9 +237,16 @@ namespace Trainworks.BuildersV2
                 cardPool = ParamCardPoolBuilder.BuildAndRegister();
             }
 
+            var randomChampionPool = ParamRandomChampionPool;
+            if (ParamRandomChampionPoolBuilder != null)
+            {
+                randomChampionPool = ParamRandomChampionPoolBuilder.Build();
+            }
+
             AccessTools.Field(typeof(RelicEffectData), "paramCardUpgradeData").SetValue(relicEffectData, upgrade);
             AccessTools.Field(typeof(RelicEffectData), "paramCardFilter").SetValue(relicEffectData, filter);
             AccessTools.Field(typeof(RelicEffectData), "paramCardPool").SetValue(relicEffectData, cardPool);
+            AccessTools.Field(typeof(RelicEffectData), "paramRandomChampionPool").SetValue(relicEffectData, randomChampionPool);
 
             BuilderUtils.ImportStandardLocalization(TooltipBodyKey, TooltipBody);
             BuilderUtils.ImportStandardLocalization(TooltipTitleKey, TooltipTitle);
