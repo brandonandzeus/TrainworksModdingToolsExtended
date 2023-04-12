@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
+using Trainworks.ConstantsV2;
 using Trainworks.Managers;
 using Trainworks.Utilities;
 using UnityEngine;
