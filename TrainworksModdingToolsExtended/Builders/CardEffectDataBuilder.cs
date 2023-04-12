@@ -217,15 +217,16 @@ namespace Trainworks.BuildersV2
             {
                 upgrade = ParamCardUpgradeDataBuilder.Build();
             }
-
             AccessTools.Field(typeof(CardEffectData), "paramCardUpgradeData").SetValue(cardEffectData, upgrade);
 
-            var characterDataPool = cardEffectData.GetParamCharacterDataPool();
+            // Field not allocated.
+            var characterDataPool = new List<CharacterData>();
             characterDataPool.AddRange(ParamCharacterDataPool);
             foreach (var character in ParamCharacterDataPoolBuilder)
             {
                 characterDataPool.Add(character.BuildAndRegister());
             }
+            AccessTools.Field(typeof(CardEffectData), "paramCharacterDataPool").SetValue(cardEffectData, characterDataPool);
 
             return cardEffectData;
         }
