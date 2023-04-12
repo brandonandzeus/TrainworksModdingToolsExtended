@@ -57,7 +57,6 @@ namespace Trainworks.BuildersV2
             CardTriggerEffects = new List<CardTriggerData>();
             CardEffectBuilders = new List<CardEffectDataBuilder>();
             CardEffects = new List<CardEffectData>();
-            DescriptionKey = "";
         }
 
         /// <summary>

@@ -188,7 +188,6 @@ namespace Trainworks.BuildersV2
             ValidBossAttackPhase = BossState.AttackPhase.Relentless;
             PactCrystalsRequiredCount = -1;
             CharacterChatterDataBuilder = new CharacterChatterDataBuilder();
-            NameKey = "";
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];

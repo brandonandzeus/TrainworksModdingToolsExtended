@@ -151,10 +151,6 @@ namespace Trainworks.BuildersV2
             UnlockKeys = new Dictionary<MetagameSaveData.TrackedValue, string>();
             ClassUnlockPreviewTexts = new List<string>();
             Champions = new List<ChampionData>();
-            TitleLoc = "";
-            DescriptionLoc = "";
-            SubclassDescriptionLoc = "";
-
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }

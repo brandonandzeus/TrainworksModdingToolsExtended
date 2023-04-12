@@ -62,7 +62,6 @@ namespace Trainworks.BuildersV2
             Effects = new List<CardEffectData>();
             HideTriggerTooltip = false;
             DisplayEffectHintText = false;
-            DescriptionKey = "";
             AdditionalTextOnTriggerKey = "";
         }
 

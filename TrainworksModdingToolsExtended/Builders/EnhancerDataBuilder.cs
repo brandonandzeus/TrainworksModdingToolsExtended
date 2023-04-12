@@ -27,9 +27,9 @@ namespace Trainworks.BuildersV2
                 {
                     NameKey = enhancerID + "_EnhancerData_NameKey";
                 }
-                if (NameKey == null)
+                if (DescriptionKey == null)
                 {
-                    NameKey = enhancerID + "_EnhancerData_DescriptionKey";
+                    DescriptionKey = enhancerID + "_EnhancerData_DescriptionKey";
                 }
             }
         }
@@ -98,8 +98,6 @@ namespace Trainworks.BuildersV2
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
             EnhancerPoolIDs = new List<string>();
-            NameKey = "";
-            DescriptionKey = "";
         }
 
         /// <summary>

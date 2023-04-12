@@ -12,7 +12,6 @@ namespace Trainworks.BuildersV2
     {
         private string upgradeID;
 
-
         /// <summary>
         /// UpgradeID, must be unique.
         /// Implicitly sets UpgradeTitleKey and UpgradeDescriptionKey
@@ -89,7 +88,6 @@ namespace Trainworks.BuildersV2
         /// Increases size of a unit. Can be negative to reduce size.
         /// </summary>
         public int BonusSize { get; set; }
-
         /// <summary>
         /// Convenience Builders for TraitDataUpgrade. Will be appended to the parameter.
         /// </summary>
@@ -114,7 +112,6 @@ namespace Trainworks.BuildersV2
         /// Convenience Builders for UpgradesToRemove. Will be appended to the parameter.
         /// </summary>
         public List<CardUpgradeDataBuilder> UpgradesToRemoveBuilders { get; set; }
-
         /// <summary>
         /// Status Effects to apply to the unit.
         /// </summary>
@@ -160,7 +157,6 @@ namespace Trainworks.BuildersV2
         /// Specifies how much pact shards should be gained for duplicating the card.
         /// </summary>
         public CollectableRarity LinkedPactDuplicateRarity { get; set; }
-
         /// <summary>
         /// The full, absolute path to the asset.
         /// </summary>
@@ -194,8 +190,6 @@ namespace Trainworks.BuildersV2
             Filters = new List<CardUpgradeMaskData>();
             UpgradesToRemove = new List<CardUpgradeData>();
             LinkedPactDuplicateRarity = CollectableRarity.Starter;
-            UpgradeTitleKey = "";
-            UpgradeDescriptionKey = "";
             UpgradeNotificationKey = "";
 
             var assembly = Assembly.GetCallingAssembly();

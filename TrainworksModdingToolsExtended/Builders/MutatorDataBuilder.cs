@@ -110,8 +110,6 @@ namespace Trainworks.BuildersV2
             DisableInDailyChallenges = false;
             RequiredDLC = ShinyShoe.DLC.None;
             Tags = new List<string>();
-            NameKey = "";
-            DescriptionKey = "";
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];

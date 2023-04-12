@@ -191,8 +191,6 @@ namespace Trainworks.BuildersV2
             RequiredDLC = ShinyShoe.DLC.None;
             TargetsRoom = true;
             InitialKeyboardTarget = CardInitialKeyboardTarget.FrontFriendly;
-            NameKey = "";
-            OverrideDescriptionKey = "";
             // TODO Get the FallbackData instance.
 
             var assembly = Assembly.GetCallingAssembly();

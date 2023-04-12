@@ -10,71 +10,68 @@ namespace Trainworks.BuildersV2
     // Changed Icon -> IconPath to be consistent across DataBuilders.
     public class RoomModifierDataBuilder
     {
-        private Type roomStateModifierClassType;
-        private string roomStateModifierClassName;
+        private Type roomModifierClassType;
+        private string roomModifierID;
+
+        /// <summary>
+        /// Unique ID
+        /// Implicitly sets DescriptionKey and DescriptionKeyInPlay if null.
+        /// </summary>
+        public string RoomModifierID
+        {
+            get { return roomModifierID; }
+            set
+            {
+                roomModifierID = value;
+                if (DescriptionKey == null)
+                {
+                    DescriptionKey = roomModifierID + "_RoomModifierData_DescriptionKey";
+                }
+                if (DescriptionKeyInPlay == null)
+                {
+                    DescriptionKeyInPlay = roomModifierID + "_RoomModifierData_DescriptionKeyInPlay";
+                }
+            }
+        }
 
         /// <summary>
         /// Type of the room state modifier class to instantiate.
         /// Implicitly sets RoomStateModifierClassName.
         /// </summary>
-        public Type RoomStateModifierClassType
+        public Type RoomModifierClassType
         {
-            get { return roomStateModifierClassType; }
+            get { return roomModifierClassType; }
             set
             {
-                roomStateModifierClassType = value;
-                RoomStateModifierClassName = roomStateModifierClassType.AssemblyQualifiedName;
+                roomModifierClassType = value;
+                RoomModifierClassName = roomModifierClassType.AssemblyQualifiedName;
             }
         }
         /// <summary>
-        /// Implicitly sets DescriptionKey, DescriptionKeyInPlay, ExtraTooltipBodyKey, and ExtraTooltipTitleKey if null.
-        /// Note that RoomStateModifierClassType is preferred especially if you are using
-        /// a custom room state modifier class, since it will include in which assembly the
-        /// class is.
+        /// RoomStateModifierClass Name to instantiate.
         /// </summary>
-        public string RoomStateModifierClassName
-        {
-            get { return roomStateModifierClassName; }
-            set
-            {
-                roomStateModifierClassName = value;
-                if (DescriptionKey == null)
-                {
-                    DescriptionKey = roomStateModifierClassName + "_RoomModifierData_DescriptionKey";
-                }
-                if (DescriptionKeyInPlay == null)
-                {
-                    DescriptionKeyInPlay = roomStateModifierClassName + "_RoomModifierData_DescriptionKeyInPlay";
-                }
-                if (ExtraTooltipBodyKey == null)
-                {
-                    ExtraTooltipBodyKey = roomStateModifierClassName + "_RoomModifierData_ExtraTooltipBodyKey";
-                }
-                if (ExtraTooltipTitleKey == null)
-                {
-                    ExtraTooltipTitleKey = roomStateModifierClassName + "_RoomModifierData_ExtraTooltipTitleKey";
-                }
-            }
-        }
+        public string RoomModifierClassName { get; set; }
 
         /// <summary>
         /// This description.
-        /// Note if this is set this will set the localized text across all languages
+        /// Note if this is set this will set the localized text across all languages.
         /// </summary>
         public string Description { get; set; }
         /// <summary>
         /// This description in play.
-        /// Note if this is set this will set the localized text across all languages
+        /// Note if this is set this will set the localized text across all languages.
         /// </summary>
         public string DescriptionInPlay { get; set; }
         /// <summary>
         /// This is the Extra Tooltip Body text.
-        /// Note if this is set this will set the localized text across all languages
+        /// Note if this is set this will set the localized text across all languages.
+        /// You must set ExtraTooltipTitleKey if this is set.
         /// </summary>
         public string ExtraTooltipBody { get; set; }
         /// <summary>
         /// This is the Extra Tooltip Title.
-        /// Note if this is set this will set the localized text across all languages
+        /// Note if this is set this will set the localized text across all languages.
+        /// You must set ExtraTooltipTitleKey if this is set.
         /// </summary>
         public string ExtraTooltipTitle { get; set; }
         /// <summary>
@@ -88,13 +85,13 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string DescriptionKeyInPlay { get; set; }
         /// <summary>
-        /// Localization key for extra tooltip title. Default value is [RoomModifierClassName]_RoomModifierData_ExtraTooltiptitleKey.
-        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// Localization key for extra tooltip title.
+        /// Note this isn't set automatically.
         /// </summary>
         public string ExtraTooltipTitleKey { get; set; }
         /// <summary>
-        /// Localization key for extra tooltip boy. Default value is [RoomModifierClassName]_RoomModifierData_ExtraTooltipBodyKey.
-        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// Localization key for extra tooltip boy.
+        /// Note this isn't set automatically/
         /// </summary>
         public string ExtraTooltipBodyKey { get; set; }
 
@@ -125,8 +122,6 @@ namespace Trainworks.BuildersV2
         {
             ParamSubtype = VanillaSubtypeIDs.None;
             ParamStatusEffects = Array.Empty<StatusEffectStackData>();
-            DescriptionKey = "";
-            DescriptionKeyInPlay = "";
             ExtraTooltipBodyKey = "";
             ExtraTooltipTitleKey = "";
 
@@ -149,7 +144,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RoomModifierData), "paramInt").SetValue(roomModifierData, ParamInt);
             AccessTools.Field(typeof(RoomModifierData), "paramStatusEffects").SetValue(roomModifierData, ParamStatusEffects);
             AccessTools.Field(typeof(RoomModifierData), "paramSubtype").SetValue(roomModifierData, ParamSubtype);
-            AccessTools.Field(typeof(RoomModifierData), "roomStateModifierClassName").SetValue(roomModifierData, RoomStateModifierClassName);
+            AccessTools.Field(typeof(RoomModifierData), "roomStateModifierClassName").SetValue(roomModifierData, RoomModifierClassName);
 
             var upgrade = ParamCardUpgradeData;
             if (ParamCardUpgradeDataBuilder != null)

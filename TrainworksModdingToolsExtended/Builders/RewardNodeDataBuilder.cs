@@ -116,8 +116,6 @@ namespace Trainworks.BuildersV2
             MapNodePoolIDs = new List<string>();
             Rewards = new List<RewardData>();
             RewardBuilders = new List<IRewardDataBuilder>();
-            NameKey = "";
-            DescriptionKey = "";
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];

@@ -82,8 +82,6 @@ namespace Trainworks.BuildersV2
             Mutators = new List<MutatorData>();
             MutatorBuilders = new List<MutatorDataBuilder>();
             RequiredDLC = DLC.None;
-            NameKey = "";
-            DescriptionKey = "";
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }

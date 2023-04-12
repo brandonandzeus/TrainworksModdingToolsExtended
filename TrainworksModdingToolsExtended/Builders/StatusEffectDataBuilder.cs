@@ -156,7 +156,6 @@ namespace Trainworks.BuildersV2
             ShowStackCount = true;
             AdditionalTriggerStages = new List<TriggerStage>();
             VFXDisplayType = StatusEffectData.VFXDisplayType.Default;
-            StatusIdKey = "";
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
