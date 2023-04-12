@@ -147,7 +147,7 @@ namespace Trainworks.BuildersV2
             };
             AccessTools.Field(typeof(RelicData), "effects").SetValue(enhancerData, Effects);
 
-            ClassData linkedClass = ProviderManager.SaveManager.GetAllGameData().FindClassData(ClanID);
+            var linkedClass = ClanID == null ? null : CustomClassManager.GetClassDataByID(ClanID);
             AccessTools.Field(typeof(RelicData), "descriptionKey").SetValue(enhancerData, DescriptionKey);
             AccessTools.Field(typeof(RelicData), "nameKey").SetValue(enhancerData, NameKey);
             AccessTools.Field(typeof(EnhancerData), "linkedClass").SetValue(enhancerData, linkedClass);

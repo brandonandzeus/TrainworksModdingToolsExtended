@@ -154,22 +154,13 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CollectableRelicData), "requiredDLC").SetValue(relicData, RequiredDLC);
             AccessTools.Field(typeof(CollectableRelicData), "unlockLevel").SetValue(relicData, UnlockLevel);
 
-            var linkedClass = CustomClassManager.GetClassDataByID(ClanID);
+            var linkedClass = ClanID == null ? null : CustomClassManager.GetClassDataByID(ClanID);
             AccessTools.Field(typeof(CollectableRelicData), "linkedClass").SetValue(relicData, linkedClass);
 
             BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
             BuilderUtils.ImportStandardLocalization(NameKey, Name);
 
             return relicData;
-        }
-
-        /// <summary>
-        /// Sets this card's clan to the clan whose ID is passed in
-        /// </summary>
-        /// <param name="clanID">ID of the clan, most easily retrieved using the helper class "MTClanIDs"</param>
-        public void SetClan(string clanID)
-        {
-            ClanID = clanID;
         }
     }
 }

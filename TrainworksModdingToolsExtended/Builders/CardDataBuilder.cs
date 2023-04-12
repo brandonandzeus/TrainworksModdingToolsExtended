@@ -253,7 +253,7 @@ namespace Trainworks.BuildersV2
                 startingUpgrades.Add(builder.Build());
             }
 
-            var linkedClass = CustomClassManager.GetClassDataByID(ClanID);
+            var linkedClass = ClanID == null ? null : CustomClassManager.GetClassDataByID(ClanID);
             AccessTools.Field(typeof(CardData), "cardLoreTooltipKeys").SetValue(cardData, CardLoreTooltipKeys);
             AccessTools.Field(typeof(CardData), "cardType").SetValue(cardData, CardType);
             AccessTools.Field(typeof(CardData), "cost").SetValue(cardData, Cost);
