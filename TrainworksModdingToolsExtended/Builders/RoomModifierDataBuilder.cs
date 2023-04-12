@@ -125,6 +125,10 @@ namespace Trainworks.BuildersV2
         {
             ParamSubtype = VanillaSubtypeIDs.None;
             ParamStatusEffects = Array.Empty<StatusEffectStackData>();
+            DescriptionKey = "";
+            DescriptionKeyInPlay = "";
+            ExtraTooltipBodyKey = "";
+            ExtraTooltipTitleKey = "";
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];

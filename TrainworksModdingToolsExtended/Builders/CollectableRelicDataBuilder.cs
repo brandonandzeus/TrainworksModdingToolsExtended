@@ -96,6 +96,8 @@ namespace Trainworks.BuildersV2
             RelicLoreTooltipStyle = RelicData.RelicLoreTooltipStyle.Herzal;
             IgnoreForNoRelicAchievement = false;
             DivineVariant = false;
+            NameKey = "";
+            DescriptionKey = "";
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }

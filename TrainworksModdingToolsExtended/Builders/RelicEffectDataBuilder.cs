@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using Trainworks.ConstantsV2;
 
 namespace Trainworks.BuildersV2
 {
@@ -127,6 +128,8 @@ namespace Trainworks.BuildersV2
             ParamCardEffectBuilders = new List<CardEffectDataBuilder>();
             CardTriggers = new List<CardTriggerType>();
             ExcludedTraitBuilders = new List<CardTraitDataBuilder>();
+            ParamCharacterSubtype = VanillaSubtypeIDs.None;
+            ParamTargetMode = TargetMode.FrontInRoom;
         }
 
         /// <summary>

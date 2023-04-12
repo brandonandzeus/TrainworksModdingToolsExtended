@@ -10,38 +10,42 @@ namespace Trainworks.BuildersV2
 {
     public class CardUpgradeDataBuilder
     {
-        private string upgradeTitle;
+        private string upgradeID;
+
 
         /// <summary>
-        /// UpgradeTitle
-        /// Implicitly sets UpgradeTitleKey, UpgradeDescriptionKey, and UpgradeNotificationKey if null
+        /// UpgradeID, must be unique.
+        /// Implicitly sets UpgradeTitleKey and UpgradeDescriptionKey
         /// </summary>
-        public string UpgradeTitle
+        public string UpgradeID
         {
-            get { return upgradeTitle; }
+            get { return upgradeID; }
             set
             {
-                upgradeTitle = value;
+                upgradeID = value;
                 if (UpgradeTitleKey == null)
                 {
-                    UpgradeTitleKey = upgradeTitle + "_CardUpgradeData_UpgradeTitleKey";
+                    UpgradeTitleKey = upgradeID + "_CardUpgradeData_UpgradeTitleKey";
                 }
                 if (UpgradeDescriptionKey == null)
                 {
-                    UpgradeDescriptionKey = upgradeTitle + "_CardUpgradeData_UpgradeDescriptionKey";
-                }
-                if (UpgradeNotificationKey == null)
-                {
-                    UpgradeNotificationKey = upgradeTitle + "_CardUpgradeData_UpgradeNotificationKey";
+                    UpgradeDescriptionKey = upgradeID + "_CardUpgradeData_UpgradeDescriptionKey";
                 }
             }
         }
+
+        /// <summary>
+        /// UpgradeTitle. This should be set if it is a Champion Upgrade.
+        /// Note that setting this property will set the localization for all languages.
+        /// </summary>
+        public string UpgradeTitle { get; set; }
         /// <summary>
         /// Note that setting this property will set the localization for all languages.
         /// </summary>
         public string UpgradeDescription { get; set; }
         /// <summary>
         /// Note that setting this property will set the localization for all languages.
+        /// Note if you set this UpgradeNotificationKey must also be set.
         /// </summary>
         public string UpgradeNotification { get; set; }
         /// <summary>
@@ -56,7 +60,7 @@ namespace Trainworks.BuildersV2
         public string UpgradeDescriptionKey { get; set; }
         /// <summary>
         /// Upgrade Notification Key for localization.
-        /// No need to set this as its automatically set by UpgradeTitle
+        /// Note this is not set automatically as its uncommon to use this.
         /// </summary>
         public string UpgradeNotificationKey { get; set; }
         public bool HideUpgradeIconOnCard { get; set; }
@@ -190,6 +194,9 @@ namespace Trainworks.BuildersV2
             Filters = new List<CardUpgradeMaskData>();
             UpgradesToRemove = new List<CardUpgradeData>();
             LinkedPactDuplicateRarity = CollectableRarity.Starter;
+            UpgradeTitleKey = "";
+            UpgradeDescriptionKey = "";
+            UpgradeNotificationKey = "";
 
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
@@ -202,8 +209,8 @@ namespace Trainworks.BuildersV2
         public CardUpgradeData Build()
         {
             CardUpgradeData cardUpgradeData = ScriptableObject.CreateInstance<CardUpgradeData>();
-            cardUpgradeData.name = UpgradeTitleKey;
-            var guid = GUIDGenerator.GenerateDeterministicGUID(UpgradeTitleKey);
+            cardUpgradeData.name = upgradeID;
+            var guid = GUIDGenerator.GenerateDeterministicGUID(upgradeID);
             AccessTools.Field(typeof(GameData), "id").SetValue(cardUpgradeData, guid);
             AccessTools.Field(typeof(CardUpgradeData), "bonusDamage").SetValue(cardUpgradeData, BonusDamage);
             AccessTools.Field(typeof(CardUpgradeData), "bonusHeal").SetValue(cardUpgradeData, BonusHeal);

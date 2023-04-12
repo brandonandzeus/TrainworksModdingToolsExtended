@@ -3,28 +3,31 @@ using System.Collections.Generic;
 
 namespace Trainworks.BuildersV2
 {
-    // This class is mostly unchanged excluding more clear comments.
     public class CardTriggerEffectDataBuilder
     {
-        private CardTriggerType trigger;
+        private string triggerID;
 
         /// <summary>
-        /// The Card Trigger Type.
+        /// Unique ID for CardTriggerEffect. It should be unique.
         /// Implicitly sets DescriptionKey if null.
-        /// Its highly recommended to set DescriptionKey to a unique value.
         /// </summary>
-        public CardTriggerType Trigger
+        public string TriggerID
         {
-            get { return trigger; }
+            get { return triggerID; }
             set
             {
-                trigger = value;
+                triggerID = value;
                 if (DescriptionKey == null)
                 {
-                    DescriptionKey = trigger + "_CardTriggerEffectData_DescriptionKey";
+                    DescriptionKey = triggerID + "_CardTriggerEffectData_DescriptionKey";
                 }
             }
         }
+
+        /// <summary>
+        /// Card Trigger Type.
+        /// </summary>
+        private CardTriggerType Trigger { get; set; }
         /// <summary>
         /// Custom description for the trigger effect.
         /// Note that setting this property will set the localization for all languages.
@@ -54,6 +57,7 @@ namespace Trainworks.BuildersV2
             CardTriggerEffects = new List<CardTriggerData>();
             CardEffectBuilders = new List<CardEffectDataBuilder>();
             CardEffects = new List<CardEffectData>();
+            DescriptionKey = "";
         }
 
         /// <summary>

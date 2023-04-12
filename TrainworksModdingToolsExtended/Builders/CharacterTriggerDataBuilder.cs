@@ -5,27 +5,26 @@ namespace Trainworks.BuildersV2
 {
     public class CharacterTriggerDataBuilder
     {
-        private CharacterTriggerData.Trigger trigger;
+        private string triggerID;
+
         /// <summary>
+        /// A unique ID for this trigger.
         /// Implicitly sets DescriptionKey and AdditionalTextOnTriggerKey if null.
-        /// It is highly recommended to set DescriptionKey and AdditionalTextOnTriggerKey as they aren't unique
         /// </summary>
-        public CharacterTriggerData.Trigger Trigger
+        public string TriggerID
         {
-            get { return trigger; }
+            get { return triggerID; }
             set
             {
-                trigger = value;
+                triggerID = value;
                 if (DescriptionKey == null)
                 {
-                    DescriptionKey = trigger + "_CharacterTriggerData_DescriptionKey";
-                }
-                if (AdditionalTextOnTriggerKey == null)
-                {
-                    AdditionalTextOnTriggerKey = trigger + "_CharacterTriggerData_BonusTriggerKey";
+                    DescriptionKey = triggerID + "_CharacterTriggerData_DescriptionKey";
                 }
             }
         }
+
+        public CharacterTriggerData.Trigger Trigger { get; set; }
         /// <summary>
         /// Append to this list to add new card effects.
         /// </summary>
@@ -42,16 +41,16 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Additional Text on Trigger
         /// Note that setting this field will set the localization for all langauges.
+        /// If set then AdditionalTextOnTriggerKey must also be set.
         /// </summary>
         public string AdditionalTextOnTrigger { get; set; }
         /// <summary>
         /// Localization key for the text's localization.
-        /// *HIGHLY* Recommended to set this as the description key is not a unique key.
         /// </summary>
         public string DescriptionKey { get; set; }
         /// <summary>
         /// Localization key for the text's localization.
-        /// *HIGHLY* Recommended to set this as the localization key is not a unique key.
+        /// Note this isn't set automatically as its use is not common.
         /// </summary>
         public string AdditionalTextOnTriggerKey { get; set; }
         public bool DisplayEffectHintText { get; set; }
@@ -63,6 +62,8 @@ namespace Trainworks.BuildersV2
             Effects = new List<CardEffectData>();
             HideTriggerTooltip = false;
             DisplayEffectHintText = false;
+            DescriptionKey = "";
+            AdditionalTextOnTriggerKey = "";
         }
 
         /// <summary>

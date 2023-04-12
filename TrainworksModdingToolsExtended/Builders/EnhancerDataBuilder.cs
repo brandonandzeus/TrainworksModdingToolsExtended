@@ -98,6 +98,8 @@ namespace Trainworks.BuildersV2
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
             EnhancerPoolIDs = new List<string>();
+            NameKey = "";
+            DescriptionKey = "";
         }
 
         /// <summary>

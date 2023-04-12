@@ -89,9 +89,11 @@ namespace Trainworks.BuildersV2
         public DraftRewardDataBuilder()
         {
             Costs = System.Array.Empty<int>();
+            DraftOptionsCount = 3;
+            NameKey = "";
+            DescriptionKey = "";
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
-            DraftOptionsCount = 3;
         }
 
         /// <summary>
