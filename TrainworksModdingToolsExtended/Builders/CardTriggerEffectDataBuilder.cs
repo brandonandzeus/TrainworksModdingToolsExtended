@@ -65,7 +65,7 @@ namespace Trainworks.BuildersV2
         {
             // Doesn't inherit from ScriptableObject
             CardTriggerEffectData cardTriggerEffectData = new CardTriggerEffectData();
-            
+
             AccessTools.Field(typeof(CardTriggerEffectData), "descriptionKey").SetValue(cardTriggerEffectData, DescriptionKey);
             AccessTools.Field(typeof(CardTriggerEffectData), "trigger").SetValue(cardTriggerEffectData, Trigger);
 

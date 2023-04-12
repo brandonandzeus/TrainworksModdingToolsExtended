@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Trainworks.ConstantsV2;
 
 // Changes: Capitialized properties to keep consistency across the framework.
 namespace Trainworks.BuildersV2
@@ -19,6 +20,13 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public bool AllowMultipleTriggersPerDuration { get; set; } = true;
         public string ParamSubtype { get; set; }
+
+        public RelicEffectConditionBuilder()
+        {
+            ParamSubtype = VanillaSubtypeIDs.None;
+            ParamComparator = RelicEffectCondition.Comparator.Equal | RelicEffectCondition.Comparator.GreaterThan;
+            AllowMultipleTriggersPerDuration = true;
+        }
 
         /// <summary>
         /// Builds the RelicEffectCondition represented by this builder's parameters

@@ -1,4 +1,5 @@
-﻿using Trainworks.Managers;
+﻿using Trainworks.ConstantsV2;
+using Trainworks.Managers;
 using UnityEngine;
 
 namespace Trainworks.BuildersV2
@@ -66,7 +67,7 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardData</returns>
         public new CardData Build()
         {
-            Champion.SubtypeKeys.Add("SubtypesData_Champion_83f21cbe-9d9b-4566-a2c3-ca559ab8ff34");
+            Champion.SubtypeKeys.Add(VanillaSubtypeIDs.Champion);
             EffectBuilders[0].ParamCharacterDataBuilder = Champion;
 
             CardData cardData = base.Build();

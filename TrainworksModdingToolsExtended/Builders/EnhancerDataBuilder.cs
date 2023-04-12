@@ -5,6 +5,7 @@ using Trainworks.Managers;
 using Trainworks.ManagersV2;
 using Trainworks.Utilities;
 using UnityEngine;
+using Trainworks.ConstantsV2;
 
 namespace Trainworks.BuildersV2
 {
@@ -141,7 +142,7 @@ namespace Trainworks.BuildersV2
                     RelicEffectClassName = "RelicEffectCardUpgrade",
                     ParamCardUpgradeData = upgrade,
                     ParamCardType = CardType,
-                    ParamCharacterSubtype = "SubtypesData_None",
+                    ParamCharacterSubtype = VanillaSubtypeIDs.None,
                 }.Build()
             };
             AccessTools.Field(typeof(RelicData), "effects").SetValue(enhancerData, Effects);

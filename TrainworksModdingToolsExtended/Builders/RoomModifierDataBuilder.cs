@@ -3,6 +3,7 @@ using System;
 using System.Reflection;
 using Trainworks.Managers;
 using UnityEngine;
+using Trainworks.ConstantsV2;
 
 namespace Trainworks.BuildersV2
 {
@@ -122,7 +123,7 @@ namespace Trainworks.BuildersV2
 
         public RoomModifierDataBuilder()
         {
-            ParamSubtype = "SubtypesData_None";
+            ParamSubtype = VanillaSubtypeIDs.None;
             ParamStatusEffects = Array.Empty<StatusEffectStackData>();
 
             var assembly = Assembly.GetCallingAssembly();

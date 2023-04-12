@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using Trainworks.ConstantsV2;
 using UnityEngine;
 
 namespace Trainworks.BuildersV2
@@ -153,6 +154,8 @@ namespace Trainworks.BuildersV2
             ParamTimingDelays = Vector3.zero;
             AdditionalTooltips = Array.Empty<AdditionalTooltipData>();
             TargetModeStatusEffectsFilter = Array.Empty<string>();
+            ParamSubtype = VanillaSubtypeIDs.None;
+            TargetCharacterSubtype = VanillaSubtypeIDs.None;
         }
 
         /// <summary>

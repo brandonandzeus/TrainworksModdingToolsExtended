@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using Trainworks.ConstantsV2;
 
 namespace Trainworks.BuildersV2
 {
@@ -79,6 +80,7 @@ namespace Trainworks.BuildersV2
             ParamFloat = 1f;
             TraitIsRemovable = true;
             ParamTeamType = Team.Type.Heroes;
+            ParamSubtype = VanillaSubtypeIDs.None;
         }
 
         /// <summary>

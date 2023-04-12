@@ -259,7 +259,7 @@ namespace Trainworks.BuildersV2
             subtypeKeys.AddRange(SubtypeKeys);
             if (PriorityDraw)
             {
-                subtypeKeys.Add("SubtypesData_Chosen");
+                subtypeKeys.Add(VanillaSubtypeIDs.Chosen);
             }
 
             var guid = GUIDGenerator.GenerateDeterministicGUID(CharacterID);
