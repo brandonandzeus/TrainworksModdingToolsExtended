@@ -151,6 +151,8 @@ namespace Trainworks.BuildersV2
             ShouldTest = true;
             ParamMultiplier = 1f;
             ParamStatusEffects = Array.Empty<StatusEffectStackData>();
+            ParamCharacterDataPool = new List<CharacterData>();
+            ParamCharacterDataPoolBuilder = new List<CharacterDataBuilder>();
             ParamTimingDelays = Vector3.zero;
             AdditionalTooltips = Array.Empty<AdditionalTooltipData>();
             TargetModeStatusEffectsFilter = Array.Empty<string>();
