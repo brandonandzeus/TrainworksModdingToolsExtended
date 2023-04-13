@@ -5,6 +5,8 @@
     /// </summary>
     public static class VanillaMapNodePoolIDs
     {
+        // Note these items are a RandomMapDataContainer
+
         /// <summary>
         /// Special MapNodeID that holds all the clans' banners, but selects only the one corresponding to the current primary clan
         /// This is a RandomMapDataContainer a subclass of MapNodeData
@@ -15,8 +17,8 @@
         /// This is a RandomMapDataContainer a subclass of MapNodeData
         /// </summary>
         public static readonly string RandomChosenSubClassUnit = "RandomChosenSubClassUnit";
-
-        // Note the follow items are of type MapNodeBucketContainer, true MapNodePools.
+        
+        // Note the following items are of type MapNodeBucketContainer, true MapNodePools.
 
         ///<summary>
         /// Found in various rings other than limbo. Contains a Temple, Artifact, or Gold.
