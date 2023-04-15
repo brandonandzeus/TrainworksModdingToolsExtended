@@ -8,7 +8,7 @@ namespace Trainworks.BuildersV2
         private string triggerID;
 
         /// <summary>
-        /// Unique ID for CardTriggerEffect. It should be unique.
+        /// Unique ID for CardTriggerEffect.
         /// Implicitly sets DescriptionKey if null.
         /// </summary>
         public string TriggerID

@@ -139,7 +139,7 @@ namespace Trainworks.BuildersV2
             {
                 new RelicEffectDataBuilder
                 {
-                    RelicEffectClassName = "RelicEffectCardUpgrade",
+                    RelicEffectClassType = typeof(RelicEffectCardUpgrade),
                     ParamCardUpgradeData = upgrade,
                     ParamCardType = CardType,
                     ParamCharacterSubtype = VanillaSubtypeIDs.None,

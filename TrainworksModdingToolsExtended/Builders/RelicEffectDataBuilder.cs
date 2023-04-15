@@ -7,46 +7,16 @@ namespace Trainworks.BuildersV2
 {
     public class RelicEffectDataBuilder
     {
-        private Type relicEffectClassType;
-        private string relicEffectClassName;
-
         /// <summary>
-        /// Type of the relic effect class to instantiate.
-        /// Implicitly sets RelicEffectClassName.
+        /// Type of the effect class to instantiate.
+        /// This should be a class inheriting from RelicEffectBase.
         /// </summary>
-        public Type RelicEffectClassType
-        {
-            get { return relicEffectClassType; }
-            set
-            {
-                relicEffectClassType = value;
-                RelicEffectClassName = relicEffectClassType.AssemblyQualifiedName;
-            }
-        }
-
+        public Type RelicEffectClassType { get; set; }
         /// <summary>
-        /// Name of the effect class to instantiate.
-        /// Either pass an assembly qualified type name or use EffectStateType instead.
-        /// Its generally better to use RelicEffectClassType over RelicEffectClassName, especially if
-        /// RelicEffectClassName is referring to an effect in another Assembly or multiple classes
-        /// with the same name exists for some reason.
+        /// RelicEffect class to instantiate.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
         /// </summary>
-        public string RelicEffectClassName
-        {
-            get { return relicEffectClassName; }
-            set
-            {
-                relicEffectClassName = value;
-                if (TooltipBodyKey == null)
-                {
-                    TooltipBodyKey = relicEffectClassName + "_RelicEffectData_TooltipBodyKey";
-                }
-                if (TooltipTitleKey == null)
-                {
-                    TooltipTitleKey = relicEffectClassName + "_RelicEffectData_TooltipTitleKey";
-                }
-            }
-        }
+        public string RelicEffectClassName => RelicEffectClassType.AssemblyQualifiedName;
 
         public List<CardTriggerType> CardTriggers { get; set; }
         public List<CardTraitData> Traits { get; set; }
@@ -105,13 +75,9 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string TooltipTitle { get; set; }
         /// <summary>
-        /// Localization key for tooltip body. Default value is [RelicEffectClassName]_RelicEffectData_TooltipBodyKey.
-        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
         /// </summary>
         public string TooltipBodyKey { get; set; }
         /// <summary>
-        /// Localization key for tooltip tody. Default value is [RelicEffectClassName]_RelicEffectData_TooltipTitleKey.
-        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
         /// </summary>
         public string TooltipTitleKey { get; set; }
         public bool TriggerTooltipsSuppressed { get; set; }
@@ -137,6 +103,8 @@ namespace Trainworks.BuildersV2
             ExcludedTraitBuilders = new List<CardTraitDataBuilder>();
             ParamCharacterSubtype = VanillaSubtypeIDs.None;
             ParamTargetMode = TargetMode.FrontInRoom;
+            TooltipBodyKey = "";
+            TooltipTitleKey = "";
         }
 
         /// <summary>

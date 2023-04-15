@@ -18,7 +18,7 @@ namespace Trainworks.BuildersV2
 
             EffectBuilders.Add(new CardEffectDataBuilder
             {
-                EffectStateName = "CardEffectSpawnMonster",
+                EffectStateType = typeof(CardEffectSpawnMonster),
                 TargetMode = TargetMode.DropTargetCharacter,
             });
 

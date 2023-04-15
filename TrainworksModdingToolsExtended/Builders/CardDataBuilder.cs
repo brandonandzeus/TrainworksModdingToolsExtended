@@ -169,6 +169,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// A cache for the card's sprite so it doesn't have to be reloaded repeatedly.
         /// </summary>
+        // TODO this doesn't seem to be necessary, the cache appears to be loaded only once.
         public Sprite SpriteCache { get; set; }
         public CardInitialKeyboardTarget InitialKeyboardTarget { get; set; }
         public ShinyShoe.DLC RequiredDLC { get; set; }

@@ -8,30 +8,16 @@ namespace Trainworks.BuildersV2
 {
     public class CardEffectDataBuilder
     {
-        private Type effectStateType;
-
         /// <summary>
         /// Type of the effect class to instantiate.
-        /// Implicitly sets EffectStateName.
+        /// This should be a class inheriting from CardEffectBase.
         /// </summary>
-        public Type EffectStateType
-        {
-            get { return effectStateType; }
-            set
-            {
-                effectStateType = value;
-                EffectStateName = effectStateType.AssemblyQualifiedName;
-            }
-        }
-
+        public Type EffectStateType { get; set; }
         /// <summary>
-        /// Name of the effect class to instantiate.
-        /// Either pass an assembly qualified type name or use EffectStateType instead.
-        /// Its generally better to use EffectStateType over EffectStateName, especially since
-        /// EffectStateName is referring to an effect in another Assembly or multiple classes
-        /// with the same name exists for some reason.
+        /// Card Effect class to instantiate.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
         /// </summary>
-        public string EffectStateName { get; set; }
+        public string EffectStateName => EffectStateType.AssemblyQualifiedName;
         /// <summary>
         /// Int parameter.
         /// </summary>

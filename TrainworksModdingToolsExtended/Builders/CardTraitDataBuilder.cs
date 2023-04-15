@@ -6,28 +6,16 @@ namespace Trainworks.BuildersV2
 {
     public class CardTraitDataBuilder
     {
-        private Type traitStateType;
-
         /// <summary>
         /// Type of the trait class to instantiate.
-        /// Implicitly sets TraitStateName.
+        /// This should be a class inheriting from CardTraitState
         /// </summary>
-        public Type TraitStateType
-        {
-            get { return traitStateType; }
-            set
-            {
-                traitStateType = value;
-                TraitStateName = traitStateType.AssemblyQualifiedName;
-            }
-        }
+        public Type TraitStateType { get; set; }
         /// <summary>
-        /// Name of the trait class to instantiate.
-        /// Its generally better to use TraitStateType over TraitStateName, especially if
-        /// TraitStateName is referring to an type in another Assembly or multiple types
-        /// with the same name exists for some reason.
+        /// CardTraitState class to instantiate.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
         /// </summary>
-        public string TraitStateName { get; set; }
+        public string TraitStateName => TraitStateType.AssemblyQualifiedName;
         /// <summary>
         /// CardData parameter.
         /// </summary>

@@ -9,7 +9,7 @@ namespace Trainworks.BuildersV2
 
         /// <summary>
         /// A unique ID for this trigger.
-        /// Implicitly sets DescriptionKey and AdditionalTextOnTriggerKey if null.
+        /// Implicitly sets DescriptionKey if null.
         /// </summary>
         public string TriggerID
         {

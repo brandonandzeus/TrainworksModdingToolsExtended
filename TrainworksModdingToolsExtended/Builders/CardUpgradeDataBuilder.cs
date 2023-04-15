@@ -39,6 +39,7 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string UpgradeTitle { get; set; }
         /// <summary>
+        /// Upgrade Description.
         /// Note that setting this property will set the localization for all languages.
         /// </summary>
         public string UpgradeDescription { get; set; }

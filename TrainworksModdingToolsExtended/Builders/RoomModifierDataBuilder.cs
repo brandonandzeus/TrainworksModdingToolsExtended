@@ -10,7 +10,6 @@ namespace Trainworks.BuildersV2
     // Changed Icon -> IconPath to be consistent across DataBuilders.
     public class RoomModifierDataBuilder
     {
-        private Type roomModifierClassType;
         private string roomModifierID;
 
         /// <summary>
@@ -35,52 +34,44 @@ namespace Trainworks.BuildersV2
         }
 
         /// <summary>
-        /// Type of the room state modifier class to instantiate.
-        /// Implicitly sets RoomStateModifierClassName.
+        /// Type of the room modifier class to instantiate.
+        /// This should be a class inheriting from RoomStateModifierBase.
         /// </summary>
-        public Type RoomModifierClassType
-        {
-            get { return roomModifierClassType; }
-            set
-            {
-                roomModifierClassType = value;
-                RoomModifierClassName = roomModifierClassType.AssemblyQualifiedName;
-            }
-        }
+        public Type RoomModifierClassType { get; set; }
         /// <summary>
-        /// RoomStateModifierClass Name to instantiate.
+        /// RoomModifier class to instantiate.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
         /// </summary>
-        public string RoomModifierClassName { get; set; }
-
+        public string RoomModifierClassName => RoomModifierClassType.AssemblyQualifiedName;
         /// <summary>
         /// This description.
         /// Note if this is set this will set the localized text across all languages.
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        /// This description in play.
+        /// The description in play.
         /// Note if this is set this will set the localized text across all languages.
         /// </summary>
         public string DescriptionInPlay { get; set; }
         /// <summary>
-        /// This is the Extra Tooltip Body text.
+        /// Extra Tooltip Body text.
         /// Note if this is set this will set the localized text across all languages.
         /// You must set ExtraTooltipTitleKey if this is set.
         /// </summary>
         public string ExtraTooltipBody { get; set; }
         /// <summary>
-        /// This is the Extra Tooltip Title.
+        /// Extra Tooltip Title.
         /// Note if this is set this will set the localized text across all languages.
         /// You must set ExtraTooltipTitleKey if this is set.
         /// </summary>
         public string ExtraTooltipTitle { get; set; }
         /// <summary>
-        /// Localization key for description. Default value is [RoomModifierClassName]_RoomModifierData_DescriptionKey.
+        /// Localization key for description. Default value is [RoomModifierID]_RoomModifierData_DescriptionKey.
         /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
         /// </summary>
         public string DescriptionKey { get; set; }
         /// <summary>
-        /// Localization key for descriptionInPlay. Default value is [RoomModifierClassName]_RoomModifierData_DescriptionKeyInPlay.
+        /// Localization key for descriptionInPlay. Default value is [RoomModifierID]_RoomModifierData_DescriptionKeyInPlay.
         /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
         /// </summary>
         public string DescriptionKeyInPlay { get; set; }
@@ -91,7 +82,7 @@ namespace Trainworks.BuildersV2
         public string ExtraTooltipTitleKey { get; set; }
         /// <summary>
         /// Localization key for extra tooltip boy.
-        /// Note this isn't set automatically/
+        /// Note this isn't set automatically.
         /// </summary>
         public string ExtraTooltipBodyKey { get; set; }
 
