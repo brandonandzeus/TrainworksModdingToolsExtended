@@ -304,10 +304,6 @@ namespace Trainworks.BuildersV2
             {
                 AccessTools.Field(typeof(CardData), "spriteCache").SetValue(cardData, SpriteCache);
             }
-            foreach (CardTraitData cardTraitData in Traits)
-            {
-                AccessTools.Field(typeof(CardTraitData), "paramCardData").SetValue(cardTraitData, cardData);
-            }
 
             BuilderUtils.ImportStandardLocalization(NameKey, Name);
             BuilderUtils.ImportStandardLocalization(OverrideDescriptionKey, Description);
