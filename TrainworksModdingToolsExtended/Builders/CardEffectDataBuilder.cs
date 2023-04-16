@@ -51,10 +51,6 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string ParamSubtype { get; set; }
         /// <summary>
-        /// CharacterData parameter.
-        /// </summary>
-        public CharacterData ParamAdditionalCharacterData { get; set; }
-        /// <summary>
         /// CardUpgradeMaskData parameter.
         /// </summary>
         public CardUpgradeMaskData ParamCardFilter { get; set; }
@@ -79,6 +75,10 @@ namespace Trainworks.BuildersV2
         /// Convenience Builder for CharacterData parameter. If set overrides ParamCharacterData.
         /// </summary>
         public CharacterDataBuilder ParamCharacterDataBuilder { get; set; }
+        /// <summary>
+        /// CharacterData parameter.
+        /// </summary>
+        public CharacterData ParamAdditionalCharacterData { get; set; }
         /// <summary>
         /// CharacterDataPool parameter.
         /// </summary>
