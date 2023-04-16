@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using Trainworks.ConstantsV2;
 
 namespace Trainworks.BuildersV2
@@ -47,7 +48,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Status effect array parameter.
         /// </summary>
-        public StatusEffectStackData[] ParamStatusEffects { get; set; }
+        public List<StatusEffectStackData> ParamStatusEffects { get; set; }
         public CardStatistics.EntryDuration ParamEntryDuration { get; set; }
         public CardStatistics.TrackedValueType ParamTrackedValue { get; set; }
         public bool ParamUseScalingParams { get; set; }
@@ -64,7 +65,7 @@ namespace Trainworks.BuildersV2
 
         public CardTraitDataBuilder()
         {
-            ParamStatusEffects = Array.Empty<StatusEffectStackData>();
+            ParamStatusEffects = new List<StatusEffectStackData>();
             ParamFloat = 1f;
             TraitIsRemovable = true;
             ParamTeamType = Team.Type.Heroes;
@@ -85,7 +86,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardTraitData), "paramEntryDuration").SetValue(cardTraitData, ParamEntryDuration);
             AccessTools.Field(typeof(CardTraitData), "paramFloat").SetValue(cardTraitData, ParamFloat);
             AccessTools.Field(typeof(CardTraitData), "paramInt").SetValue(cardTraitData, ParamInt);
-            AccessTools.Field(typeof(CardTraitData), "paramStatusEffects").SetValue(cardTraitData, ParamStatusEffects);
+            AccessTools.Field(typeof(CardTraitData), "paramStatusEffects").SetValue(cardTraitData, ParamStatusEffects.ToArray());
             AccessTools.Field(typeof(CardTraitData), "paramStr").SetValue(cardTraitData, ParamStr);
             AccessTools.Field(typeof(CardTraitData), "paramSubtype").SetValue(cardTraitData, ParamSubtype);
             AccessTools.Field(typeof(CardTraitData), "paramTeamType").SetValue(cardTraitData, ParamTeamType);
