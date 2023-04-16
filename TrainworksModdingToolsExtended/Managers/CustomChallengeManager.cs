@@ -35,7 +35,7 @@ namespace Trainworks.Managers
 
             var challenge = ProviderManager.SaveManager.GetAllGameData().FindSpChallengeData(id);
             if (challenge != null)
-                return challenge
+                return challenge;
 
             Trainworks.Log(LogLevel.All, "Couldn't find challenge: " + id + " - This will cause crashes.");
             return null;
