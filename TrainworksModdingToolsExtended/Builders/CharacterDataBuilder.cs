@@ -238,6 +238,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CharacterData</returns>
         public CharacterData Build()
         {
+            if (characterID == null)
+                throw new BuilderException("CharacterID is required");
+
             CharacterData characterData = ScriptableObject.CreateInstance<CharacterData>();
             characterData.name = CharacterID;
 

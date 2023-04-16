@@ -134,6 +134,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created MutatorData</returns>
         public MutatorData Build()
         {
+            if (MutatorID == null)
+                throw new BuilderException("MutatorID is required");
+
             var relicData = ScriptableObject.CreateInstance<MutatorData>();
 
             var guid = GUIDGenerator.GenerateDeterministicGUID(MutatorID);

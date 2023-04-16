@@ -10,27 +10,27 @@ namespace Trainworks.BuildersV2
 {
     public class StatusEffectDataBuilder
     {
-        private string statusId;
+        private string statusID;
 
         /// <summary>
         /// ID of the status effect.
         /// Implicitly sets StatusIdKey.
         /// </summary>
-        public string StatusId
+        public string StatusID
         {
-            get { return statusId; }
+            get { return statusID; }
             set
             {
-                statusId = value;
-                if (StatusIdKey == null)
+                statusID = value;
+                if (StatusIDKey == null)
                 {
-                    if (statusId.Length == 1)
+                    if (statusID.Length == 1)
                     {
-                        StatusIdKey = "StatusEffect_" + char.ToUpper(statusId[0]);
+                        StatusIDKey = "StatusEffect_" + char.ToUpper(statusID[0]);
                     }
-                    else if (statusId.Length > 1)
+                    else if (statusID.Length > 1)
                     {
-                        StatusIdKey = "StatusEffect_" + char.ToUpper(statusId[0]) + statusId.Substring(1);
+                        StatusIDKey = "StatusEffect_" + char.ToUpper(statusID[0]) + statusID.Substring(1);
                     }
                 }
             }
@@ -50,7 +50,7 @@ namespace Trainworks.BuildersV2
         /// There's not much reason to directly set this as its set by StatusIdKey
         /// It is set to StatusEffect_[StatusId] where StatusId is the capitalized string.
         /// </summary>
-        public string StatusIdKey { get; set; }
+        public string StatusIDKey { get; set; }
         /// <summary>
         /// Path relative to the plugin's file path for the SFX.
         /// </summary>
@@ -152,6 +152,9 @@ namespace Trainworks.BuildersV2
 
         public StatusEffectData Build()
         {
+            if (StatusID == null || StatusEffectStateType == null)
+                throw new BuilderException("StatusID and StatusEffectStateType is required");
+
             StatusEffectData statusEffect = new StatusEffectData();
             AccessTools.Field(typeof(StatusEffectData), "addedVFX").SetValue(statusEffect, AddedVFX);
             AccessTools.Field(typeof(StatusEffectData), "additionalTriggerStages").SetValue(statusEffect, AdditionalTriggerStages);
@@ -178,7 +181,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(StatusEffectData), "showOnPyreHeart").SetValue(statusEffect, ShowOnPyreHeart);
             AccessTools.Field(typeof(StatusEffectData), "showStackCount").SetValue(statusEffect, ShowStackCount);
             AccessTools.Field(typeof(StatusEffectData), "statusEffectStateName").SetValue(statusEffect, StatusEffectStateName);
-            AccessTools.Field(typeof(StatusEffectData), "statusId").SetValue(statusEffect, StatusId);
+            AccessTools.Field(typeof(StatusEffectData), "statusId").SetValue(statusEffect, StatusID);
             AccessTools.Field(typeof(StatusEffectData), "triggeredSFXName").SetValue(statusEffect, TriggeredSFXName);
             AccessTools.Field(typeof(StatusEffectData), "triggeredVFX").SetValue(statusEffect, TriggeredVFX);
             AccessTools.Field(typeof(StatusEffectData), "triggerStage").SetValue(statusEffect, TriggerStage);
@@ -192,7 +195,7 @@ namespace Trainworks.BuildersV2
 
             StatusEffectManager manager = GameObject.FindObjectOfType<StatusEffectManager>() as StatusEffectManager;
             manager.GetAllStatusEffectsData().GetStatusEffectData().Add(statusEffect);
-            StatusEffectManager.StatusIdToLocalizationExpression.Add(StatusId, StatusIdKey);
+            StatusEffectManager.StatusIdToLocalizationExpression.Add(StatusID, StatusIDKey);
 
             return statusEffect;
         }

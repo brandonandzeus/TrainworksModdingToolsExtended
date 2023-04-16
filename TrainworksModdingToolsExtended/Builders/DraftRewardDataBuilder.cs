@@ -101,6 +101,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RewardData</returns>
         public RewardData Build()
         {
+            if (DraftRewardID == null)
+                throw new BuilderException("DraftRewardID is required");
+
             RewardData rewardData = ScriptableObject.CreateInstance<DraftRewardData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(DraftRewardID);
             AccessTools.Field(typeof(GameData), "id").SetValue(rewardData, guid);

@@ -217,6 +217,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardData</returns>
         public CardData Build()
         {
+            if (cardID == null)
+                throw new BuilderException("CardID is required");
+
             CardData cardData = ScriptableObject.CreateInstance<CardData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(CardID);
             AccessTools.Field(typeof(GameData), "id").SetValue(cardData, guid);

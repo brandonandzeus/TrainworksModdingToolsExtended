@@ -153,6 +153,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardEffectData</returns>
         public CardEffectData Build()
         {
+            if (EffectStateType == null)
+                throw new BuilderException("EffectStateType is required");
+
             // Doesn't inherit from ScriptableObject
             CardEffectData cardEffectData = new CardEffectData();
             AccessTools.Field(typeof(CardEffectData), "additionalParamInt").SetValue(cardEffectData, AdditionalParamInt);

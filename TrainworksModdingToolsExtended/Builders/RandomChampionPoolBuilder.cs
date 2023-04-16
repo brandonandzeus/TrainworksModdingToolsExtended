@@ -29,6 +29,10 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RandomChampionPool</returns>
         public RandomChampionPool Build()
         {
+            // Not catastrophic enough to pop an error message, this should be provided though.
+            if (ChampionPoolID == null)
+                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a ChampionPoolID.");
+
             RandomChampionPool championPool = ScriptableObject.CreateInstance<RandomChampionPool>();
             championPool.name = ChampionPoolID;
 

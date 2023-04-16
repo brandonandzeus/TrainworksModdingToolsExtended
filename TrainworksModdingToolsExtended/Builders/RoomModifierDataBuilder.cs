@@ -127,6 +127,12 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RoomModifierData</returns>
         public RoomModifierData Build()
         {
+            if (RoomModifierClassType == null)
+                throw new BuilderException("RoomModifierClassType is required");
+            // Not catastrophic enough to pop an error message, this should be provided though.
+            if (RoomModifierID == null)
+                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a RoomModifierID.");
+
             RoomModifierData roomModifierData = new RoomModifierData();
 
             AccessTools.Field(typeof(RoomModifierData), "descriptionKey").SetValue(roomModifierData, DescriptionKey);

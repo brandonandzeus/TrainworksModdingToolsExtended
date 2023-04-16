@@ -119,7 +119,13 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RelicData</returns>
         public CollectableRelicData Build()
         {
+            if (CollectableRelicID == null)
+                throw new BuilderException("CollectableRelicID is required");
+
             var relicData = ScriptableObject.CreateInstance<CollectableRelicData>();
+            var guid = GUIDGenerator.GenerateDeterministicGUID(CollectableRelicID);
+            AccessTools.Field(typeof(GameData), "id").SetValue(relicData, guid);
+            relicData.name = CollectableRelicID;
 
             // RelicData.effects is not allocated initially
             var effects = new List<RelicEffectData>();
@@ -129,9 +135,6 @@ namespace Trainworks.BuildersV2
                 effects.Add(builder.Build());
             }
 
-            var guid = GUIDGenerator.GenerateDeterministicGUID(CollectableRelicID);
-            AccessTools.Field(typeof(GameData), "id").SetValue(relicData, guid);
-            relicData.name = CollectableRelicID;
             // RelicData fields
             AccessTools.Field(typeof(RelicData), "descriptionKey").SetValue(relicData, DescriptionKey);
             AccessTools.Field(typeof(RelicData), "divineVariant").SetValue(relicData, DivineVariant);

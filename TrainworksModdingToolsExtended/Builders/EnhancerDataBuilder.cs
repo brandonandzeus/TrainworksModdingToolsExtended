@@ -121,6 +121,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created EnhancerData</returns>
         public EnhancerData Build()
         {
+            if (EnhancerID == null)
+                throw new BuilderException("EnhancerID is required");
+
             var enhancerData = ScriptableObject.CreateInstance<EnhancerData>();
 
             var guid = GUIDGenerator.GenerateDeterministicGUID(enhancerID);

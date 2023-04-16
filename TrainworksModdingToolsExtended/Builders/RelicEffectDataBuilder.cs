@@ -114,6 +114,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RelicEffectData</returns>
         public RelicEffectData Build()
         {
+            if (RelicEffectClassType == null)
+                throw new BuilderException("RelicEffectClassType is required");
+
             RelicEffectData relicEffectData = new RelicEffectData();
 
             // Saving an allocation by reusing the list that was allocated on initialization.

@@ -140,6 +140,9 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RewardNodeData</returns>
         public RewardNodeData Build()
         {
+            if (RewardNodeID == null)
+                throw new BuilderException("RewardNodeID is required");
+
             RewardNodeData rewardNodeData = ScriptableObject.CreateInstance<RewardNodeData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(RewardNodeID);
             AccessTools.Field(typeof(GameData), "id").SetValue(rewardNodeData, guid);
