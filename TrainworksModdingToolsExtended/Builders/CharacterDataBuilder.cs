@@ -63,8 +63,8 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Status effects the character starts with when spawned on a floor.
         /// </summary>
-        public StatusEffectStackData[] StartingStatusEffects { get; set; }
-        public string[] StatusEffectImmunities { get; set; }
+        public List<StatusEffectStackData> StartingStatusEffects { get; set; }
+        public List<string> StatusEffectImmunities { get; set; }
         /// <summary>
         /// The full, absolute path to the asset. Concatenates BaseAssetPath and AssetPath.
         /// </summary>
@@ -179,8 +179,8 @@ namespace Trainworks.BuildersV2
             BossActionGroups = new List<ActionGroupData>();
             RoomModifiers = new List<RoomModifierData>();
             CharacterLoreTooltipKeys = new List<string>();
-            StartingStatusEffects = System.Array.Empty<StatusEffectStackData>();
-            StatusEffectImmunities = System.Array.Empty<string>();
+            StartingStatusEffects = new List<StatusEffectStackData>();
+            StatusEffectImmunities = new List<string>();
             ImpactVFX = (VfxAtLoc)FormatterServices.GetUninitializedObject(typeof(VfxAtLoc));
             TriggerBuilders = new List<CharacterTriggerDataBuilder>();
             RoomModifierBuilders = new List<RoomModifierDataBuilder>();
@@ -293,8 +293,8 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CharacterData), "projectilePrefab").SetValue(characterData, ProjectilePrefab);
             AccessTools.Field(typeof(CharacterData), "removeTriggersOnRelentlessChange").SetValue(characterData, RemoveTriggersOnRelentlessChange);
             AccessTools.Field(typeof(CharacterData), "size").SetValue(characterData, Size);
-            AccessTools.Field(typeof(CharacterData), "startingStatusEffects").SetValue(characterData, StartingStatusEffects);
-            AccessTools.Field(typeof(CharacterData), "statusEffectImmunities").SetValue(characterData, StatusEffectImmunities);
+            AccessTools.Field(typeof(CharacterData), "startingStatusEffects").SetValue(characterData, StartingStatusEffects.ToArray());
+            AccessTools.Field(typeof(CharacterData), "statusEffectImmunities").SetValue(characterData, StatusEffectImmunities.ToArray());
             AccessTools.Field(typeof(CharacterData), "validBossAttackPhase").SetValue(characterData, ValidBossAttackPhase);
 
             CharacterChatterData chatterData = CharacterChatterData;
