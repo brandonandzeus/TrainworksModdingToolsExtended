@@ -1,8 +1,9 @@
 ﻿using BepInEx.Logging;
 using System.Collections.Generic;
+using Trainworks.Managers;
 using Trainworks.Utilities;
 
-namespace Trainworks.Managers
+namespace Trainworks.ManagersV2
 {
     /// <summary>
     /// Handles registration and storage of custom mutator data.

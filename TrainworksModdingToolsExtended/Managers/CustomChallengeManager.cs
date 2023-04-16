@@ -1,9 +1,10 @@
 ﻿using BepInEx.Logging;
 using HarmonyLib;
 using System.Collections.Generic;
+using Trainworks.Managers;
 using Trainworks.Utilities;
 
-namespace Trainworks.Managers
+namespace Trainworks.ManagersV2
 {
     public class CustomChallengeManager
     {
