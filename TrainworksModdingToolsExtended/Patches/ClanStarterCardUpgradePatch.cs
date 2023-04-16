@@ -57,15 +57,19 @@ namespace Trainworks.Patches
                         cardStateModifiers.AddUpgrade(cardUpgradeState);
                     }
 
-                    cardUpgradeData = classData2.GetStarterCardUpgrade();
-                    if (cardUpgradeData != null)
+                    // Handle the case where FullClanMod is installed ignore if the classes are the same.
+                    if (classData == classData2)
                     {
-                        cardStateModifiers = cardStateModifiers == null ? new CardStateModifiers() : cardStateModifiers;
+                        cardUpgradeData = classData2.GetStarterCardUpgrade();
+                        if (cardUpgradeData != null)
+                        {
+                            cardStateModifiers = cardStateModifiers ?? new CardStateModifiers();
 
-                        CardUpgradeState cardUpgradeState = Activator.CreateInstance<CardUpgradeState>();
-                        cardUpgradeState.Setup(cardUpgradeData);
+                            CardUpgradeState cardUpgradeState = Activator.CreateInstance<CardUpgradeState>();
+                            cardUpgradeState.Setup(cardUpgradeData);
 
-                        cardStateModifiers.AddUpgrade(cardUpgradeState);
+                            cardStateModifiers.AddUpgrade(cardUpgradeState);
+                        }
                     }
                 }
                 __instance.AddCardToDeck(item, cardStateModifiers);
@@ -80,6 +84,8 @@ namespace Trainworks.Patches
                     __instance.AddRelic(item2);
                 }
                 starterRelics = classData2.GetStarterRelics();
+                // Handle the case where FullClanMod is installed. Don't want to double add a relic.
+                if (classData == classData2) break;
             }
 
             return false;
@@ -120,16 +126,19 @@ namespace Trainworks.Patches
 
                         cardStateModifiers.AddUpgrade(cardUpgradeState);
                     }
-
-                    cardUpgradeData = subClass.GetStarterCardUpgrade();
-                    if (cardUpgradeData != null)
+                    // There is a case where FullClanMod is installed. If the clans are the same then ignore
+                    if (mainClass != subClass)
                     {
-                        cardStateModifiers = cardStateModifiers == null ? new CardStateModifiers() : cardStateModifiers;
+                        cardUpgradeData = subClass.GetStarterCardUpgrade();
+                        if (cardUpgradeData != null)
+                        {
+                            cardStateModifiers = cardStateModifiers ?? new CardStateModifiers();
 
-                        CardUpgradeState cardUpgradeState = Activator.CreateInstance<CardUpgradeState>();
-                        cardUpgradeState.Setup(cardUpgradeData);
+                            CardUpgradeState cardUpgradeState = Activator.CreateInstance<CardUpgradeState>();
+                            cardUpgradeState.Setup(cardUpgradeData);
 
-                        cardStateModifiers.AddUpgrade(cardUpgradeState);
+                            cardStateModifiers.AddUpgrade(cardUpgradeState);
+                        }
                     }
                 }
                 relicEffectParams.saveManager.AddCardToDeck(item, cardStateModifiers);

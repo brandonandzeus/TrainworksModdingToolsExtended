@@ -15,7 +15,8 @@ namespace Trainworks.Patches
             EnhancerPool enhancerPool2 = mainClass.GetRandomDraftEnhancerPool();
             EnhancerPool enhancerPool = subClass.GetRandomDraftEnhancerPool();
 
-            if (enhancerPool2 == null || enhancerPool == null)
+            // If one Enhancer Pool or the clans are the same exit.
+            if (enhancerPool2 == null || enhancerPool == null || mainClass == subClass)
             {
                 return;
             }
