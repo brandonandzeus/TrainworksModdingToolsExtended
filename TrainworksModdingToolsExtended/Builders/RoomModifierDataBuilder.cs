@@ -94,7 +94,7 @@ namespace Trainworks.BuildersV2
         /// if set overrides ParamCardUpgradeData.
         /// </summary>
         public CardUpgradeDataBuilder ParamCardUpgradeDataBuilder { get; set; }
-        public StatusEffectStackData[] ParamStatusEffects { get; set; }
+        public List<StatusEffectStackData> ParamStatusEffects { get; set; }
         /// <summary>
         /// The full, absolute path to the asset.
         /// </summary>
@@ -112,7 +112,7 @@ namespace Trainworks.BuildersV2
         public RoomModifierDataBuilder()
         {
             ParamSubtype = VanillaSubtypeIDs.None;
-            ParamStatusEffects = Array.Empty<StatusEffectStackData>();
+            ParamStatusEffects = new List<StatusEffectStackData>();
             ExtraTooltipBodyKey = "";
             ExtraTooltipTitleKey = "";
 
@@ -133,7 +133,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RoomModifierData), "extraTooltipBodyKey").SetValue(roomModifierData, ExtraTooltipBodyKey);
             AccessTools.Field(typeof(RoomModifierData), "extraTooltipTitleKey").SetValue(roomModifierData, ExtraTooltipTitleKey);
             AccessTools.Field(typeof(RoomModifierData), "paramInt").SetValue(roomModifierData, ParamInt);
-            AccessTools.Field(typeof(RoomModifierData), "paramStatusEffects").SetValue(roomModifierData, ParamStatusEffects);
+            AccessTools.Field(typeof(RoomModifierData), "paramStatusEffects").SetValue(roomModifierData, ParamStatusEffects.ToArray());
             AccessTools.Field(typeof(RoomModifierData), "paramSubtype").SetValue(roomModifierData, ParamSubtype);
             AccessTools.Field(typeof(RoomModifierData), "roomStateModifierClassName").SetValue(roomModifierData, RoomModifierClassName);
 

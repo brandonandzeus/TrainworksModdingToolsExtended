@@ -58,7 +58,7 @@ namespace Trainworks.BuildersV2
         public RoomData ParamRoomData { get; set; }
         public Team.Type ParamSourceTeam { get; set; }
         public SpecialCharacterType ParamSpecialCharacterType { get; set; }
-        public StatusEffectStackData[] ParamStatusEffects { get; set; }
+        public List<StatusEffectStackData> ParamStatusEffects { get; set; }
         public string ParamString { get; set; }
         public TargetMode ParamTargetMode { get; set; }
         public CharacterTriggerData.Trigger ParamTrigger { get; set; }
@@ -93,7 +93,7 @@ namespace Trainworks.BuildersV2
             ParamCharacters = new List<CharacterData>();
             ParamExcludeCharacterSubtypes = Array.Empty<string>();
             ExcludedTraits = new List<CardTraitData>();
-            ParamStatusEffects = Array.Empty<StatusEffectStackData>();
+            ParamStatusEffects = new List<StatusEffectStackData>();
             AdditionalTooltips = Array.Empty<AdditionalTooltipData>();
             EffectConditionBuilders = new List<RelicEffectConditionBuilder>();
             TraitBuilders = new List<CardTraitDataBuilder>();
@@ -166,7 +166,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RelicEffectData), "paramRoomData").SetValue(relicEffectData, ParamRoomData);
             AccessTools.Field(typeof(RelicEffectData), "paramSourceTeam").SetValue(relicEffectData, ParamSourceTeam);
             AccessTools.Field(typeof(RelicEffectData), "paramSpecialCharacterType").SetValue(relicEffectData, ParamSpecialCharacterType);
-            AccessTools.Field(typeof(RelicEffectData), "paramStatusEffects").SetValue(relicEffectData, ParamStatusEffects);
+            AccessTools.Field(typeof(RelicEffectData), "paramStatusEffects").SetValue(relicEffectData, ParamStatusEffects.ToArray());
             AccessTools.Field(typeof(RelicEffectData), "paramString").SetValue(relicEffectData, ParamString);
             AccessTools.Field(typeof(RelicEffectData), "paramTargetMode").SetValue(relicEffectData, ParamTargetMode);
             AccessTools.Field(typeof(RelicEffectData), "paramTrigger").SetValue(relicEffectData, ParamTrigger);

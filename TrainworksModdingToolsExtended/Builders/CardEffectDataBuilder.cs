@@ -128,7 +128,7 @@ namespace Trainworks.BuildersV2
         public bool TargetIgnorePyre { get; set; }
         public TargetMode TargetMode { get; set; }
         public CardEffectData.HealthFilter TargetModeHealthFilter { get; set; }
-        public List<string> TargetModeStatusEffectsFilter { get; set; }
+        public string[] TargetModeStatusEffectsFilter { get; set; }
         public Team.Type TargetTeamType { get; set; }
 
         public CardEffectDataBuilder()
@@ -141,7 +141,7 @@ namespace Trainworks.BuildersV2
             ParamCharacterDataPoolBuilder = new List<CharacterDataBuilder>();
             ParamTimingDelays = Vector3.zero;
             AdditionalTooltips = new List<AdditionalTooltipData>();
-            TargetModeStatusEffectsFilter = new List<string>();
+            TargetModeStatusEffectsFilter = Array.Empty<string>();
             ParamSubtype = VanillaSubtypeIDs.None;
             TargetCharacterSubtype = VanillaSubtypeIDs.None;
         }
@@ -187,7 +187,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardEffectData), "targetIgnoreBosses").SetValue(cardEffectData, TargetIgnoreBosses);
             AccessTools.Field(typeof(CardEffectData), "targetMode").SetValue(cardEffectData, TargetMode);
             AccessTools.Field(typeof(CardEffectData), "targetModeHealthFilter").SetValue(cardEffectData, TargetModeHealthFilter);
-            AccessTools.Field(typeof(CardEffectData), "targetModeStatusEffectsFilter").SetValue(cardEffectData, TargetModeStatusEffectsFilter.ToArray());
+            AccessTools.Field(typeof(CardEffectData), "targetModeStatusEffectsFilter").SetValue(cardEffectData, TargetModeStatusEffectsFilter);
             AccessTools.Field(typeof(CardEffectData), "targetTeamType").SetValue(cardEffectData, TargetTeamType);
             AccessTools.Field(typeof(CardEffectData), "useIntRange").SetValue(cardEffectData, UseIntRange);
             AccessTools.Field(typeof(CardEffectData), "useStatusEffectStackMultiplier").SetValue(cardEffectData, UseStatusEffectStackMultiplier);

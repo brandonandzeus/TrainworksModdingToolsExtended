@@ -64,7 +64,7 @@ namespace Trainworks.BuildersV2
         /// Status effects the character starts with when spawned on a floor.
         /// </summary>
         public List<StatusEffectStackData> StartingStatusEffects { get; set; }
-        public List<string> StatusEffectImmunities { get; set; }
+        public string[] StatusEffectImmunities { get; set; }
         /// <summary>
         /// The full, absolute path to the asset. Concatenates BaseAssetPath and AssetPath.
         /// </summary>
@@ -180,7 +180,7 @@ namespace Trainworks.BuildersV2
             RoomModifiers = new List<RoomModifierData>();
             CharacterLoreTooltipKeys = new List<string>();
             StartingStatusEffects = new List<StatusEffectStackData>();
-            StatusEffectImmunities = new List<string>();
+            StatusEffectImmunities = Array.Empty<string>();
             ImpactVFX = (VfxAtLoc)FormatterServices.GetUninitializedObject(typeof(VfxAtLoc));
             TriggerBuilders = new List<CharacterTriggerDataBuilder>();
             RoomModifierBuilders = new List<RoomModifierDataBuilder>();
