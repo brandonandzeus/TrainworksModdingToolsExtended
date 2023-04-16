@@ -1,4 +1,5 @@
-﻿using Trainworks.ConstantsV2;
+﻿using System.Reflection;
+using Trainworks.ConstantsV2;
 using Trainworks.Managers;
 using UnityEngine;
 
@@ -24,6 +25,9 @@ namespace Trainworks.BuildersV2
 
             CardType = CardType.Monster;
             TargetsRoom = true;
+
+            var assembly = Assembly.GetCallingAssembly();
+            BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
         /// <summary>

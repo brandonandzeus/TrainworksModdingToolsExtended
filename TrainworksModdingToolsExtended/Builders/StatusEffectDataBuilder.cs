@@ -131,7 +131,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Set automatically in the constructor. Base asset path, usually the plugin directory.
         /// </summary>
-        public string BaseAssetPath { get; private set; }
+        public string BaseAssetPath { get; set; }
         /// <summary>
         /// Path relative to the plugin's file path for the icon.
         /// Note the icon should be a black and white image sized 24x24.

@@ -3,6 +3,7 @@ using ShinyShoe;
 using System.Collections.Generic;
 using System.Reflection;
 using Trainworks.Managers;
+using Trainworks.ManagersV2;
 using Trainworks.Utilities;
 using UnityEngine;
 
@@ -71,7 +72,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Set automatically in the constructor. Base asset path, usually the plugin directory.
         /// </summary>
-        public string BaseAssetPath { get; private set; }
+        public string BaseAssetPath { get; set; }
         /// <summary>
         /// Not required to be set as it appears to be unused, but here for future-proofing.
         /// </summary>

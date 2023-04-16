@@ -87,7 +87,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Set automatically in the constructor. Base asset path, usually the plugin directory.
         /// </summary>
-        public string BaseAssetPath { get; private set; }
+        public string BaseAssetPath { get; set; }
         /// <summary>
         /// Custom asset path to load mutator art from. 76x76 image.
         /// </summary>
