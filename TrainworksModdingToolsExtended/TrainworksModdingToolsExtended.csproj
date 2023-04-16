@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Distribution\**" />
+    <Compile Remove="Validators\**" />
+    <EmbeddedResource Remove="Distribution\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <None Remove="Distribution\**" />
+    <None Remove="Validators\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\MonsterTrain_Data\Managed\0Harmony.dll</HintPath>
       <Private>False</Private>
