@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -294,7 +295,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CharacterData), "removeTriggersOnRelentlessChange").SetValue(characterData, RemoveTriggersOnRelentlessChange);
             AccessTools.Field(typeof(CharacterData), "size").SetValue(characterData, Size);
             AccessTools.Field(typeof(CharacterData), "startingStatusEffects").SetValue(characterData, StartingStatusEffects.ToArray());
-            AccessTools.Field(typeof(CharacterData), "statusEffectImmunities").SetValue(characterData, StatusEffectImmunities.ToArray());
+            AccessTools.Field(typeof(CharacterData), "statusEffectImmunities").SetValue(characterData, StatusEffectImmunities);
             AccessTools.Field(typeof(CharacterData), "validBossAttackPhase").SetValue(characterData, ValidBossAttackPhase);
 
             CharacterChatterData chatterData = CharacterChatterData;
