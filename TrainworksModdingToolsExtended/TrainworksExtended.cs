@@ -12,7 +12,7 @@ namespace Trainworks
     {
         public const string MODGUID = "tools.modding.trainworks.extended";
         public const string MODNAME = "Trainworks Modding Tools Extended";
-        public const string VERSION = "1.0";
+        public const string VERSION = "1.0.1";
 
         private void Awake()
         {
