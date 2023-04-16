@@ -1,4 +1,5 @@
 ﻿using BepInEx.Logging;
+using HarmonyLib;
 using System.Collections.Generic;
 using Trainworks.Utilities;
 
@@ -14,6 +15,9 @@ namespace Trainworks.Managers
             {
                 CustomChallengeData.Add(challengeData.GetID(), challengeData);
                 ProviderManager.SaveManager.GetAllGameData().GetBalanceData().GetSpChallenges().Add(challengeData);
+                // For some strange reason AllGameData has a private spChallengeData variable
+                var challengeDatas = (List<SpChallengeData>)AccessTools.Field(typeof(AllGameData), "spChallengeData").GetValue(ProviderManager.SaveManager.GetAllGameData());
+                challengeDatas.Add(challengeData);
             }
             else
             {
@@ -29,13 +33,9 @@ namespace Trainworks.Managers
                 return CustomChallengeData[guid];
             }
 
-            foreach (var challenge in ProviderManager.SaveManager.GetBalanceData().GetSpChallenges())
-            {
-                if (challenge.GetID() == id)
-                {
-                    return challenge;
-                }
-            }
+            var challenge = ProviderManager.SaveManager.GetAllGameData().FindSpChallengeData(id);
+            if (challenge != null)
+                return challenge
 
             Trainworks.Log(LogLevel.All, "Couldn't find challenge: " + id + " - This will cause crashes.");
             return null;
