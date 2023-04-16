@@ -1,0 +1,130 @@
+This file tracks the changes to prexisting builders from KittenAqua's TrainworksModdingTools.
+The changes here update the codebase to support features added from the DLC update marked Hellforged.
+There's also fixes for the builders, and improving the design of these classes.
+
+CardDataBuilder
+  Added StartingUpgradeBuilders (convenience)
+  Added RequiredDLC (newly added DLC)
+  Removed LinkedClass (use property ClanID instead make sure that custom clans are registered first)
+  Removed FallbackData (unneccesary, should set itself)
+  Removed SetClan (use property ClanID instead)
+  Removed AddToCardPool (use CardPoolIDs setter instead).
+CardEffectDataBuilder
+  Added ParamCardUpgradeDataBuilder (convenience)
+  Added ParamCharacterDataBuilder (convenience)
+  Added ParamCharacterDataPool (newly added DLC)
+  Added ParamCharacterDataPoolBuilder
+  Removed EffectStateName setter (use EffectStateType instead)
+  ParamSubtype/TargetCharacterSubtype is initialized to Subtype_None
+CardPoolBuilder
+  unchanged.
+CardTraitDataBuilder
+  Fixed ParamCardData paramter was being set by CardDataBuilder when it shouldn't be touched.
+  Added ParamCardUpgradeData[Builder] (newly added DLC)
+  Addred TraitIsRemovable (newly added DLC)
+  Added StackMode (newly added DLC)
+  Removed TraitStateName (use TraitStateType instead)
+  Removed AddStatusEffect (low value)
+  Properly initalized params to sensible defaults.
+CardTriggerEffectDataBuilder
+  Added TriggerID (required to be set)
+  Added MakeCardTrigger
+CardUpgradeDataBuilder
+  Added UpgradeID, UpgradeTitle no longer required.
+  Renamed UpgradeIconPath to AssetPath
+  Added IsUnique
+  Added LinkedPactDuplicateRarity
+  Added SourceSynthesisUnit
+CardUpgradeMaskDataBuilder
+  Added CardUpgradeMaskDataID
+CardUpdateTreeDataBuilder
+  No major changes
+ChampionCardDataBuilder
+  No major changes
+CharacterChatterDataBuilder
+  Newly added
+CharacterDataBuilder
+  Added CharacterChatterDataBuilder
+  Added UnitSynthesisBuilder
+  Added BlockVisualSizeIncrease
+  Added BypassPactCrystalsUpgradeDataList
+  Added PactCrystalsRequiredCount
+  Added PactCrystalsVariantData
+  Added RemoveTriggersOnRelentlessChange
+  Added ValidBossAttackPhase
+  Removed FallBackData (unnecesary)
+  Removed AddStartingStatusEffect (low value)
+CharacterTriggerDataBuilder
+  Added TriggerID (required to be set)
+ClassDataBuilder
+  Added StarterRelics
+  Added RequiredDLC
+  Added CorruptionEnabled
+  Added StarterCardUpgrade / StarterCardUpgradeBuilder
+  Added RandomDraftEnhancerPool / RandomDraftEnhancerPoolBuilder
+  Added ClanSelectSfxCue
+  Removed MainClassStartingCards and SubClassStartingCards (unused by the game)
+CollectableRelicDataBuilder
+  Added DivineVariant
+  Added RelicLoreTooltipStyle
+  Added IgnoreForNoRelicAchievement
+  Added RequiredDLC
+  Removed LinkedClass (used ClanID instead)
+  Removed SetClan (use ClanID instead)
+DraftRewardDataBuilder
+  Renamed any property that started with a _ to remove the _.
+  Added Crystals
+  Removed SaveManager (this is set within the game)
+EnhancerDataBuilder
+  Added UpgradeBuilder (convenience)
+  Added UnlockLevel
+  Removed LinkedClass (use ClanID instead)  
+EnhancerPoolBuilder
+  Newly Added
+MutatorDataBuilder
+  Newly Added
+RandomChampionPoolBuilder
+  Newly Added
+RelicEffectConditionBuilder
+  Initialized ParamSubtype to Subtype_None
+RelicEffectDataBuilder
+  Added ParamCardFilterBuilder
+  Added ParamCardPoolBuilder
+  Added ParamCardUpgradeDataBuilder
+  Added ParamEnhancerPool
+  Added ParamRandomChampionPool and ParamRandomChampionPoolBuilder
+  Added ExcludedTraitBuilders (convenience)
+  Removed RelicEffectClassName setter (use RelicEffectClassType instead)
+  Removed Autosetting TooltipBody|TitleKey, the key name that's generated is bugged and includes the fully qualified assembly info rather than just the simple class name.
+  Removed AddStatusEffect (low value)
+RewardNodeDataBuilder
+  Added UseFormattedOverrideTooltipTitle
+  Added DlcHellforedCrystalsCost
+  Added RequiredDLC
+RoomModifierDataBuilder
+  Renamed RoomStateModifier* to RoomModifier
+  Added RoomModifierID (required to be set)
+  Add ParamCardUpgradeData and ParamCardUpgradeDataBuilder (new as of DLC)
+  Initialized ParamSubtype to Subtype_None
+  Removed RoomModifierClassName setter (use RoomModifierClassType instead)
+  Removed automatically setting ExtraTooltipBody|TitleKey
+  Removed Icon (use IconPath instead)
+  Removed AddStartingStatusEffect (low value)
+SpChallengeDataBuilder
+  Newly added
+StatusEffectDataBuilder
+  Added StatusId (Required)
+  Added StatusIdKey
+  Added AdditionalTriggerStages
+  Added RemovedAtEndOfTurnIfTriggered
+  Added ShowOnPyreHeart
+  Added VFXDisplayType
+  Fixed the localization process of a status effect see StatusIdKey
+  Removed StatusEffectStateName setter (use StatusEffectStateType instead)
+SubtypeDataBuilder
+  Added IsPyre
+  Renamed all properties to remove the leading _.
+
+All
+  Some Parameters specifying an Array was converted to a List. For easier typing.
+	
