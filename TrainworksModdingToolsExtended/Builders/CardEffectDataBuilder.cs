@@ -92,9 +92,9 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public RoomData ParamRoomData { get; set; }
         /// <summary>
-        /// Status effect array parameter.
+        /// Status effect stack data parameter.
         /// </summary>
-        public StatusEffectStackData[] ParamStatusEffects { get; set; }
+        public List<StatusEffectStackData> ParamStatusEffects { get; set; }
         /// <summary>
         /// Vector3 parameter.
         /// </summary>
@@ -110,7 +110,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Tooltips displayed when hovering over any game entity this effect is applied to.
         /// </summary>
-        public AdditionalTooltipData[] AdditionalTooltips { get; set; }
+        public List<AdditionalTooltipData> AdditionalTooltips { get; set; }
         public CharacterUI.Anim AnimToPlay { get; set; }
         public VfxAtLoc AppliedToSelfVFX { get; set; }
         public VfxAtLoc AppliedVFX { get; set; }
@@ -128,7 +128,7 @@ namespace Trainworks.BuildersV2
         public bool TargetIgnorePyre { get; set; }
         public TargetMode TargetMode { get; set; }
         public CardEffectData.HealthFilter TargetModeHealthFilter { get; set; }
-        public string[] TargetModeStatusEffectsFilter { get; set; }
+        public List<string> TargetModeStatusEffectsFilter { get; set; }
         public Team.Type TargetTeamType { get; set; }
 
         public CardEffectDataBuilder()
@@ -136,12 +136,12 @@ namespace Trainworks.BuildersV2
             TargetTeamType = Team.Type.Heroes;
             ShouldTest = true;
             ParamMultiplier = 1f;
-            ParamStatusEffects = Array.Empty<StatusEffectStackData>();
+            ParamStatusEffects = new List<StatusEffectStackData>();
             ParamCharacterDataPool = new List<CharacterData>();
             ParamCharacterDataPoolBuilder = new List<CharacterDataBuilder>();
             ParamTimingDelays = Vector3.zero;
-            AdditionalTooltips = Array.Empty<AdditionalTooltipData>();
-            TargetModeStatusEffectsFilter = Array.Empty<string>();
+            AdditionalTooltips = new List<AdditionalTooltipData>();
+            TargetModeStatusEffectsFilter = new List<string>();
             ParamSubtype = VanillaSubtypeIDs.None;
             TargetCharacterSubtype = VanillaSubtypeIDs.None;
         }
@@ -156,7 +156,7 @@ namespace Trainworks.BuildersV2
             // Doesn't inherit from ScriptableObject
             CardEffectData cardEffectData = new CardEffectData();
             AccessTools.Field(typeof(CardEffectData), "additionalParamInt").SetValue(cardEffectData, AdditionalParamInt);
-            AccessTools.Field(typeof(CardEffectData), "additionalTooltips").SetValue(cardEffectData, AdditionalTooltips);
+            AccessTools.Field(typeof(CardEffectData), "additionalTooltips").SetValue(cardEffectData, AdditionalTooltips.ToArray());
             AccessTools.Field(typeof(CardEffectData), "animToPlay").SetValue(cardEffectData, AnimToPlay);
             AccessTools.Field(typeof(CardEffectData), "appliedToSelfVFX").SetValue(cardEffectData, AppliedToSelfVFX);
             AccessTools.Field(typeof(CardEffectData), "appliedVFX").SetValue(cardEffectData, AppliedVFX);
@@ -174,7 +174,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardEffectData), "paramMinInt").SetValue(cardEffectData, ParamMinInt);
             AccessTools.Field(typeof(CardEffectData), "paramMultiplier").SetValue(cardEffectData, ParamMultiplier);
             AccessTools.Field(typeof(CardEffectData), "paramRoomData").SetValue(cardEffectData, ParamRoomData);
-            AccessTools.Field(typeof(CardEffectData), "paramStatusEffects").SetValue(cardEffectData, ParamStatusEffects);
+            AccessTools.Field(typeof(CardEffectData), "paramStatusEffects").SetValue(cardEffectData, ParamStatusEffects.ToArray());
             AccessTools.Field(typeof(CardEffectData), "paramStr").SetValue(cardEffectData, ParamStr);
             AccessTools.Field(typeof(CardEffectData), "paramSubtype").SetValue(cardEffectData, ParamSubtype);
             AccessTools.Field(typeof(CardEffectData), "paramTimingDelays").SetValue(cardEffectData, ParamTimingDelays);
@@ -187,7 +187,7 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(CardEffectData), "targetIgnoreBosses").SetValue(cardEffectData, TargetIgnoreBosses);
             AccessTools.Field(typeof(CardEffectData), "targetMode").SetValue(cardEffectData, TargetMode);
             AccessTools.Field(typeof(CardEffectData), "targetModeHealthFilter").SetValue(cardEffectData, TargetModeHealthFilter);
-            AccessTools.Field(typeof(CardEffectData), "targetModeStatusEffectsFilter").SetValue(cardEffectData, TargetModeStatusEffectsFilter);
+            AccessTools.Field(typeof(CardEffectData), "targetModeStatusEffectsFilter").SetValue(cardEffectData, TargetModeStatusEffectsFilter.ToArray());
             AccessTools.Field(typeof(CardEffectData), "targetTeamType").SetValue(cardEffectData, TargetTeamType);
             AccessTools.Field(typeof(CardEffectData), "useIntRange").SetValue(cardEffectData, UseIntRange);
             AccessTools.Field(typeof(CardEffectData), "useStatusEffectStackMultiplier").SetValue(cardEffectData, UseStatusEffectStackMultiplier);
