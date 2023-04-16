@@ -127,4 +127,5 @@ SubtypeDataBuilder
 
 All
   Some Parameters specifying an Array was converted to a List. For easier typing.
+  In most classes where there was a ParamXXX and a ParamXXXBuilder where ParamXXX is a List. I rewrote these to NOT mutate ParamXXX. This prevents the case where if the Builder was built multiple times the effects would play multiple times. Instead of mutating the ParamXXX list I created a new list (or use the associated list from the XXXData class).
 	
