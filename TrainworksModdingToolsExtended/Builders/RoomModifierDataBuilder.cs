@@ -41,9 +41,9 @@ namespace Trainworks.BuildersV2
         public Type RoomModifierClassType { get; set; }
         /// <summary>
         /// RoomModifier class to instantiate.
-        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info if necessary.
         /// </summary>
-        public string RoomModifierClassName => RoomModifierClassType.AssemblyQualifiedName;
+        public string RoomModifierClassName => BuilderUtils.GetEffectClassName(RoomModifierClassType);
         /// <summary>
         /// This description.
         /// Note if this is set this will set the localized text across all languages.

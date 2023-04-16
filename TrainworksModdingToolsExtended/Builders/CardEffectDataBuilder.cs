@@ -15,9 +15,9 @@ namespace Trainworks.BuildersV2
         public Type EffectStateType { get; set; }
         /// <summary>
         /// Card Effect class to instantiate.
-        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info (if necessary).
         /// </summary>
-        public string EffectStateName => EffectStateType.AssemblyQualifiedName;
+        public string EffectStateName => BuilderUtils.GetEffectClassName(EffectStateType);
         /// <summary>
         /// Int parameter.
         /// </summary>

@@ -14,9 +14,9 @@ namespace Trainworks.BuildersV2
         public Type TraitStateType { get; set; }
         /// <summary>
         /// CardTraitState class to instantiate.
-        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info if necessary.
         /// </summary>
-        public string TraitStateName => TraitStateType.AssemblyQualifiedName;
+        public string TraitStateName => BuilderUtils.GetEffectClassName(TraitStateType);
         /// <summary>
         /// CardData parameter.
         /// </summary>

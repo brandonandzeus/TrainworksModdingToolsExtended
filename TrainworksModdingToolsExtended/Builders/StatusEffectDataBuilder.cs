@@ -42,9 +42,9 @@ namespace Trainworks.BuildersV2
         public Type StatusEffectStateType { get; set; }
         /// <summary>
         /// StatusEffectState class to instantiate.
-        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info if necessary.
         /// </summary>
-        public string StatusEffectStateName => StatusEffectStateType.AssemblyQualifiedName;
+        public string StatusEffectStateName => BuilderUtils.GetEffectClassName(StatusEffectStateType);
         /// <summary>
         /// Base localization key for the status effect.
         /// There's not much reason to directly set this as its set by StatusIdKey

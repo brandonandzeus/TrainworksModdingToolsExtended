@@ -10,13 +10,35 @@ namespace Trainworks.BuildersV2
     {
         public string CardUpgradeMaskDataID { get; set; }
         public CardType CardType { get; set; } = CardType.Invalid;
+        /// <summary>
+        /// Note that these are subtype keys required, not the localized name.
+        /// </summary>
         public List<string> RequiredSubtypes { get; set; } = new List<string>();
+        /// <summary>
+        /// Note that these are subtype keys required, not the localized name.
+        /// </summary>
         public List<string> ExcludedSubtypes { get; set; } = new List<string>();
         public List<StatusEffectStackData> RequiredStatusEffects { get; set; } = new List<StatusEffectStackData>();
         public List<StatusEffectStackData> ExcludedStatusEffects { get; set; } = new List<StatusEffectStackData>();
+        /// <summary>
+        /// Note if you are checking for a CardTrait in the base game feel free to use the exact class name of it.
+        /// However if it is a custom CardTrait you will need to pass typeof(Class).AssemblyQualifiedName.
+        /// </summary>
         public List<string> RequiredCardTraits { get; set; } = new List<string>();
+        /// <summary>
+        /// Note if you are checking for a CardTrait in the base game feel free to use the exact class name of it.
+        /// However if it is a custom CardTrait you will need to pass typeof(Class).AssemblyQualifiedName.
+        /// </summary>
         public List<string> ExcludedCardTraits { get; set; } = new List<string>();
+        /// <summary>
+        /// Note if you are checking for a CardEffect in the base game feel free to use the exact class name of it.
+        /// However if it is a custom CardEffect you will need to pass typeof(Class).AssemblyQualifiedName.
+        /// </summary>
         public List<string> RequiredCardEffects { get; set; } = new List<string>();
+        /// <summary>
+        /// Note if you are checking for a CardEffect in the base game feel free to use the exact class name of it.
+        /// However if it is a custom CardEffect you will need to pass typeof(Class).AssemblyQualifiedName.
+        /// </summary>
         public List<string> ExcludedCardEffects { get; set; } = new List<string>();
         /// <summary>
         /// If there are any cards in this pool, then only the cards in this pool will be allowed

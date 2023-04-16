@@ -1,4 +1,5 @@
-﻿using Trainworks.Managers;
+﻿using System;
+using Trainworks.Managers;
 
 namespace Trainworks.BuildersV2
 {
@@ -24,6 +25,24 @@ namespace Trainworks.BuildersV2
             }
 
             CustomLocalizationManager.ImportSingleLocalization(key, "Text", "", "", "", "", text, text, text, text, text, text);
+        }
+
+        /// <summary>
+        /// Convert a Type to the relevant Effect Class Name to be used.
+        /// Specifically if the type is in the base game just use the type name.
+        /// Otherwise the fully qualified assembly name is used.
+        /// This fixes an issue with Enhancers or other effects not applying to cards.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string GetEffectClassName(Type type)
+        {
+            string aqn = type.AssemblyQualifiedName;
+            if (aqn.Contains("Assembly-CSharp"))
+            {
+                return type.Name;
+            }
+            return aqn;
         }
     }
 }

@@ -14,9 +14,9 @@ namespace Trainworks.BuildersV2
         public Type RelicEffectClassType { get; set; }
         /// <summary>
         /// RelicEffect class to instantiate.
-        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info.
+        /// Note that this isn't a simple string name of the class it is the class name plus the Assembly info if necesary.
         /// </summary>
-        public string RelicEffectClassName => RelicEffectClassType.AssemblyQualifiedName;
+        public string RelicEffectClassName => BuilderUtils.GetEffectClassName(RelicEffectClassType);
 
         public List<CardTriggerType> CardTriggers { get; set; }
         public List<CardTraitData> Traits { get; set; }
