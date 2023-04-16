@@ -205,7 +205,9 @@ namespace Trainworks.BuildersV2
         {
             // Not catastrophic enough to pop an error message, this should be provided though.
             if (UpgradeID == null)
+            {
                 Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a UpgradeID.");
+            }
 
             CardUpgradeData cardUpgradeData = ScriptableObject.CreateInstance<CardUpgradeData>();
             cardUpgradeData.name = upgradeID;

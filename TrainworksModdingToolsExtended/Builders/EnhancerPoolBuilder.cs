@@ -47,7 +47,9 @@ namespace Trainworks.BuildersV2
         {
             // Not catastrophic enough to pop an error message, this should be provided though.
             if (EnhancerPoolID == null)
+            {
                 Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a EnhancerPoolID.");
+            }
 
             EnhancerPool enhancerPool = ScriptableObject.CreateInstance<EnhancerPool>();
             enhancerPool.name = EnhancerPoolID;

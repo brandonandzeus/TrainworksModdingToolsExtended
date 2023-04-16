@@ -82,7 +82,9 @@ namespace Trainworks.BuildersV2
         {
             // Not catastrophic enough to pop an error message, this should be provided though.
             if (ChatterID == null)
+            {
                 Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a ChatterID.");
+            }
 
             CharacterChatterData chatter = ScriptableObject.CreateInstance<CharacterChatterData>();
             chatter.name = ChatterID;

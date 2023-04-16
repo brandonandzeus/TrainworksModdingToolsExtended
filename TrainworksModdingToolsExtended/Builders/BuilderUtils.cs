@@ -13,8 +13,16 @@ namespace Trainworks.BuildersV2
         /// <param name="text">Text for the key in all languages</param>
         public static void ImportStandardLocalization(string key, string text)
         {
-            if (key == "") return;
-            if (key == null || text == null) return;
+            if (key == "")
+            {
+                return;
+            }
+
+            if (key == null || text == null)
+            {
+                return;
+            }
+
             CustomLocalizationManager.ImportSingleLocalization(key, "Text", "", "", "", "", text, text, text, text, text, text);
         }
     }

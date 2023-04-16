@@ -106,7 +106,9 @@ namespace Trainworks.BuildersV2
         public SpChallengeData Build()
         {
             if (ChallengeID == null)
+            {
                 throw new BuilderException("ChallengeID is required");
+            }
 
             var challengeData = ScriptableObject.CreateInstance<SpChallengeData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(ChallengeID);

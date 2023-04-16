@@ -154,7 +154,9 @@ namespace Trainworks.BuildersV2
         public CardEffectData Build()
         {
             if (EffectStateType == null)
+            {
                 throw new BuilderException("EffectStateType is required");
+            }
 
             // Doesn't inherit from ScriptableObject
             CardEffectData cardEffectData = new CardEffectData();

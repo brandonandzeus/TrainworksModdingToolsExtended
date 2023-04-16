@@ -218,7 +218,9 @@ namespace Trainworks.BuildersV2
         public CardData Build()
         {
             if (cardID == null)
+            {
                 throw new BuilderException("CardID is required");
+            }
 
             CardData cardData = ScriptableObject.CreateInstance<CardData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(CardID);

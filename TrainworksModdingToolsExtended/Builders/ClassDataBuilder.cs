@@ -175,7 +175,9 @@ namespace Trainworks.BuildersV2
         public ClassData Build()
         {
             if (ClassID == null)
+            {
                 throw new BuilderException("ClassID is required");
+            }
 
             ClassData classData = ScriptableObject.CreateInstance<ClassData>();
             classData.name = ClassID;

@@ -153,7 +153,9 @@ namespace Trainworks.BuildersV2
         public StatusEffectData Build()
         {
             if (StatusID == null || StatusEffectStateType == null)
+            {
                 throw new BuilderException("StatusID and StatusEffectStateType is required");
+            }
 
             StatusEffectData statusEffect = new StatusEffectData();
             AccessTools.Field(typeof(StatusEffectData), "addedVFX").SetValue(statusEffect, AddedVFX);

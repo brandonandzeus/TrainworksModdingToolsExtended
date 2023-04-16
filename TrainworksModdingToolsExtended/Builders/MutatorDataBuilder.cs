@@ -135,7 +135,9 @@ namespace Trainworks.BuildersV2
         public MutatorData Build()
         {
             if (MutatorID == null)
+            {
                 throw new BuilderException("MutatorID is required");
+            }
 
             var relicData = ScriptableObject.CreateInstance<MutatorData>();
 

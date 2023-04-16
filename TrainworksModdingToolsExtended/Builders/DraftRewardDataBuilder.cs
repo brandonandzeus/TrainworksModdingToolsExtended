@@ -102,7 +102,9 @@ namespace Trainworks.BuildersV2
         public RewardData Build()
         {
             if (DraftRewardID == null)
+            {
                 throw new BuilderException("DraftRewardID is required");
+            }
 
             RewardData rewardData = ScriptableObject.CreateInstance<DraftRewardData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(DraftRewardID);

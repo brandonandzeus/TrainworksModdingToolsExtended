@@ -17,7 +17,7 @@
         /// This is a RandomMapDataContainer a subclass of MapNodeData
         /// </summary>
         public static readonly string RandomChosenSubClassUnit = "RandomChosenSubClassUnit";
-        
+
         // Note the following items are of type MapNodeBucketContainer, true MapNodePools.
 
         ///<summary>

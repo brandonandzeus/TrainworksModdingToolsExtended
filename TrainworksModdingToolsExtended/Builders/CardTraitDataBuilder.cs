@@ -80,7 +80,9 @@ namespace Trainworks.BuildersV2
         public CardTraitData Build()
         {
             if (TraitStateType == null)
+            {
                 throw new BuilderException("TraitStateType is required");
+            }
 
             // Doesn't inherit from ScriptableObject
             CardTraitData cardTraitData = new CardTraitData();

@@ -120,7 +120,9 @@ namespace Trainworks.BuildersV2
         public CollectableRelicData Build()
         {
             if (CollectableRelicID == null)
+            {
                 throw new BuilderException("CollectableRelicID is required");
+            }
 
             var relicData = ScriptableObject.CreateInstance<CollectableRelicData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(CollectableRelicID);

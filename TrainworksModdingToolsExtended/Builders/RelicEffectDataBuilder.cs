@@ -115,7 +115,9 @@ namespace Trainworks.BuildersV2
         public RelicEffectData Build()
         {
             if (RelicEffectClassType == null)
+            {
                 throw new BuilderException("RelicEffectClassType is required");
+            }
 
             RelicEffectData relicEffectData = new RelicEffectData();
 

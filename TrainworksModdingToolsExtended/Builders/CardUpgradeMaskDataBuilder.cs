@@ -58,7 +58,9 @@ namespace Trainworks.BuildersV2
         {
             // Not catastrophic enough to pop an error message, this should be provided though.
             if (CardUpgradeMaskDataID == null)
+            {
                 Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a CardUpgradeMaskDataID.");
+            }
 
             CardUpgradeMaskData cardUpgradeMaskData = ScriptableObject.CreateInstance<CardUpgradeMaskData>();
             cardUpgradeMaskData.name = CardUpgradeMaskDataID;
