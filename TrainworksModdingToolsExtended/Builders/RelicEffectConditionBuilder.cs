@@ -13,12 +13,12 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public bool ParamTrackTriggerCount { get; set; }
         public CardStatistics.EntryDuration ParamEntryDuration { get; set; }
-        public RelicEffectCondition.Comparator ParamComparator { get; set; } = RelicEffectCondition.Comparator.Equal | RelicEffectCondition.Comparator.GreaterThan;
+        public RelicEffectCondition.Comparator ParamComparator { get; set; }
         public int ParamInt { get; set; }
         /// <summary>
         /// Allow multiple triggers per duration that is defined as Entry Duration. This can be used to limit a relic from trigger more than X times per turn or per battle 
         /// </summary>
-        public bool AllowMultipleTriggersPerDuration { get; set; } = true;
+        public bool AllowMultipleTriggersPerDuration { get; set; }
         public string ParamSubtype { get; set; }
 
         public RelicEffectConditionBuilder()
