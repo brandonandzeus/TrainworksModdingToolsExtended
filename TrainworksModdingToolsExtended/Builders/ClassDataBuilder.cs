@@ -65,13 +65,14 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// Must contain 4 sprite paths; in order:
         /// small icon (32x32)
-        /// medium icon (??x??)
-        /// large icon (89x89)
+        /// medium icon (64x64)
+        /// large icon (96x96)
         /// silhouette icon (43x43)
+        /// Note that these exact sizes don't have to be followed, Unity will downsize as appropriate.
         /// </summary>
         public List<string> IconAssetPaths { get; set; }
         /// <summary>
-        /// Use CardStyle only for accessing the base game card frames. Otherwise use CardFrame for custom frames
+        /// Existing clans CardStyle to use. If you wish to use a custom CardFrame for this clan use CardFrameUnit/Spell Path instead.
         /// </summary>
         public ClassCardStyle CardStyle { get; set; }
         /// <summary>
@@ -83,14 +84,29 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string CardFrameSpellPath { get; set; }
         /// <summary>
-        /// Add a custom icon for the card draft on battle victory.
+        /// Custom icon for the card draft on battle victory.
         /// </summary>
         public string DraftIconPath { get; set; }
+        /// <summary>
+        /// Clan Ui Color used in some places.
+        /// </summary>
         public Color UiColor { get; set; }
+        /// <summary>
+        /// Clan Ui Dark Color used in some places.
+        /// </summary>
         public Color UiColorDark { get; set; }
-        public Dictionary<MetagameSaveData.TrackedValue, string> UnlockKeys { get; set; }
+        /// <summary>
+        /// Condition to check to unlock the clan.
+        /// </summary>
         public MetagameSaveData.TrackedValue ClassUnlockCondition { get; set; }
+        /// <summary>
+        /// Parameter for Class Unlock Condition.
+        /// </summary>
         public int ClassUnlockParam { get; set; }
+        /// <summary>
+        /// Unlock Preivew Texts
+        /// Note that this should be a list of size 10 of localization keys for the unlock preview text.
+        /// </summary>
         public List<string> ClassUnlockPreviewTexts { get; set; }
         /// <summary>
         /// Gives the clan a starter relic.
@@ -99,8 +115,11 @@ namespace Trainworks.BuildersV2
         /// as Relics. So things like applying additional effects the starter deck can't be done easily without
         /// a patch, Since Covenant 1 removes all starter cards, and adds them back with a CardSet.
         /// </summary>
-        public List<RelicData> StarterRelics { get; set; } = new List<RelicData>();
-        public DLC RequiredDLC { get; set; } = DLC.None;
+        public List<RelicData> StarterRelics { get; set; }
+        /// <summary>
+        /// Require DLC, Currently Hellforged is The Last Divinity.
+        /// </summary>
+        public DLC RequiredDLC { get; set; }
         /// <summary>
         /// Clan Select SFX Cue.
         /// </summary>
@@ -142,15 +161,27 @@ namespace Trainworks.BuildersV2
         /// You shouldn't need to set this as its automatically set by ClassID
         /// </summary>}
         public string SubclassDescriptionLoc { get; set; }
+        /// <summary>
+        /// Unused currently. Sets the Character ID to display in the Clan Select Screen
+        /// when the clan is selected as main.
+        /// </summary>
         public string[] ClassSelectScreenCharacterIDsMain { get; set; }
+        /// <summary>
+        /// Unused currently. Sets the Character ID to display in the Clan Select Screen
+        /// when the clan is selected as secondary.
+        /// </summary>
         public string[] ClassSelectScreenCharacterIDsSub { get; set; }
 
         public ClassDataBuilder()
         {
             IconAssetPaths = new List<string>();
-            UnlockKeys = new Dictionary<MetagameSaveData.TrackedValue, string>();
             ClassUnlockPreviewTexts = new List<string>();
-            Champions = new List<ChampionData>();
+            Champions = new List<ChampionData> {
+                ScriptableObject.CreateInstance<ChampionData>(),
+                ScriptableObject.CreateInstance<ChampionData>()
+            };
+            RequiredDLC = DLC.None;
+            StarterRelics = new List<RelicData>();
             var assembly = Assembly.GetCallingAssembly();
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
