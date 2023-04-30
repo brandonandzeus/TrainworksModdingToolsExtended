@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using Trainworks.ManagersV2;
 using UnityEngine;
@@ -49,6 +50,7 @@ namespace Trainworks.BuildersV2
             if (EnhancerPoolID == null)
             {
                 Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a EnhancerPoolID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Stacktrace: " + Environment.StackTrace);
             }
 
             EnhancerPool enhancerPool = ScriptableObject.CreateInstance<EnhancerPool>();

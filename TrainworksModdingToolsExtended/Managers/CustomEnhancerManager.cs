@@ -59,11 +59,15 @@ namespace Trainworks.ManagersV2
             enhancers.Add(enhancerData);
         }
 
-        public static void RegisterEnhancer(EnhancerData enhancer)
+        public static void RegisterEnhancer(EnhancerData enhancer, List<string> enhancerPoolIDs)
         {
             if (!CustomEnhancers.ContainsKey(enhancer.GetID()))
             {
                 CustomEnhancers.Add(enhancer.GetID(), enhancer);
+                foreach (var id in enhancerPoolIDs)
+                {
+                    AddEnhancerToPool(enhancer, id);
+                }
                 ProviderManager.SaveManager.GetAllGameData().GetAllEnhancerData().Add(enhancer);
             }
             else

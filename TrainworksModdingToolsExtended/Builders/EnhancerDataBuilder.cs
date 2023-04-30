@@ -89,7 +89,7 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string BaseAssetPath { get; set; }
         /// <summary>
-        /// Custom asset path to load mutator art from. 76x76 image.
+        /// Custom asset path to load art from. 76x76 image.
         /// </summary>
         public string IconPath { get; set; }
 
@@ -108,10 +108,7 @@ namespace Trainworks.BuildersV2
         public EnhancerData BuildAndRegister()
         {
             var enhancerData = Build();
-            foreach (var pool in EnhancerPoolIDs)
-            {
-                CustomEnhancerManager.AddEnhancerToPool(enhancerData, pool);
-            }
+            CustomEnhancerManager.RegisterEnhancer(enhancerData, EnhancerPoolIDs);
             return enhancerData;
         }
 
