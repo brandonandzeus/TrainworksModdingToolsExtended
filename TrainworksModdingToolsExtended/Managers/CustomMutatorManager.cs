@@ -8,7 +8,7 @@ namespace Trainworks.ManagersV2
     /// <summary>
     /// Handles registration and storage of custom mutator data.
     /// </summary>
-    public class CustomMutatorManager
+    public static class CustomMutatorManager
     {
         /// <summary>
         /// Maps custom mutator IDs to their respective MutatorData.

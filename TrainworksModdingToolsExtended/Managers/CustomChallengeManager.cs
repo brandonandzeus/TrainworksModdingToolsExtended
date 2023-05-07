@@ -6,7 +6,7 @@ using Trainworks.Utilities;
 
 namespace Trainworks.ManagersV2
 {
-    public class CustomChallengeManager
+    public static class CustomChallengeManager
     {
         private static Dictionary<string, SpChallengeData> CustomChallengeData = new Dictionary<string, SpChallengeData>();
 
@@ -17,7 +17,7 @@ namespace Trainworks.ManagersV2
                 CustomChallengeData.Add(challengeData.GetID(), challengeData);
                 ProviderManager.SaveManager.GetAllGameData().GetBalanceData().GetSpChallenges().Add(challengeData);
                 // For some strange reason AllGameData has a private spChallengeData variable
-                var challengeDatas = (List<SpChallengeData>)AccessTools.Field(typeof(AllGameData), "spChallengeData").GetValue(ProviderManager.SaveManager.GetAllGameData());
+                var challengeDatas = (List<SpChallengeData>)AccessTools.Field(typeof(AllGameData), "spChallengeDatas").GetValue(ProviderManager.SaveManager.GetAllGameData());
                 challengeDatas.Add(challengeData);
             }
             else
