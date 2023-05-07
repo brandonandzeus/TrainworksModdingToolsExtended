@@ -1,8 +1,11 @@
 ﻿using HarmonyLib;
+using Steamworks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Trainworks.Managers;
+using Trainworks.ManagersV2;
 using Trainworks.Utilities;
 using UnityEngine;
 
@@ -118,7 +121,7 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public List<StatusEffectStackData> StatusEffectUpgrades { get; set; }
         /// <summary>
-        /// Card Traits to add/
+        /// Card Traits to add.
         /// </summary>
         public List<CardTraitData> TraitDataUpgrades { get; set; }
         /// <summary>
@@ -197,16 +200,25 @@ namespace Trainworks.BuildersV2
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
+
+        public CardUpgradeData BuildAndRegister()
+        {
+            var upgrade = Build(false);
+            CustomUpgradeManager.RegisterCustomUpgrade(upgrade);
+            return upgrade;
+        }
+
         /// <summary>
         /// Builds and automatically registers the CardUpgradeData.
         /// </summary>
         /// <returns>CardUpgradeData</returns>
-        public CardUpgradeData Build()
+        public CardUpgradeData Build(bool register = true)
         {
-            // Not catastrophic enough to pop an error message, this should be provided though.
+            // Not catastrophic enough to throw an Exception, this should be provided though.
             if (UpgradeID == null)
             {
-                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a UpgradeID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Warning should provide a UpgradeID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Stacktrace: " + Environment.StackTrace);
             }
 
             CardUpgradeData cardUpgradeData = ScriptableObject.CreateInstance<CardUpgradeData>();
@@ -282,25 +294,14 @@ namespace Trainworks.BuildersV2
                 AccessTools.Field(typeof(CardUpgradeData), "upgradeIcon").SetValue(cardUpgradeData, CustomAssetManager.LoadSpriteFromPath(FullAssetPath));
             }
 
-            // TODO Make a CardUpgradeManager.
-            var upgradeList = ProviderManager.SaveManager.GetAllGameData().GetAllCardUpgradeData();
-
-            // If upgrade already exists, update it by removing the previously added version
-            // This might happen if Build() is called twice (e.g. when defining a synthesis for a unit and calling Build())
-            var existingEntry = upgradeList
-                .Where(u => UpgradeTitleKey == u.GetUpgradeTitleKey())
-                .FirstOrDefault();
-
-            if (existingEntry != null)
-            {
-                upgradeList.Remove(existingEntry);
-            }
-
-            upgradeList.Add(cardUpgradeData);
-
             BuilderUtils.ImportStandardLocalization(UpgradeDescriptionKey, UpgradeDescription);
             BuilderUtils.ImportStandardLocalization(UpgradeNotificationKey, UpgradeNotification);
             BuilderUtils.ImportStandardLocalization(UpgradeTitleKey, UpgradeTitle);
+
+            if (register)
+            {
+                CustomUpgradeManager.RegisterCustomUpgrade(cardUpgradeData);
+            }
 
             return cardUpgradeData;
         }
