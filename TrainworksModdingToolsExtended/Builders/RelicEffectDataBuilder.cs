@@ -68,20 +68,24 @@ namespace Trainworks.BuildersV2
         public List<CardTraitDataBuilder> ExcludedTraitBuilders { get; set; }
         /// <summary>
         /// Note providing this value will set the localization for all languages
+        /// If set then TooltipBodyKey must be set.
         /// </summary>
         public string TooltipBody { get; set; }
         /// <summary>
         /// Note providing this value will set the localization for all languages
+        /// If set then TooltipTitleKey must be set.
         /// </summary>
         public string TooltipTitle { get; set; }
         /// <summary>
+        /// Localization key for TooltipBody. This is not set automatically.
         /// </summary>
         public string TooltipBodyKey { get; set; }
         /// <summary>
+        /// Localization key for TooltipTitle. This is not set automatically.
         /// </summary>
         public string TooltipTitleKey { get; set; }
         public bool TriggerTooltipsSuppressed { get; set; }
-        public AdditionalTooltipData[] AdditionalTooltips { get; set; }
+        public List<AdditionalTooltipData> AdditionalTooltips { get; set; }
         public VfxAtLoc AppliedVfx { get; set; }
 
         public RelicEffectDataBuilder()
@@ -94,7 +98,7 @@ namespace Trainworks.BuildersV2
             ParamExcludeCharacterSubtypes = Array.Empty<string>();
             ExcludedTraits = new List<CardTraitData>();
             ParamStatusEffects = new List<StatusEffectStackData>();
-            AdditionalTooltips = Array.Empty<AdditionalTooltipData>();
+            AdditionalTooltips = new List<AdditionalTooltipData>();
             EffectConditionBuilders = new List<RelicEffectConditionBuilder>();
             TraitBuilders = new List<CardTraitDataBuilder>();
             TriggerBuilders = new List<CharacterTriggerDataBuilder>();
@@ -153,7 +157,7 @@ namespace Trainworks.BuildersV2
                 excludedTraits.Add(builder.Build());
             }
 
-            AccessTools.Field(typeof(RelicEffectData), "additionalTooltips").SetValue(relicEffectData, AdditionalTooltips);
+            AccessTools.Field(typeof(RelicEffectData), "additionalTooltips").SetValue(relicEffectData, AdditionalTooltips.ToArray());
             AccessTools.Field(typeof(RelicEffectData), "appliedVfx").SetValue(relicEffectData, AppliedVfx);
             AccessTools.Field(typeof(RelicEffectData), "paramBool").SetValue(relicEffectData, ParamBool);
             AccessTools.Field(typeof(RelicEffectData), "paramCardSetBuilder").SetValue(relicEffectData, ParamCardSetBuilder);
