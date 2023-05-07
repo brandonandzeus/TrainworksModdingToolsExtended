@@ -8,49 +8,49 @@ namespace Trainworks.BuildersV2
     // Adopted from ThreeFishes's Equestrian Clan.
     public class CardUpgradeMaskDataBuilder
     {
-        public string CardUpgradeMaskDataID { get; set; }
-        public CardType CardType { get; set; } = CardType.Invalid;
+        public string CardUpgradeMaskID { get; set; }
+        public CardType CardType { get; set; }
         /// <summary>
         /// Note that these are subtype keys required, not the localized name.
         /// </summary>
-        public List<string> RequiredSubtypes { get; set; } = new List<string>();
+        public List<string> RequiredSubtypes { get; set; }
         /// <summary>
         /// Note that these are subtype keys required, not the localized name.
         /// </summary>
-        public List<string> ExcludedSubtypes { get; set; } = new List<string>();
-        public List<StatusEffectStackData> RequiredStatusEffects { get; set; } = new List<StatusEffectStackData>();
-        public List<StatusEffectStackData> ExcludedStatusEffects { get; set; } = new List<StatusEffectStackData>();
+        public List<string> ExcludedSubtypes { get; set; }
+        public List<StatusEffectStackData> RequiredStatusEffects { get; set; }
+        public List<StatusEffectStackData> ExcludedStatusEffects { get; set; }
         /// <summary>
         /// Note if you are checking for a CardTrait in the base game feel free to use the exact class name of it.
         /// However if it is a custom CardTrait you will need to pass typeof(Class).AssemblyQualifiedName.
         /// </summary>
-        public List<string> RequiredCardTraits { get; set; } = new List<string>();
+        public List<string> RequiredCardTraits { get; set; }
         /// <summary>
         /// Note if you are checking for a CardTrait in the base game feel free to use the exact class name of it.
         /// However if it is a custom CardTrait you will need to pass typeof(Class).AssemblyQualifiedName.
         /// </summary>
-        public List<string> ExcludedCardTraits { get; set; } = new List<string>();
+        public List<string> ExcludedCardTraits { get; set; }
         /// <summary>
         /// Note if you are checking for a CardEffect in the base game feel free to use the exact class name of it.
         /// However if it is a custom CardEffect you will need to pass typeof(Class).AssemblyQualifiedName.
         /// </summary>
-        public List<string> RequiredCardEffects { get; set; } = new List<string>();
+        public List<string> RequiredCardEffects { get; set; }
         /// <summary>
         /// Note if you are checking for a CardEffect in the base game feel free to use the exact class name of it.
         /// However if it is a custom CardEffect you will need to pass typeof(Class).AssemblyQualifiedName.
         /// </summary>
-        public List<string> ExcludedCardEffects { get; set; } = new List<string>();
+        public List<string> ExcludedCardEffects { get; set; }
         /// <summary>
         /// If there are any cards in this pool, then only the cards in this pool will be allowed
         /// </summary>
-        public List<CardPool> AllowedCardPools { get; set; } = new List<CardPool>();
+        public List<CardPool> AllowedCardPools { get; set; }
         /// <summary>
         /// No cards in this pool will be allowed
         /// </summary>
-        public List<CardPool> DisallowedCardPools { get; set; } = new List<CardPool>();
-        public List<int> RequiredSizes { get; set; } = new List<int>();
-        public List<int> ExcludedSizes { get; set; } = new List<int>();
-        public Vector2 CostRange { get; set; } = new Vector2(0f, 99f);
+        public List<CardPool> DisallowedCardPools { get; set; }
+        public List<int> RequiredSizes { get; set; }
+        public List<int> ExcludedSizes { get; set; }
+        public Vector2 CostRange { get; set; }
         public bool ExcludeNonAttackingMonsters { get; set; }
 
         /// <summary>
@@ -72,20 +72,39 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public CardState.UpgradeDisabledReason UpgradeDisabledReason { get; set; }
 
+        public CardUpgradeMaskDataBuilder()
+        {
+            CardType = CardType.Invalid;
+            RequiredSubtypes = new List<string>();
+            ExcludedSubtypes = new List<string>();
+            RequiredStatusEffects = new List<StatusEffectStackData>();
+            ExcludedStatusEffects = new List<StatusEffectStackData>();
+            RequiredCardTraits = new List<string>();
+            ExcludedCardTraits = new List<string>();
+            RequiredCardEffects = new List<string>();
+            ExcludedCardEffects = new List<string>();
+            AllowedCardPools = new List<CardPool>();
+            DisallowedCardPools = new List<CardPool>();
+            RequiredSizes = new List<int>();
+            ExcludedSizes = new List<int>();
+            CostRange = new Vector2(0f, 99f);
+        }
+
         /// <summary>
         /// Builds the CardUpgradeMaskData represented by this builders's parameters recursively;
         /// </summary>
         /// <returns>The newly created CardUpgradeMaskData</returns>
         public CardUpgradeMaskData Build()
         {
-            // Not catastrophic enough to pop an error message, this should be provided though.
-            if (CardUpgradeMaskDataID == null)
+            // Not catastrophic enough to throw an Exception, this should be provided though.
+            if (CardUpgradeMaskID == null)
             {
-                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a CardUpgradeMaskDataID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Warning should provide a CardUpgradeMaskDataID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Stacktrace: " + Environment.StackTrace);
             }
 
             CardUpgradeMaskData cardUpgradeMaskData = ScriptableObject.CreateInstance<CardUpgradeMaskData>();
-            cardUpgradeMaskData.name = CardUpgradeMaskDataID;
+            cardUpgradeMaskData.name = CardUpgradeMaskID;
             Type realEnumType = AccessTools.Inner(typeof(CardUpgradeMaskData), "CompareOperator");
             AccessTools.Field(typeof(CardUpgradeMaskData), "allowedCardPools").SetValue(cardUpgradeMaskData, AllowedCardPools);
             AccessTools.Field(typeof(CardUpgradeMaskData), "cardType").SetValue(cardUpgradeMaskData, CardType);
