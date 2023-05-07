@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides easy access to all of the base game's relic IDs
     /// </summary>
-    public class VanillaRelicIDs
+    public static class VanillaRelicIDs
     {
         /// <summary>
         /// Asset name: ArmorInFrontSlot
