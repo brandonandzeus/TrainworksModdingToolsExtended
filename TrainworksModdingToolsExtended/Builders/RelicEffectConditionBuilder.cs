@@ -34,6 +34,7 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RelicEffectCondition</returns>
         public RelicEffectCondition Build()
         {
+            // Doesn't inherit from Scriptable Object.
             RelicEffectCondition relicEffectCondition = new RelicEffectCondition();
             AccessTools.Field(typeof(RelicEffectCondition), "paramTrackedValue").SetValue(relicEffectCondition, ParamTrackedValue);
             AccessTools.Field(typeof(RelicEffectCondition), "paramCardType").SetValue(relicEffectCondition, ParamCardType);
