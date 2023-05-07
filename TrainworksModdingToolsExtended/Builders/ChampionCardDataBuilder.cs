@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 using Trainworks.ConstantsV2;
 using Trainworks.Managers;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Trainworks.BuildersV2
     public class ChampionCardDataBuilder : CardDataBuilder
     {
         public CharacterDataBuilder Champion { get; set; }
-        public CardData StarterCardData { get; set; }
+        public string StarterCardID { get; set; }
         public CardUpgradeTreeDataBuilder UpgradeTree { get; set; }
         public string ChampionIconPath { get; set; }
         public string ChampionSelectedCue { get; set; }
@@ -49,11 +50,17 @@ namespace Trainworks.BuildersV2
                 Sprite championIconSprite = CustomAssetManager.LoadSpriteFromPath(BaseAssetPath + "/" + ChampionIconPath);
                 ClanChamp.championIcon = championIconSprite;
             }
-            ClanChamp.starterCardData = StarterCardData;
-            if (UpgradeTree != null)
+            var starterCard = CustomCardManager.GetCardDataByID(StarterCardID);
+            if (starterCard == null)
             {
-                ClanChamp.upgradeTree = UpgradeTree.Build();
+                throw new BuilderException("Could not find starter card for Champion");
             }
+            ClanChamp.starterCardData = starterCard;
+            if (UpgradeTree == null)
+            {
+                throw new BuilderException("UpgradeTree Missing for Champion");
+            }
+            ClanChamp.upgradeTree = UpgradeTree.Build();
             ClanChamp.championSelectedCue = ChampionSelectedCue;
 
             return cardData;
