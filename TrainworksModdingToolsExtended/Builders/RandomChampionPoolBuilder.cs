@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,10 +28,11 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created RandomChampionPool</returns>
         public RandomChampionPool Build()
         {
-            // Not catastrophic enough to pop an error message, this should be provided though.
+            // Not catastrophic enough to throw an Exception, this should be provided though.
             if (ChampionPoolID == null)
             {
-                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a ChampionPoolID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Warning should provide a ChampionPoolID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Stacktrace: " + Environment.StackTrace);
             }
 
             RandomChampionPool championPool = ScriptableObject.CreateInstance<RandomChampionPool>();

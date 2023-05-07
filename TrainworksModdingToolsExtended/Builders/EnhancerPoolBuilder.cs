@@ -46,11 +46,11 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created EnhancerPool</returns>
         public EnhancerPool Build()
         {
-            // Not catastrophic enough to pop an error message, this should be provided though.
+            // Not catastrophic enough to throw an Exception, this should be provided though.
             if (EnhancerPoolID == null)
             {
-                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a EnhancerPoolID.");
-                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Stacktrace: " + Environment.StackTrace);
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Warning should provide a EnhancerPoolID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Stacktrace: " + Environment.StackTrace);
             }
 
             EnhancerPool enhancerPool = ScriptableObject.CreateInstance<EnhancerPool>();
