@@ -92,7 +92,7 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public AssetReferenceGameObject CardArtPrefabVariantRef { get; set; }
         /// <summary>
-        /// Convenience Builder for Traits. Will be appended to this list of new card effects.
+        /// Convenience Builder for Effects. Will be appended to this list of new card effects.
         /// </summary>
         public List<CardEffectDataBuilder> EffectBuilders { get; set; }
         /// <summary>
