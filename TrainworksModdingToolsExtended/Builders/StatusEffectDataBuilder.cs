@@ -52,6 +52,16 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string StatusIDKey { get; set; }
         /// <summary>
+        /// Name of the status effect.
+        /// Note that this sets the localization for all langauges.
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Description of the status effect. This is used in tooltips.
+        /// Note that this sets the localized description for all langauages.
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
         /// Path relative to the plugin's file path for the SFX.
         /// </summary>
         public string AppliedSFXName { get; set; }
@@ -152,9 +162,9 @@ namespace Trainworks.BuildersV2
 
         public StatusEffectData Build()
         {
-            if (StatusID == null || StatusEffectStateType == null)
+            if (StatusID == null || StatusEffectStateType == null || IconPath == null)
             {
-                throw new BuilderException("StatusID and StatusEffectStateType is required");
+                throw new BuilderException("StatusID, StatusEffectStateType, and IconPath are required");
             }
 
             StatusEffectData statusEffect = new StatusEffectData();
@@ -198,6 +208,15 @@ namespace Trainworks.BuildersV2
             StatusEffectManager manager = GameObject.FindObjectOfType<StatusEffectManager>() as StatusEffectManager;
             manager.GetAllStatusEffectsData().GetStatusEffectData().Add(statusEffect);
             StatusEffectManager.StatusIdToLocalizationExpression.Add(StatusID, StatusIDKey);
+
+            if (Name != null)
+            {
+                BuilderUtils.ImportStandardLocalization(StatusIDKey + "_CardText", Name);
+                BuilderUtils.ImportStandardLocalization(StatusIDKey + "_Stack_CardText", "<nobr>" + Name + " {0}</nobr>");
+            }
+            BuilderUtils.ImportStandardLocalization(StatusIDKey + "_CardTooltipText", Description);
+            BuilderUtils.ImportStandardLocalization(StatusIDKey + "_CharacterTooltipText", Description);
+            
 
             return statusEffect;
         }
