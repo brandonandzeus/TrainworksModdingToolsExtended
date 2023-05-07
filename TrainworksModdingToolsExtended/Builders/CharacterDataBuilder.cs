@@ -204,16 +204,17 @@ namespace Trainworks.BuildersV2
             var characterData = Build();
             CustomCharacterManager.RegisterCustomCharacter(characterData);
 
-            if (UnitSynthesisBuilder == null)
+            if (!characterData.IsChampion())
             {
-                if (!characterData.IsChampion())
+                if (UnitSynthesisBuilder == null)
                 {
                     BuildDummyUnitSynthesis(characterData);
                 }
-            }
-            else
-            {
-                UnitSynthesisBuilder.Build();
+                else
+                {
+                    UnitSynthesisBuilder.SourceSynthesisUnit = characterData;
+                    UnitSynthesisBuilder.BuildAndRegister();
+                }
             }
 
             return characterData;
@@ -221,14 +222,14 @@ namespace Trainworks.BuildersV2
 
         private static void BuildDummyUnitSynthesis(CharacterData characterData)
         {
+            Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Building Dummy Unit Synthesis for Character: " + characterData.name);
             new CardUpgradeDataBuilder()
             {
-                UpgradeTitle = $"Dummy_synth_{characterData.name}",
-                SourceSynthesisUnit = characterData,
+                UpgradeID = $"Dummy_synth_{characterData.name}",
                 UpgradeDescription = "<DUMMY>",
-                UpgradeDescriptionKey = "Default_dummy_synthesis_description",
+                SourceSynthesisUnit = characterData,
                 BonusDamage = 1
-            }.Build();
+            }.BuildAndRegister();
         }
 
         /// <summary>
@@ -258,7 +259,7 @@ namespace Trainworks.BuildersV2
             roomModifiers.AddRange(RoomModifiers);
             foreach (var builder in RoomModifierBuilders)
             {
-                RoomModifiers.Add(builder.Build());
+                roomModifiers.Add(builder.Build());
             }
 
             // No Getter for subtype keys.
