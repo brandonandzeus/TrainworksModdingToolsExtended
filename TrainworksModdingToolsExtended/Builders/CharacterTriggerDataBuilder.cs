@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 
 namespace Trainworks.BuildersV2
@@ -72,16 +73,17 @@ namespace Trainworks.BuildersV2
         /// <returns>The newly created CardTraitData</returns>
         public CharacterTriggerData Build()
         {
-            // Not catastrophic enough to pop an error message, this should be provided though.
+            // Not catastrophic enough to throw an Exception, this should be provided though.
             if (TriggerID == null)
             {
-                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a TriggerID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Warning should provide a TriggerID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Stacktrace: " + Environment.StackTrace);
             }
 
             CharacterTriggerData characterTriggerData = new CharacterTriggerData(Trigger, /* cardEffectData = */null);
 
             var effects = characterTriggerData.GetEffects();
-            effects.Clear(); // Contains a null from constructor above.
+            effects.Clear(); // Contains a null from CharacterTriggerData's constructor.
             effects.AddRange(Effects);
             foreach (var builder in EffectBuilders)
             {
