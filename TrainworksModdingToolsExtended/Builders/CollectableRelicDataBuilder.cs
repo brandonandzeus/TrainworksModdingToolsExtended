@@ -93,6 +93,7 @@ namespace Trainworks.BuildersV2
         {
             Effects = new List<RelicEffectData>();
             EffectBuilders = new List<RelicEffectDataBuilder>();
+            RelicPoolIDs = new List<string>();
             RelicLoreTooltipStyle = RelicData.RelicLoreTooltipStyle.Herzal;
             IgnoreForNoRelicAchievement = false;
             DivineVariant = false;
