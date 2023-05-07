@@ -68,12 +68,12 @@ namespace Trainworks.BuildersV2
         public string ExtraTooltipTitle { get; set; }
         /// <summary>
         /// Localization key for description. Default value is [RoomModifierID]_RoomModifierData_DescriptionKey.
-        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// Note you shouldn't need to set this as its pre-set when setting RoomModifierID.
         /// </summary>
         public string DescriptionKey { get; set; }
         /// <summary>
         /// Localization key for descriptionInPlay. Default value is [RoomModifierID]_RoomModifierData_DescriptionKeyInPlay.
-        /// Note you shouldn't need to set this as its pre-set when setting the Type to instantiate.
+        /// Note you shouldn't need to set this as its pre-set when setting RoomModifierID.
         /// </summary>
         public string DescriptionKeyInPlay { get; set; }
         /// <summary>
@@ -131,10 +131,11 @@ namespace Trainworks.BuildersV2
             {
                 throw new BuilderException("RoomModifierClassType is required");
             }
-            // Not catastrophic enough to pop an error message, this should be provided though.
+            // Not catastrophic enough to throw an Exception, this should be provided though.
             if (RoomModifierID == null)
             {
-                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a RoomModifierID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Warning should provide a RoomModifierID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Stacktrace: " + Environment.StackTrace);
             }
 
             RoomModifierData roomModifierData = new RoomModifierData();
