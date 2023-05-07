@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -80,10 +81,12 @@ namespace Trainworks.BuildersV2
 
         public CharacterChatterData Build()
         {
-            // Not catastrophic enough to pop an error message, this should be provided though.
+            // Not catastrophic enough to throw an Exception, this should be provided though.
             if (ChatterID == null)
             {
-                Trainworks.Log(BepInEx.Logging.LogLevel.Error, "Error should provide a ChatterID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Warning should provide a ChatterID.");
+                Trainworks.Log(BepInEx.Logging.LogLevel.Warning, "Stacktrace: " + Environment.StackTrace);
+
             }
 
             CharacterChatterData chatter = ScriptableObject.CreateInstance<CharacterChatterData>();
