@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Reflection;
+using Trainworks.ConstantsV2;
 using Trainworks.Managers;
 using Trainworks.Utilities;
 using UnityEngine;
@@ -97,7 +99,7 @@ namespace Trainworks.BuildersV2
         /// <summary>
         /// This node will not be selected for your run's map unless your clan matches the one specified here
         /// </summary>
-        public ClassData RequiredClass { get; set; }
+        public string RequiredClassID { get; set; }
         public List<IRewardDataBuilder> RewardBuilders { get; set; }
         public List<RewardData> Rewards { get; set; }
         public List<MapNodeData> IgnoreIfNodesPresent { get; set; }
@@ -176,7 +178,12 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(RewardNodeData), "grantImmediately").SetValue(rewardNodeData, GrantImmediately);
             AccessTools.Field(typeof(RewardNodeData), "OverrideTooltipTitleBody").SetValue(rewardNodeData, OverrideTooltipTitleBody);
             AccessTools.Field(typeof(RewardNodeData), "UseFormattedOverrideTooltipTitle").SetValue(rewardNodeData, UseFormattedOverrideTooltipTitle);
-            AccessTools.Field(typeof(RewardNodeData), "requiredClass").SetValue(rewardNodeData, RequiredClass);
+            ClassData linkedClass = null;
+            if (RequiredClassID != null)
+            {
+                linkedClass = CustomClassManager.GetClassDataByID(RequiredClassID);
+            }
+            AccessTools.Field(typeof(RewardNodeData), "requiredClass").SetValue(rewardNodeData, linkedClass);
             AccessTools.Field(typeof(RewardNodeData), "dlcHellforgedCrystalsCost").SetValue(rewardNodeData, DlcHellforgedCrystalsCost);
 
             // Field is not allocated at initialization.
@@ -197,7 +204,7 @@ namespace Trainworks.BuildersV2
         private void MakeMapIconPrefab()
         {
             // These are too complicated to create from scratch, so by default we copy from an existing game banner and apply our sprites to it
-            RewardNodeData copyBanner = (ProviderManager.SaveManager.GetAllGameData().FindMapNodeData("5f35b7b7-75d1-4957-9f78-7d2072237038") as RewardNodeData);
+            RewardNodeData copyBanner = (ProviderManager.SaveManager.GetAllGameData().FindMapNodeData(VanillaMapNodeIDs.RewardNodeUnitPackStygian) as RewardNodeData);
             MapIconPrefab = GameObject.Instantiate(copyBanner.GetMapIconPrefab());
             MapIconPrefab.transform.parent = null;
             MapIconPrefab.name = RewardNodeID;
