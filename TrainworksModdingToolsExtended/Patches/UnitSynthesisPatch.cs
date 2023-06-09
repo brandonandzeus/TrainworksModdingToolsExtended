@@ -11,7 +11,7 @@ namespace Trainworks.Patches
     {
         public static void Postfix(CharacterData characterData, ref CardUpgradeData __result)
         {
-            var upgrade = CustomUpgradeManager.GetUpgradeData(characterData);
+            var upgrade = CustomUpgradeManager.GetUnitSynthesis(characterData);
             if (upgrade != null)
             {
                 __result = upgrade;
