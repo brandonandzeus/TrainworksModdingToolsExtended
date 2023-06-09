@@ -38,7 +38,8 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public int ParamInt { get; set; }
         /// <summary>
-        /// String parameter.
+        /// String parameter. Unfortunately this parameter isn't directly accessible in a Custom CardTraitState subclass.
+        /// must be accesssed through the CardTraitData instance.
         /// </summary>
         public string ParamStr { get; set; }
         /// <summary>
