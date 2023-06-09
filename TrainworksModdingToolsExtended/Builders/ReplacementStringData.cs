@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Trainworks.Managers;
 
 namespace Trainworks.BuildersV2
 {
@@ -9,6 +10,13 @@ namespace Trainworks.BuildersV2
     {
         public string Keyword { get; set; }
         public string ReplacementTextKey { get; set; }
+        public ReplacementStringData BuildAndRegister()
+        {
+            var data = Build();
+            CustomReplacementStringManager.RegisterReplacementString(data);
+            return data;
+        }
+
         public ReplacementStringData Build()
         {
             ReplacementStringData replacementStringData = new ReplacementStringData();
