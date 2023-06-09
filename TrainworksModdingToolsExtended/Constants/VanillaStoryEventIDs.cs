@@ -27,6 +27,8 @@
         /// </summary>
         public static readonly string CardSwapper = "907a7cfb-3547-4215-9d04-5c4f6465ba62";
         /// <summary>
+        /// This is the "Abandoned Train" event allowing you to pick consume cards for
+        /// 3 select clans.
         /// Asset name: ClassPotions
         /// </summary>
         public static readonly string ClassPotions = "784ec491-a9fe-4cdf-9214-5f5ff0cbd295";
