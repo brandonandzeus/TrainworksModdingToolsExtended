@@ -2,6 +2,7 @@
 using System.Linq;
 using BepInEx.Logging;
 using Trainworks.Managers;
+using Trainworks.Utilities;
 
 namespace Trainworks.ManagersV2
 {
@@ -37,6 +38,29 @@ namespace Trainworks.ManagersV2
             }
         }
 
+        /// <summary>
+        /// Get the upgrade data corresponding to the given ID
+        /// </summary>
+        /// <param name="upgradeID">ID of the upgrade to get</param>
+        /// <returns>The CardUpgradeData for the given ID</returns>
+        public static CardUpgradeData GetCardUpgradeByID(string upgradeID)
+        {
+            // Search for custom mutator matching ID
+            var guid = GUIDGenerator.GenerateDeterministicGUID(upgradeID);
+            if (CustomUpgradeData.TryGetValue(guid, out CardUpgradeData value))
+            {
+                return value;
+            }
+
+            // No custom upgrade found; search for vanilla upgrade matching ID
+            var vanillaUpgrade = ProviderManager.SaveManager.GetAllGameData().FindCardUpgradeData(upgradeID);
+            if (vanillaUpgrade == null)
+            {
+                Trainworks.Log(LogLevel.All, "Couldn't find upgrade: " + upgradeID + " - This will cause crashes.");
+            }
+            return vanillaUpgrade;
+        }
+
         public static void RegisterUnitSynthesis(CharacterData characterData, CardUpgradeData cardUpgrade)
         {
             if (UnitSynthesisMapping.ContainsKey(characterData))
@@ -47,11 +71,11 @@ namespace Trainworks.ManagersV2
             UnitSynthesisMapping.Add(characterData, cardUpgrade);
         }
 
-        public static CardUpgradeData GetUpgradeData(CharacterData characterData)
+        public static CardUpgradeData GetUnitSynthesis(CharacterData characterData)
         {
-            if (UnitSynthesisMapping.ContainsKey(characterData))
+            if (UnitSynthesisMapping.TryGetValue(characterData, out CardUpgradeData value))
             {
-                return UnitSynthesisMapping[characterData];
+                return value;
             }
             return null;
         }
