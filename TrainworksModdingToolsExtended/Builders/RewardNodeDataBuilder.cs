@@ -97,7 +97,7 @@ namespace Trainworks.BuildersV2
         public bool GrantImmediately { get; set; }
         public bool OverrideTooltipTitleBody { get; set; }
         /// <summary>
-        /// This node will not be selected for your run's map unless your clan matches the one specified here
+        /// Clan ID required for this reward.
         /// </summary>
         public string RequiredClassID { get; set; }
         public List<IRewardDataBuilder> RewardBuilders { get; set; }
