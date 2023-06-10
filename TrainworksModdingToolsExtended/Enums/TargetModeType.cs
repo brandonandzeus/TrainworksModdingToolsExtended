@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Trainworks.Enums;
-using static TargetMode;
 
 namespace Trainworks.Enums
 {
