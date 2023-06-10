@@ -5,6 +5,7 @@
     /// </summary>
     public interface IRewardDataBuilder
     {
-        RewardData Build();
+        RewardData BuildAndRegister();
+        RewardData Build(bool register = true);
     }
 }

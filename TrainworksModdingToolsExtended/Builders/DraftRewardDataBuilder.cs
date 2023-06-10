@@ -94,19 +94,26 @@ namespace Trainworks.BuildersV2
             BaseAssetPath = PluginManager.PluginGUIDToPath[PluginManager.AssemblyNameToPluginGUID[assembly.FullName]];
         }
 
+        public RewardData BuildAndRegister()
+        {
+            RewardData data = Build(false);
+            CustomRewardManager.RegisterCustomReward(data as GrantableRewardData);
+            return data;
+        }
+
         /// <summary>
         /// Builds the RewardData represented by this builder's parameters
         /// all Builders represented in this class's various fields will also be built.
         /// </summary>
         /// <returns>The newly created RewardData</returns>
-        public RewardData Build()
+        public RewardData Build(bool register = true)
         {
             if (DraftRewardID == null)
             {
                 throw new BuilderException("DraftRewardID is required");
             }
 
-            RewardData rewardData = ScriptableObject.CreateInstance<DraftRewardData>();
+            DraftRewardData rewardData = ScriptableObject.CreateInstance<DraftRewardData>();
             var guid = GUIDGenerator.GenerateDeterministicGUID(DraftRewardID);
             AccessTools.Field(typeof(GameData), "id").SetValue(rewardData, guid);
             rewardData.name = DraftRewardID;
@@ -129,8 +136,6 @@ namespace Trainworks.BuildersV2
             AccessTools.Field(typeof(GrantableRewardData), "ForceContentUnlocked").SetValue(rewardData, ForceContentUnlocked);
             AccessTools.Field(typeof(GrantableRewardData), "_isServiceMerchantReward").SetValue(rewardData, IsServiceMerchantReward);
             AccessTools.Field(typeof(GrantableRewardData), "_merchantServiceIndex").SetValue(rewardData, MerchantServiceIndex);
-            // There is a setter for this in the class I don't think this is needed.
-            //AccessTools.Field(typeof(GrantableRewardData), "saveManager").SetValue(rewardData, ProviderManager.SaveManager);
 
             AccessTools.Field(typeof(DraftRewardData), "classDataOverride").SetValue(rewardData, ClassDataOverride);
             AccessTools.Field(typeof(DraftRewardData), "classType").SetValue(rewardData, ClassType);
@@ -143,6 +148,11 @@ namespace Trainworks.BuildersV2
 
             BuilderUtils.ImportStandardLocalization(NameKey, Name);
             BuilderUtils.ImportStandardLocalization(DescriptionKey, Description);
+
+            if (register)
+            {
+                CustomRewardManager.RegisterCustomReward(rewardData);
+            }
 
             return rewardData;
         }
