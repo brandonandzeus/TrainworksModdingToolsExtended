@@ -181,6 +181,9 @@
         /// </summary>
         public static readonly string Shard_2 = "c9b8ae1a-6e9c-47d2-89a6-ae3cd373256c";
         /// <summary>
+        /// This is the event that allows you to choose one of two upgrades.
+        /// 1. Make unit 1 capacity
+        /// 2. Make unit +2 capacity with +30 damage, +30 maxhp.
         /// Asset name: ShrinkRay
         /// </summary>
         public static readonly string ShrinkRay = "bc2ca9d3-c836-42f5-bbb3-803299e6fe08";
