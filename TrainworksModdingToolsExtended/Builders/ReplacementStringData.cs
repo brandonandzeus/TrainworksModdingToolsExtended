@@ -6,7 +6,7 @@ using Trainworks.Managers;
 
 namespace Trainworks.BuildersV2
 {
-    class ReplacementStringDataBuilder
+    public class ReplacementStringDataBuilder
     {
         public string Keyword { get; set; }
         public string ReplacementTextKey { get; set; }
