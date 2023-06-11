@@ -26,11 +26,11 @@ namespace Trainworks.BuildersV2
                 rewardNodeID = value;
                 if (NameKey == null)
                 {
-                    NameKey = "RewardNodeData_" + RewardNodeID + "_TooltipTitleKey";
+                    NameKey = RewardNodeID + "_RewardNodeData_TooltipTitleKey";
                 }
                 if (DescriptionKey == null)
                 {
-                    DescriptionKey = "RewardNodeData_" + RewardNodeID + "_TooltipBodyKey";
+                    DescriptionKey = RewardNodeID + "_RewardNodeData_TooltipBodyKey";
                 }
             }
         }

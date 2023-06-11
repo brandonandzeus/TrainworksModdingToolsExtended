@@ -22,11 +22,11 @@ namespace Trainworks.BuildersV2
                 draftRewardID = value;
                 if (NameKey == null)
                 {
-                    NameKey = "DraftRewardData_" + DraftRewardID + "_RewardNameKey";
+                    NameKey = DraftRewardID + "_DraftRewardData_NameKey";
                 }
                 if (DescriptionKey == null)
                 {
-                    DescriptionKey = "DraftRewardData_" + DraftRewardID + "_RewardDescriptionKey";
+                    DescriptionKey = DraftRewardID + "DraftRewardData_DescriptionKey";
                 }
             }
         }
