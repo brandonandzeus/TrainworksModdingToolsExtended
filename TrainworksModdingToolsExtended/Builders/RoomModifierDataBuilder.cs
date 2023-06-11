@@ -45,12 +45,12 @@ namespace Trainworks.BuildersV2
         /// </summary>
         public string RoomModifierClassName => BuilderUtils.GetEffectClassName(RoomModifierClassType);
         /// <summary>
-        /// This description.
+        /// The description. Used in card text.
         /// Note if this is set this will set the localized text across all languages.
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        /// The description in play.
+        /// The description in play. Used in character text if set.
         /// Note if this is set this will set the localized text across all languages.
         /// </summary>
         public string DescriptionInPlay { get; set; }
